@@ -21,7 +21,7 @@ const isActive = (match: string) => {
 
 <template>
   <header class="site-header">
-    <div class="container navbar">
+    <div class="navbar">
       <NuxtLink to="/" class="brand" aria-label="Go home">
         <span class="brand-dot" />
         <span>LiH Blog</span>
@@ -39,14 +39,12 @@ const isActive = (match: string) => {
       </nav>
 
       <div class="actions">
-        <button class="btn" type="button" @click="emit('open-search')">
-          🔎
-          <span>搜索</span>
+        <button class="btn" type="button" @click="emit('open-search')" aria-label="Search">
+          <span>&#x1F50D;</span>
         </button>
-        <button class="btn primary" type="button" @click="toggle">
-          <span v-if="theme === 'light'">🌙</span>
-          <span v-else>☀️</span>
-          <span>{{ theme === 'light' ? '暗色' : '亮色' }}</span>
+        <button class="btn primary" type="button" @click="toggle" aria-label="Toggle theme">
+          <span v-if="theme === 'light'">☽</span>
+          <span v-else>☀</span>
         </button>
       </div>
     </div>

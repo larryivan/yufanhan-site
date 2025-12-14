@@ -10,7 +10,7 @@ const props = defineProps<{ links?: TocLink[] }>()
 
 <template>
   <div v-if="props.links?.length" class="toc">
-    <strong>目录</strong>
+    <h3>目录</h3>
     <ul>
       <li v-for="link in props.links" :key="link.id">
         <NuxtLink :to="`#${link.id}`">{{ link.text }}</NuxtLink>
