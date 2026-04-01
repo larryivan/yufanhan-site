@@ -15,8 +15,14 @@ const go = (target: number) => {
 
 <template>
   <div class="pagination">
-    <button :disabled="page <= 1" @click="go(page - 1)">上一页</button>
-    <span>第 {{ page }} / {{ totalPages }} 页</span>
-    <button :disabled="page >= totalPages" @click="go(page + 1)">下一页</button>
+    <button class="pagination-btn" :disabled="page <= 1" @click="go(page - 1)">
+      <AppIcon name="chevron-left" />
+      上一页
+    </button>
+    <span class="pagination-status">第 {{ page }} / {{ totalPages }} 页</span>
+    <button class="pagination-btn" :disabled="page >= totalPages" @click="go(page + 1)">
+      下一页
+      <AppIcon name="chevron-right" />
+    </button>
   </div>
 </template>

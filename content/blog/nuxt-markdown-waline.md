@@ -8,7 +8,7 @@ tags:
   - Nuxt
   - Waline
   - Markdown
-cover: https://images.unsplash.com/photo-1527430253228-e93688616381?auto=format&fit=crop&w=1200&q=80
+cover: /images/local-sample.svg
 draft: false
 ---
 
@@ -35,3 +35,19 @@ draft: false
 - 前端可静态托管，Waline/Nitro API 可部署为 Serverless 函数。
 - 给环境变量注入 `WALINE_SERVER_URL`，并在构建时预渲染公共页面。
 - 使用 `runtimeConfig.public.siteUrl` 生成完整的 OG/分享链接。
+
+## 本地图片与附件示例
+
+封面已经使用 `/images/local-sample.svg`（存放于 `public/images`）。正文中可以直接引用：
+
+![本地图像示例](/images/post-inline.svg)
+
+也可以在 Markdown 中使用原生 `<img>` 控制尺寸：
+
+```html
+<img src="/images/local-sample.svg" alt="封面缩略" width="420" />
+```
+
+附件下载示例（文件位于 `public/files/sample-notes.txt`，可替换为你的 PDF/ZIP）：
+
+- [示例附件 TXT](/files/sample-notes.txt)

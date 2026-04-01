@@ -16,26 +16,28 @@ type Post = {
 const props = defineProps<{ post: Post }>()
 
 const formattedDate = computed(() =>
-  props.post.date ? dayjs(props.post.date).format('YYYY/MM/DD') : ''
+  props.post.date ? dayjs(props.post.date).format('YYYY.MM.DD') : ''
 )
+
+const sectionLabel = computed(() => (props.post.section === 'life' ? 'Life' : 'Blog'))
 </script>
 
 <template>
-  <NuxtLink :to="post._path" class="card" aria-label="Read post">
-    <div class="meta" style="justify-content: space-between;">
-      <span class="badge">{{ post.section ?? 'Blog' }}</span>
-      <span v-if="formattedDate">📅 {{ formattedDate }}</span>
-      <span v-if="post.readingTime">⏱️ {{ post.readingTime }} min</span>
+  <NuxtLink :to="post._path" class="post-card" :aria-label="`阅读 ${post.title}`">
+    <div class="post-card-head">
+      <span class="post-card-section">{{ sectionLabel }}</span>
+      <div class="post-card-meta">
+        <span v-if="formattedDate">{{ formattedDate }}</span>
+        <span v-if="post.readingTime" style="opacity: 0.5">·</span>
+        <span v-if="post.readingTime">{{ post.readingTime }}m read</span>
+      </div>
     </div>
-    <h3>{{ post.title }}</h3>
-    <p>{{ post.description }}</p>
-    <div class="meta">
-      <span
-        v-for="tag in post.tags || []"
-        :key="tag"
-        class="tag"
-      >
-        # {{ tag }}
+    <h3 class="post-card-title">{{ post.title }}</h3>
+    <p v-if="post.description" class="post-card-description">{{ post.description }}</p>
+    <div class="post-card-footer">
+      <p class="post-card-tags">{{ post.tags?.length ? post.tags.join(' / ') : 'General' }}</p>
+      <span class="post-card-arrow" aria-hidden="true">
+        <AppIcon name="arrow-right" />
       </span>
     </div>
   </NuxtLink>

@@ -16,14 +16,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="meta" style="gap: 14px; padding: 8px 0;">
-    <span class="tag">
-      👀
+  <div class="article-stats">
+    <span class="stat-pill">
+      <AppIcon name="eye" />
       <span class="waline-pageview-count" :data-path="targetPath">--</span>
       浏览
     </span>
-    <span class="tag">
-      💬
+    <span class="stat-pill">
+      <AppIcon name="message" />
       <span class="waline-comment-count" :data-path="targetPath">--</span>
       评论
     </span>

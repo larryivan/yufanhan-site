@@ -3,7 +3,7 @@ import { onMounted } from 'vue'
 type Theme = 'light' | 'dark'
 
 export const useTheme = () => {
-  const theme = useState<Theme>('theme', () => 'light')
+  const theme = useState<Theme>('theme', () => 'dark')
 
   const apply = (value: Theme) => {
     theme.value = value
@@ -24,11 +24,7 @@ export const useTheme = () => {
       return
     }
 
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      apply('dark')
-    } else {
-      apply('light')
-    }
+    apply('dark')
   })
 
   return { theme, toggle, apply }

@@ -1,4 +1,5 @@
 import { getQuery } from 'h3'
+import { serverQueryContent } from '#content/server'
 
 interface SearchItem {
   title: string
@@ -26,7 +27,7 @@ export default defineEventHandler(async (event) => {
     filters.push({ date: { $lte: `${year}-12-31` } })
   }
 
-  let builder = queryContent(event)
+  let builder = serverQueryContent(event)
   filters.forEach((f) => {
     builder = builder.where(f)
   })

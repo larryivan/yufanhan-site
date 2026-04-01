@@ -16,7 +16,7 @@ const WalineComponent = defineAsyncComponent(async () => {
 
 <template>
   <div>
-    <div v-if="!serverURL" class="card" style="margin: 16px 0;">
+    <div v-if="!serverURL" class="surface-card comment-status">
       请在环境变量 WALINE_SERVER_URL 中配置 Waline 服务地址。
     </div>
     <ClientOnly v-else>
@@ -32,7 +32,7 @@ const WalineComponent = defineAsyncComponent(async () => {
           dark="auto"
         />
         <template #fallback>
-          <div class="card" style="margin: 16px 0;">加载评论中...</div>
+          <div class="surface-card comment-status">加载评论中...</div>
         </template>
       </Suspense>
     </ClientOnly>

@@ -1,8 +1,13 @@
 <template>
-  <footer class="footer">
-    <div class="container">
-      <span>© {{ new Date().getFullYear() }} LiH Blog · Markdown + Nuxt</span>
-      <span>Powered by Nuxt 4 · Waline 评论 · @nuxt/content</span>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <p class="footer-copy">A minimal high-tech blog system for long-form writing.</p>
+      </div>
+      <div class="footer-meta">
+        <p>© {{ new Date().getFullYear() }} LiH Blog</p>
+        <p>Nuxt 4 · @nuxt/content · Waline</p>
+      </div>
     </div>
   </footer>
 </template>

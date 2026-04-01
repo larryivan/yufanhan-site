@@ -9,13 +9,17 @@ useHead({ title: 'About' })
 </script>
 
 <template>
-  <section class="hero-card" style="margin: 10px 0 18px;">
-    <p class="badge">About</p>
-    <h1 style="margin: 6px 0 6px;">关于本站</h1>
-    <p style="margin: 0; color: var(--muted);">创作理念、联系方式与技术栈。</p>
+  <section class="page-header animate-rise">
+    <div>
+      <p class="page-kicker">System File</p>
+      <h1 class="page-title">关于本站</h1>
+    </div>
+    <div class="page-header-side">
+      <p class="page-description">创作理念、联系方式与技术栈。</p>
+    </div>
   </section>
 
-  <article class="prose">
+  <article class="prose prose--article animate-rise delay-1">
     <ContentRenderer :value="about" />
   </article>
 </template>

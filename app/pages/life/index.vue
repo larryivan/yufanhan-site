@@ -28,21 +28,26 @@ const updatePage = (value: number) => {
 </script>
 
 <template>
-  <section class="section-heading" style="margin-bottom: 14px; margin-top: 10px;">
+  <section class="page-header animate-rise">
     <div>
-      <p class="badge">Life</p>
-      <h1 style="margin: 6px 0 6px;">生活与创作</h1>
-      <p style="margin: 0; color: var(--muted);">旅行、思考、摄影与日常随笔。</p>
+      <p class="page-kicker">Life Layer</p>
+      <h1 class="page-title">生活与创作</h1>
     </div>
-    <NuxtLink to="/blog" class="btn">回到 Blog</NuxtLink>
+    <div class="page-header-side">
+      <p class="page-description">记录旅行、摄影、随笔和技术之外的感受，让站点的另一半更柔软，也更完整。</p>
+      <div class="inline-links">
+        <span>{{ filtered.total }} 篇文章</span>
+        <NuxtLink to="/blog" class="text-link">查看博客</NuxtLink>
+      </div>
+    </div>
   </section>
 
-  <div class="meta" style="margin-bottom: 12px;">
-    <span v-if="currentTag">标签：{{ currentTag }}</span>
-    <span v-else>全部标签</span>
+  <div class="list-toolbar">
+    <span>{{ currentTag ? `标签：${currentTag}` : '全部文章' }}</span>
+    <span>第 {{ page }} 页</span>
   </div>
 
-  <div class="grid three" style="margin-bottom: 10px;">
+  <div class="post-grid animate-rise delay-1">
     <PostCard v-for="post in filtered.items" :key="post._path" :post="post" />
   </div>
 
