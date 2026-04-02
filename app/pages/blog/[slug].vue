@@ -27,39 +27,46 @@ const formattedDate = computed(() =>
 </script>
 
 <template>
-  <section class="article-layout">
-    <aside class="article-sidebar animate-rise">
-      <div class="article-sidebar-card">
-        <p class="article-section">Tech Layer</p>
-        <div class="article-sidebar-meta">
-          <span v-if="formattedDate">更新于 {{ formattedDate }}</span>
-          <span v-if="post?.readingTime">{{ post?.readingTime }} min read</span>
-          <span v-for="tag in post?.tags || []" :key="tag">{{ tag }}</span>
+  <div class="reading-container">
+    <div class="reading-layout">
+      <!-- Main Content -->
+      <main class="reading-main animate-rise">
+        <article>
+          <header class="reading-header">
+            <h1 class="reading-title">{{ post?.title }}</h1>
+            <div class="reading-meta">
+              <time v-if="formattedDate">{{ formattedDate }}</time>
+              <span v-if="post?.readingTime" class="sep">/</span>
+              <span v-if="post?.readingTime">{{ post.readingTime }} min read</span>
+              <span v-if="post?.tags?.length" class="sep">/</span>
+              <span class="reading-tags" v-if="post?.tags?.length">
+                <span v-for="tag in post.tags" :key="tag">#{{ tag }}</span>
+              </span>
+            </div>
+            <p v-if="post?.description" class="reading-lead">{{ post.description }}</p>
+          </header>
+
+          <div v-if="post?.cover" class="reading-cover animate-rise delay-1">
+            <img :src="post.cover" :alt="post.title" />
+          </div>
+
+          <div class="prose animate-rise delay-1">
+            <ContentRenderer :value="post" />
+          </div>
+        </article>
+        
+        <section class="reading-comments animate-rise delay-2">
+          <WalineWidget :path="post?._path" />
+        </section>
+      </main>
+
+      <!-- Minimal TOC Sidebar -->
+      <aside class="reading-sidebar animate-rise delay-1" v-if="tocLinks.length">
+        <div class="toc-wrapper">
+          <span class="toc-label">On this page</span>
+          <ContentTOC :links="tocLinks" />
         </div>
-      </div>
-      <ContentTOC :links="tocLinks" />
-    </aside>
-
-    <div class="article-main">
-      <header class="article-header animate-rise delay-1">
-        <p class="page-kicker">Article Node</p>
-        <h1 class="article-title">{{ post?.title }}</h1>
-        <p v-if="post?.description" class="article-description">{{ post.description }}</p>
-      </header>
-      <img
-        v-if="post?.cover"
-        :src="post.cover"
-        :alt="post.title"
-        class="article-cover animate-rise delay-2"
-      />
-
-      <article class="prose prose--article animate-rise delay-3">
-        <ContentRenderer :value="post" />
-      </article>
-
-      <section class="comment-shell animate-rise delay-4">
-        <WalineWidget :path="post?._path" />
-      </section>
+      </aside>
     </div>
-  </section>
+  </div>
 </template>

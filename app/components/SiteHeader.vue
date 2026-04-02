@@ -76,7 +76,6 @@ onUnmounted(() => {
           :style="{ '--index': index }"
         >
           <span class="nav-link-text">{{ link.label }}</span>
-          <div v-if="isActive(link.match)" class="active-pill" />
         </NuxtLink>
       </nav>
 

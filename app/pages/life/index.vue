@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const route = useRoute()
 const router = useRouter()
-const pageSize = 6
+const pageSize = 9
 
 const { data: posts } = await useAsyncData('life-list', () =>
   queryContent('/life')
@@ -9,6 +9,12 @@ const { data: posts } = await useAsyncData('life-list', () =>
     .sort({ date: -1 })
     .find()
 )
+
+const allTags = computed(() => {
+  const tags = new Set<string>()
+  posts.value?.forEach(p => p.tags?.forEach(t => tags.add(t)))
+  return Array.from(tags).sort()
+})
 
 const currentTag = computed(() => route.query.tag as string | undefined)
 const page = computed(() => Math.max(1, parseInt((route.query.page as string) || '1', 10)))
@@ -25,31 +31,64 @@ const filtered = computed(() => {
 const updatePage = (value: number) => {
   router.push({ query: { ...route.query, page: value } })
 }
+
+const toggleTag = (tag?: string) => {
+  if (currentTag.value === tag) {
+    router.push({ query: { ...route.query, tag: undefined, page: 1 } })
+  } else {
+    router.push({ query: { ...route.query, tag, page: 1 } })
+  }
+}
 </script>
 
 <template>
   <section class="page-header animate-rise">
     <div>
       <p class="page-kicker">Life Layer</p>
-      <h1 class="page-title">生活与创作</h1>
+      <h1 class="page-title">Life & Thoughts.</h1>
     </div>
     <div class="page-header-side">
       <p class="page-description">记录旅行、摄影、随笔和技术之外的感受，让站点的另一半更柔软，也更完整。</p>
       <div class="inline-links">
-        <span>{{ filtered.total }} 篇文章</span>
-        <NuxtLink to="/blog" class="text-link">查看博客</NuxtLink>
+        <span class="meta-count">{{ posts?.length || 0 }} Articles</span>
+        <NuxtLink to="/blog" class="text-link">Switch to Tech</NuxtLink>
       </div>
     </div>
   </section>
 
-  <div class="list-toolbar">
-    <span>{{ currentTag ? `标签：${currentTag}` : '全部文章' }}</span>
-    <span>第 {{ page }} 页</span>
+  <div class="filter-section animate-rise delay-1">
+    <div class="tag-cloud">
+      <button 
+        class="filter-chip" 
+        :class="{ active: !currentTag }" 
+        @click="toggleTag(undefined)"
+      >
+        All
+      </button>
+      <button 
+        v-for="tag in allTags" 
+        :key="tag" 
+        class="filter-chip"
+        :class="{ active: currentTag === tag }"
+        @click="toggleTag(tag)"
+      >
+        #{{ tag }}
+      </button>
+    </div>
   </div>
 
-  <div class="post-grid animate-rise delay-1">
-    <PostCard v-for="post in filtered.items" :key="post._path" :post="post" />
+  <div class="post-grid enhanced-grid animate-rise delay-2">
+    <PostCard 
+      v-for="(post, index) in filtered.items" 
+      :key="post._path" 
+      :post="post" 
+      :class="{ 'featured-card': index === 0 && page === 1 && !currentTag }"
+    />
   </div>
 
-  <PaginationBar :page="page" :page-size="pageSize" :total="filtered.total" @update:page="updatePage" />
+  <div v-if="filtered.items.length === 0" class="empty-state">
+    <p>没有找到相关文章。</p>
+  </div>
+
+  <PaginationBar v-if="filtered.total > pageSize" :page="page" :page-size="pageSize" :total="filtered.total" @update:page="updatePage" />
 </template>
