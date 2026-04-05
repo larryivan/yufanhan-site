@@ -9,11 +9,8 @@ const props = defineProps<{ links?: TocLink[] }>()
 </script>
 
 <template>
-  <nav v-if="props.links?.length" class="toc-card" aria-label="文章目录">
-    <div class="toc-header">
-      <p class="toc-kicker">Protocol Map</p>
-      <h3>目录导航</h3>
-    </div>
+  <nav v-if="props.links?.length" class="toc-card" aria-label="Table of contents">
+    <p class="toc-title">Contents</p>
     <ul class="toc-list">
       <li v-for="link in props.links" :key="link.id" class="toc-item">
         <NuxtLink class="toc-link" :to="`#${link.id}`">{{ link.text }}</NuxtLink>

@@ -11,15 +11,13 @@ useHead({ title: 'About' })
 <template>
   <section class="page-header animate-rise">
     <div>
-      <p class="page-kicker">System File</p>
-      <h1 class="page-title">关于本站</h1>
-    </div>
-    <div class="page-header-side">
-      <p class="page-description">创作理念、联系方式与技术栈。</p>
+      <p class="eyebrow">About</p>
+      <h1 class="page-title">About</h1>
+      <p class="page-description">A short note about the site and what it is for.</p>
     </div>
   </section>
 
-  <article class="prose prose--article animate-rise delay-1">
+  <article class="prose article-sheet surface-card animate-rise delay-1">
     <ContentRenderer :value="about" />
   </article>
 </template>

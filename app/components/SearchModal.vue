@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useDebounceFn, useEventListener } from '@vueuse/core'
-import { computed, nextTick } from 'vue'
+import { computed, nextTick, onUnmounted } from 'vue'
 
 const props = defineProps<{ open: boolean }>()
 const emit = defineEmits<{
@@ -36,11 +36,17 @@ watch(
   () => props.open,
   (isOpen) => {
     if (isOpen) {
+      if (import.meta.client) {
+        document.body.style.overflow = 'hidden'
+      }
       nextTick(() => inputRef.value?.focus())
       if (searchTerm.value.trim()) {
         debouncedSearch()
       }
     } else {
+      if (import.meta.client) {
+        document.body.style.overflow = ''
+      }
       searchTerm.value = ''
       data.value = { items: [], total: 0 }
     }
@@ -60,16 +66,25 @@ if (import.meta.client) {
     }
   })
 }
+
+onUnmounted(() => {
+  if (import.meta.client) {
+    document.body.style.overflow = ''
+  }
+})
 </script>
 
 <template>
   <ClientOnly>
     <Teleport to="body">
       <div v-if="open" class="search-backdrop" @click.self="close">
-        <div class="search-modal" role="dialog" aria-modal="true" aria-label="站内搜索">
+        <div class="search-modal" role="dialog" aria-modal="true" aria-label="Site search">
           <div class="search-head">
-            <h2>Search Nodes</h2>
-            <button class="icon-btn" type="button" @click="close" aria-label="关闭搜索">
+            <div class="search-title-block">
+              <h2>Search</h2>
+            </div>
+
+            <button class="icon-btn" type="button" @click="close" aria-label="Close search">
               <AppIcon name="chevron-right" style="transform: rotate(90deg)" />
             </button>
           </div>
@@ -80,14 +95,14 @@ if (import.meta.client) {
               ref="inputRef"
               v-model="searchTerm"
               type="search"
-              placeholder="Search by title, description or tags..."
+              placeholder="Search titles or tags"
             />
           </label>
 
           <div class="search-results">
-            <p v-if="!searchTerm" class="search-empty">输入关键词开始搜索</p>
-            <p v-else-if="pending" class="search-empty">正在搜索...</p>
-            <p v-else-if="searchTerm && data?.items?.length === 0" class="search-empty">没有结果</p>
+            <p v-if="!searchTerm" class="search-empty">Start typing to search.</p>
+            <p v-else-if="pending" class="search-empty">Searching...</p>
+            <p v-else-if="searchTerm && data?.items?.length === 0" class="search-empty">No results.</p>
             <div v-else class="search-grid">
               <button
                 v-for="item in data?.items || []"
@@ -101,7 +116,9 @@ if (import.meta.client) {
                   <span v-if="item.date">{{ item.date }}</span>
                 </div>
                 <h3>{{ item.title }}</h3>
-                <p v-if="item.description">{{ item.description }}</p>
+                <span class="result-arrow">
+                  <AppIcon name="arrow-right" />
+                </span>
               </button>
             </div>
           </div>

@@ -1,6 +1,6 @@
 ---
-title: "用 Nuxt + Markdown + Waline 搭建生产级博客"
-description: "内容用 Markdown，评论/浏览/点赞交给 Waline，前端用 Nuxt 4 与 @nuxt/content。"
+title: "Building a Production Blog with Nuxt, Markdown, and Waline"
+description: "Markdown for content, Waline for engagement, and Nuxt 4 with @nuxt/content on the frontend."
 date: 2024-11-02
 updatedAt: 2024-11-20
 section: blog
@@ -12,42 +12,42 @@ cover: /images/local-sample.svg
 draft: false
 ---
 
-## 选择 Nuxt + Markdown
+## Why Nuxt plus Markdown
 
-- **可维护**：Markdown 即内容，无需额外 CMS；Git 即发布渠道。
-- **SEO 友好**：Nuxt 支持 SSR/ISR，@nuxt/content 自带 sitemap、OG 元数据。
-- **可扩展**：Nitro server 可直接编写 API，与数据库或第三方服务整合。
+- **Maintainable**: Markdown keeps the content close to the codebase, without introducing a separate CMS.
+- **SEO-friendly**: Nuxt supports SSR and ISR, while `@nuxt/content` handles metadata cleanly.
+- **Extensible**: Nitro lets you add APIs and connect to databases or external services when needed.
 
-## Waline 接入思路
+## Waline integration
 
-1. 部署 Waline server（Vercel/自托管），配置数据库即可。
-2. 前端引入 `@waline/client/component`，在详情页传入 `serverURL` 与 `path`。
-3. 开启 `pageview`、`reaction`，Waline 负责浏览量与点赞，评论区默认开启防刷。
+1. Deploy a Waline server on Vercel or your own infrastructure.
+2. Use `@waline/client/component` on the frontend and pass `serverURL` with the current `path`.
+3. Enable pageviews and reactions so Waline can manage engagement signals for each article.
 
-## 目录与渲染
+## Rendering and structure
 
-- 将技术文章放入 `content/blog/*.md`，生活类放入 `content/life/*.md`。
-- 使用 `<ContentRenderer>` 渲染正文，`toc` 字段生成右侧目录。
-- `queryContent()` 支持过滤、排序与分页，可在 server route 中暴露搜索接口。
+- Store technical writing in `content/blog/*.md` and personal writing in `content/life/*.md`.
+- Render posts with `<ContentRenderer>` and generate the sidebar table of contents from `toc`.
+- Use `queryContent()` for filtering, sorting, and pagination, or expose search through a server route.
 
-## 部署与运维
+## Deployment
 
-- 前端可静态托管，Waline/Nitro API 可部署为 Serverless 函数。
-- 给环境变量注入 `WALINE_SERVER_URL`，并在构建时预渲染公共页面。
-- 使用 `runtimeConfig.public.siteUrl` 生成完整的 OG/分享链接。
+- Host the frontend statically if needed, while running Waline or Nitro APIs as serverless functions.
+- Inject `WALINE_SERVER_URL` through environment variables and prerender public pages during the build.
+- Use `runtimeConfig.public.siteUrl` to generate absolute Open Graph and share links.
 
-## 本地图片与附件示例
+## Local images and attachments
 
-封面已经使用 `/images/local-sample.svg`（存放于 `public/images`）。正文中可以直接引用：
+The cover already uses `/images/local-sample.svg` from `public/images`. You can reference local assets directly in Markdown:
 
-![本地图像示例](/images/post-inline.svg)
+![Local image example](/images/post-inline.svg)
 
-也可以在 Markdown 中使用原生 `<img>` 控制尺寸：
+You can also use native `<img>` tags when you need explicit sizing:
 
 ```html
-<img src="/images/local-sample.svg" alt="封面缩略" width="420" />
+<img src="/images/local-sample.svg" alt="Cover preview" width="420" />
 ```
 
-附件下载示例（文件位于 `public/files/sample-notes.txt`，可替换为你的 PDF/ZIP）：
+Attachment example from `public/files/sample-notes.txt`:
 
-- [示例附件 TXT](/files/sample-notes.txt)
+- [Sample TXT attachment](/files/sample-notes.txt)

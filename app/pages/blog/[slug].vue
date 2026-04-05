@@ -8,7 +8,7 @@ const { data: post } = await useAsyncData(`blog-${route.params.slug}`, () =>
 )
 
 if (!post.value) {
-  throw createError({ statusCode: 404, statusMessage: '文章不存在' })
+  throw createError({ statusCode: 404, statusMessage: 'Post not found' })
 }
 
 useHead({
@@ -21,6 +21,7 @@ useHead({
 })
 
 const tocLinks = computed(() => post.value?.body?.toc?.links || [])
+const hasToc = computed(() => tocLinks.value.length > 0)
 const formattedDate = computed(() =>
   post.value?.date ? dayjs(post.value.date).format('YYYY.MM.DD') : ''
 )
@@ -28,45 +29,57 @@ const formattedDate = computed(() =>
 
 <template>
   <div class="reading-container">
-    <div class="reading-layout">
-      <!-- Main Content -->
+    <div class="reading-layout" :class="{ 'has-sidebar': hasToc }">
       <main class="reading-main animate-rise">
-        <article>
+        <article class="reading-deck">
           <header class="reading-header">
-            <h1 class="reading-title">{{ post?.title }}</h1>
-            <div class="reading-meta">
-              <time v-if="formattedDate">{{ formattedDate }}</time>
-              <span v-if="post?.readingTime" class="sep">/</span>
-              <span v-if="post?.readingTime">{{ post.readingTime }} min read</span>
-              <span v-if="post?.tags?.length" class="sep">/</span>
-              <span class="reading-tags" v-if="post?.tags?.length">
-                <span v-for="tag in post.tags" :key="tag">#{{ tag }}</span>
-              </span>
+            <div class="reading-header-copy">
+              <h1 class="reading-title">{{ post?.title }}</h1>
+              <p v-if="post?.description" class="reading-lead">{{ post.description }}</p>
             </div>
-            <p v-if="post?.description" class="reading-lead">{{ post.description }}</p>
+
+            <div v-if="formattedDate || post?.readingTime" class="reading-header-meta">
+              <div v-if="formattedDate" class="reading-header-fact">
+                <span class="reading-header-fact-label">Published</span>
+                <time class="reading-header-fact-value">{{ formattedDate }}</time>
+              </div>
+              <div v-if="post?.readingTime" class="reading-header-fact">
+                <span class="reading-header-fact-label">Reading time</span>
+                <span class="reading-header-fact-value">{{ post.readingTime }} min</span>
+              </div>
+            </div>
           </header>
 
-          <div v-if="post?.cover" class="reading-cover animate-rise delay-1">
-            <img :src="post.cover" :alt="post.title" />
-          </div>
+          <section class="reading-article-shell surface-card animate-rise delay-1">
+            <div v-if="post?.cover" class="reading-cover">
+              <img :src="post.cover" :alt="post.title" />
+            </div>
 
-          <div class="prose animate-rise delay-1">
-            <ContentRenderer :value="post" />
-          </div>
+            <div id="reading-article-content" class="reading-article-body">
+              <div class="prose">
+                <ContentRenderer :value="post" />
+              </div>
+            </div>
+          </section>
         </article>
         
-        <section class="reading-comments animate-rise delay-2">
+        <section class="reading-comments surface-card animate-rise delay-2">
+          <div class="reading-comments-head">
+            <p class="reading-comments-title">Comments</p>
+          </div>
           <WalineWidget :path="post?._path" />
         </section>
       </main>
 
-      <!-- Minimal TOC Sidebar -->
-      <aside class="reading-sidebar animate-rise delay-1" v-if="tocLinks.length">
-        <div class="toc-wrapper">
-          <span class="toc-label">On this page</span>
-          <ContentTOC :links="tocLinks" />
-        </div>
+      <aside v-if="hasToc" class="reading-sidebar animate-rise delay-1">
+        <section class="reading-side-panel surface-card">
+          <div class="toc-wrapper">
+            <ContentTOC :links="tocLinks" />
+          </div>
+        </section>
       </aside>
     </div>
+
+    <ReadingProgress target-selector="#reading-article-content" />
   </div>
 </template>

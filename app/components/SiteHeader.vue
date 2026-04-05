@@ -12,10 +12,10 @@ const isScrolled = ref(false)
 const isMobileMenuOpen = ref(false)
 
 const links = [
-  { to: '/', label: '首页', match: '/' },
-  { to: '/blog', label: '博客', match: '/blog' },
-  { to: '/life', label: '生活', match: '/life' },
-  { to: '/about', label: '关于', match: '/about' }
+  { to: '/', label: 'Home', match: '/' },
+  { to: '/blog', label: 'Blog', match: '/blog' },
+  { to: '/life', label: 'Life', match: '/life' },
+  { to: '/about', label: 'About', match: '/about' }
 ]
 
 const isActive = (match: string) => {
@@ -60,20 +60,16 @@ onUnmounted(() => {
         <div class="brand-mark" aria-hidden="true">
           <div class="brand-mark-core" />
         </div>
-        <span class="brand-copy">
-          <span class="brand-name">LiH Blog</span>
-        </span>
+        <span class="brand-name">LiH Blog</span>
       </NuxtLink>
 
-      <!-- Desktop Nav -->
       <nav class="nav-links" aria-label="Main navigation">
         <NuxtLink
-          v-for="(link, index) in links"
+          v-for="link in links"
           :key="link.to"
           :to="link.to"
           class="nav-link"
           :class="{ active: isActive(link.match) }"
-          :style="{ '--index': index }"
         >
           <span class="nav-link-text">{{ link.label }}</span>
         </NuxtLink>
@@ -83,21 +79,11 @@ onUnmounted(() => {
         <button class="icon-btn hide-mobile" type="button" @click="emit('open-search')" aria-label="Search">
           <AppIcon name="search" />
         </button>
-        
-        <a 
-          href="https://github.com" 
-          target="_blank" 
-          class="icon-btn hide-mobile" 
-          aria-label="GitHub"
-        >
-          <AppIcon name="github" />
-        </a>
 
-        <button class="icon-btn icon-btn--accent" type="button" @click="toggle" aria-label="Toggle theme">
+        <button class="icon-btn" type="button" @click="toggle" aria-label="Toggle theme">
           <AppIcon :name="theme === 'light' ? 'moon' : 'sun'" />
         </button>
 
-        <!-- Mobile Menu Toggle -->
         <button 
           class="icon-btn mobile-toggle" 
           type="button" 
@@ -109,7 +95,6 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <!-- Mobile Navigation Overlay -->
     <Transition name="mobile-menu">
       <div v-if="isMobileMenuOpen" class="mobile-nav-overlay">
         <nav class="mobile-nav-content">
@@ -125,9 +110,9 @@ onUnmounted(() => {
           </NuxtLink>
           
           <div class="mobile-nav-footer">
-            <button class="mobile-search-trigger" @click="emit('open-search'); toggleMobileMenu()">
+            <button class="mobile-search-trigger" type="button" @click="emit('open-search'); toggleMobileMenu()">
               <AppIcon name="search" />
-              <span>搜索文章...</span>
+              <span>Search</span>
             </button>
           </div>
         </nav>

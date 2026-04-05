@@ -17,11 +17,11 @@ const go = (target: number) => {
   <div class="pagination">
     <button class="pagination-btn" :disabled="page <= 1" @click="go(page - 1)">
       <AppIcon name="chevron-left" />
-      上一页
+      Previous
     </button>
-    <span class="pagination-status">第 {{ page }} / {{ totalPages }} 页</span>
+    <span class="pagination-status">Page {{ page }} / {{ totalPages }}</span>
     <button class="pagination-btn" :disabled="page >= totalPages" @click="go(page + 1)">
-      下一页
+      Next
       <AppIcon name="chevron-right" />
     </button>
   </div>

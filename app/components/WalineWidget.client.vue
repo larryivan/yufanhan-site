@@ -10,14 +10,14 @@ const serverURL = computed(() => runtime.public.walineServerURL)
 
 const WalineComponent = defineAsyncComponent(async () => {
   const mod = await import('@waline/client/component')
-  return mod.Waline || mod.default
+  return mod.Waline
 })
 </script>
 
 <template>
   <div>
     <div v-if="!serverURL" class="surface-card comment-status">
-      请在环境变量 WALINE_SERVER_URL 中配置 Waline 服务地址。
+      Set `WALINE_SERVER_URL` to enable comments.
     </div>
     <ClientOnly v-else>
       <Suspense>
@@ -32,7 +32,7 @@ const WalineComponent = defineAsyncComponent(async () => {
           dark="auto"
         />
         <template #fallback>
-          <div class="surface-card comment-status">加载评论中...</div>
+          <div class="surface-card comment-status">Loading comments...</div>
         </template>
       </Suspense>
     </ClientOnly>

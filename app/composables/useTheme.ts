@@ -3,11 +3,11 @@ import { onMounted } from 'vue'
 type Theme = 'light' | 'dark'
 
 export const useTheme = () => {
-  const theme = useState<Theme>('theme', () => 'dark')
+  const theme = useState<Theme>('theme', () => 'light')
 
   const apply = (value: Theme) => {
     theme.value = value
-    if (process.client) {
+    if (import.meta.client) {
       document.documentElement.dataset.theme = value
       localStorage.setItem('theme', value)
     }
@@ -18,13 +18,14 @@ export const useTheme = () => {
   }
 
   onMounted(() => {
-    const stored = process.client ? (localStorage.getItem('theme') as Theme | null) : null
+    const stored = import.meta.client ? (localStorage.getItem('theme') as Theme | null) : null
     if (stored === 'light' || stored === 'dark') {
       apply(stored)
       return
     }
 
-    apply('dark')
+    const prefersDark = import.meta.client ? window.matchMedia('(prefers-color-scheme: dark)').matches : false
+    apply(prefersDark ? 'dark' : 'light')
   })
 
   return { theme, toggle, apply }

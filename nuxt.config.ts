@@ -1,3 +1,10 @@
+const env =
+  (globalThis as typeof globalThis & {
+    process?: {
+      env?: Record<string, string | undefined>
+    }
+  }).process?.env || {}
+
 export default defineNuxtConfig({
   devtools: { enabled: false },
   compatibilityDate: '2024-12-05',
@@ -5,6 +12,9 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css', '@waline/client/style'],
   app: {
     head: {
+      htmlAttrs: {
+        lang: 'en'
+      },
       titleTemplate: '%s · LiH Blog',
       title: 'LiH Blog',
       meta: [
@@ -26,7 +36,7 @@ export default defineNuxtConfig({
         },
         {
           rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap'
+          href: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap'
         }
       ]
     }
@@ -34,9 +44,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       siteName: 'LiH Blog',
-      siteUrl: process.env.SITE_URL || 'http://localhost:3000',
-      walineServerURL: process.env.WALINE_SERVER_URL || '',
-      walineLang: process.env.WALINE_LANG || 'zh-CN'
+      siteUrl: env.SITE_URL || 'http://localhost:3000',
+      walineServerURL: env.WALINE_SERVER_URL || '',
+      walineLang: env.WALINE_LANG || 'en'
     }
   },
   content: {

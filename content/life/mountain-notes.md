@@ -1,6 +1,6 @@
 ---
-title: "山里一夜：呼吸与写作"
-description: "离开屏幕，去山里看星星，顺便把博客的下一篇草稿写完。"
+title: "A Night in the Mountains"
+description: "Stepping away from the screen, looking at the stars, and drafting the next post in quieter air."
 date: 2024-09-12
 section: life
 tags:
@@ -11,10 +11,10 @@ cover: https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&
 draft: false
 ---
 
-夜里风很干净，只有虫鸣。没有网络，但 Markdown 足够：
+The air was clear and the night was quiet. No network, but Markdown was enough:
 
-1. 在备忘录里写下想法，回到城里再 push。 
-2. 给博客加上 Waline，朋友留言在山顶读也不错。
-3. 生活与技术并不冲突，它们都是创作素材。
+1. Write the ideas down offline, then push them later.
+2. Add Waline to the site so conversations can continue after the trip.
+3. Life and engineering are not separate subjects. They feed the same work.
 
-> 记录生活本身就是一种校准。
+> Recording life is a way to recalibrate.
