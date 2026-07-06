@@ -77,20 +77,20 @@ onUnmounted(() => {
 
       <div class="header-actions">
         <button class="icon-btn hide-mobile" type="button" @click="emit('open-search')" aria-label="Search">
-          <AppIcon name="search" />
+          <AppIcon name="search" :size="18" />
         </button>
 
         <button class="icon-btn" type="button" @click="toggle" aria-label="Toggle theme">
-          <AppIcon :name="theme === 'light' ? 'moon' : 'sun'" />
+          <AppIcon :name="theme === 'light' ? 'moon' : 'sun'" :size="18" />
         </button>
 
-        <button 
-          class="icon-btn mobile-toggle" 
-          type="button" 
-          @click="toggleMobileMenu" 
+        <button
+          class="icon-btn mobile-toggle"
+          type="button"
+          @click="toggleMobileMenu"
           aria-label="Toggle menu"
         >
-          <AppIcon :name="isMobileMenuOpen ? 'x' : 'menu'" />
+          <AppIcon :name="isMobileMenuOpen ? 'x' : 'menu'" :size="18" />
         </button>
       </div>
     </div>
@@ -124,7 +124,7 @@ onUnmounted(() => {
 <style>
 .mobile-menu-enter-active,
 .mobile-menu-leave-active {
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.4s var(--ease-out);
 }
 
 .mobile-menu-enter-from,
