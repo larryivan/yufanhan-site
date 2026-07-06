@@ -28,56 +28,42 @@ const formattedDate = computed(() =>
 </script>
 
 <template>
-  <div class="reading-container">
-    <div class="reading-layout" :class="{ 'has-sidebar': hasToc }">
-      <main class="reading-main animate-rise">
-        <article class="reading-deck">
-          <header class="reading-header">
-            <div class="reading-header-copy">
-              <h1 class="reading-title">{{ post?.title }}</h1>
-              <p v-if="post?.description" class="reading-lead">{{ post.description }}</p>
-            </div>
+  <div class="article-page">
+    <div class="article-container animate-rise">
+      <div class="article-layout" :class="{ 'has-sidebar': hasToc }">
+        <main class="article-main">
+          <header class="article-hero animate-rise delay-1">
+            <h1 class="article-title">{{ post?.title }}</h1>
+            <p v-if="post?.description" class="article-lead">{{ post.description }}</p>
 
-            <div v-if="formattedDate || post?.readingTime" class="reading-header-meta">
-              <div v-if="formattedDate" class="reading-header-fact">
-                <span class="reading-header-fact-label">Published</span>
-                <time class="reading-header-fact-value">{{ formattedDate }}</time>
-              </div>
-              <div v-if="post?.readingTime" class="reading-header-fact">
-                <span class="reading-header-fact-label">Reading time</span>
-                <span class="reading-header-fact-value">{{ post.readingTime }} min</span>
-              </div>
+            <div v-if="formattedDate || post?.readingTime" class="article-meta">
+              <time v-if="formattedDate">{{ formattedDate }}</time>
+              <span v-if="formattedDate && post?.readingTime" class="meta-divider">·</span>
+              <span v-if="post?.readingTime">{{ post.readingTime }} min read</span>
             </div>
           </header>
 
-          <section class="reading-article-shell surface-card animate-rise delay-1">
-            <div v-if="post?.cover" class="reading-cover">
-              <img :src="post.cover" :alt="post.title" />
-            </div>
-
-            <div id="reading-article-content" class="reading-article-body">
-              <div class="prose">
-                <ContentRenderer :value="post" />
-              </div>
-            </div>
-          </section>
-        </article>
-        
-        <section class="reading-comments surface-card animate-rise delay-2">
-          <div class="reading-comments-head">
-            <p class="reading-comments-title">Comments</p>
+          <div v-if="post?.cover" class="article-cover-wrapper animate-rise delay-1">
+            <img :src="post.cover" :alt="post.title" class="article-cover-img" />
           </div>
-          <WalineWidget :path="post?._path" />
-        </section>
-      </main>
 
-      <aside v-if="hasToc" class="reading-sidebar animate-rise delay-1">
-        <section class="reading-side-panel surface-card">
+          <div id="reading-article-content" class="prose animate-rise delay-2">
+            <ContentRenderer :value="post" />
+          </div>
+          
+          <section class="article-comments animate-rise delay-2">
+            <h2 class="comments-title">Comments</h2>
+            <WalineWidget :path="post?._path" />
+          </section>
+        </main>
+
+        <aside v-if="hasToc" class="article-sidebar animate-rise delay-1">
           <div class="toc-wrapper">
+            <div class="toc-title">On this page</div>
             <ContentTOC :links="tocLinks" />
           </div>
-        </section>
-      </aside>
+        </aside>
+      </div>
     </div>
 
     <ReadingProgress target-selector="#reading-article-content" />

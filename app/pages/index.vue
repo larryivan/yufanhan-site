@@ -13,7 +13,7 @@ const latestGridPosts = computed(() => posts.value.slice(0, 6))
 
 <template>
   <div class="home-page">
-    <section class="home-hero">
+    <section v-reveal class="home-hero reveal">
       <div class="home-copy">
         <p class="eyebrow">LIH BLOG</p>
         <h1 class="home-title">Writing about craft and everyday life.</h1>
@@ -28,7 +28,7 @@ const latestGridPosts = computed(() => posts.value.slice(0, 6))
     </section>
 
     <section class="section-block">
-      <div class="section-head">
+      <div v-reveal class="section-head reveal">
         <h2>Latest posts</h2>
         <NuxtLink to="/blog" class="text-link">
           View all
@@ -45,6 +45,18 @@ const latestGridPosts = computed(() => posts.value.slice(0, 6))
           :style="{ '--delay': `${index * 0.05}s` }"
         />
       </main>
+    </section>
+
+    <section v-reveal class="home-outro reveal">
+      <p class="eyebrow">Colophon</p>
+      <p class="home-outro-text">
+        A quiet corner for engineering notes and everyday observations. The writing stays first;
+        the interface only adds a little atmosphere.
+      </p>
+      <NuxtLink to="/about" class="text-link">
+        About this site
+        <AppIcon name="arrow-right" />
+      </NuxtLink>
     </section>
   </div>
 </template>
