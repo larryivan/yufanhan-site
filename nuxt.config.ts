@@ -8,6 +8,9 @@ const env =
 export default defineNuxtConfig({
   devtools: { enabled: false },
   compatibilityDate: '2024-12-05',
+  experimental: {
+    viewTransition: true
+  },
   modules: ['@nuxt/content'],
   css: ['~/assets/css/main.css', '@waline/client/style'],
   app: {
@@ -15,6 +18,12 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: 'en'
       },
+      script: [
+        {
+          innerHTML: "document.documentElement.classList.add('has-js')",
+          tagPosition: 'head'
+        }
+      ],
       titleTemplate: '%s · LiH Blog',
       title: 'LiH Blog',
       meta: [
@@ -36,7 +45,7 @@ export default defineNuxtConfig({
         },
         {
           rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap'
+          href: 'https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap'
         }
       ]
     }
