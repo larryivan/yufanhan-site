@@ -11,6 +11,5 @@ useSeo({
   <PostArchive
     section="life"
     title="Life"
-    subtitle="Observations, travel & daily routine."
   />
 </template>

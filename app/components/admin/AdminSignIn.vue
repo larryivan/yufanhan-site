@@ -33,7 +33,7 @@ const setup = computed(() => props.session?.setup ?? [])
       </template>
       <template v-else-if="setup.length">
         <h1>Almost there</h1>
-        <p>Set these environment variables for the deployment, then redeploy (see "发帖工具" in the README):</p>
+        <p>Set these environment variables for the deployment, then redeploy:</p>
         <ul>
           <li v-for="name in setup" :key="name"><code>{{ name }}</code></li>
         </ul>

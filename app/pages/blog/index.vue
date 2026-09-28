@@ -11,6 +11,5 @@ useSeo({
   <PostArchive
     section="blog"
     title="Blog"
-    subtitle="Notes on code, methods, and genomes."
   />
 </template>

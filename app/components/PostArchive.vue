@@ -5,7 +5,6 @@ import type { PostSection } from '#shared/utils/sections'
 const props = defineProps<{
   section: PostSection
   title: string
-  subtitle: string
 }>()
 
 const route = useRoute()
@@ -101,10 +100,7 @@ watch(currentTag, revealCurrentTag, { flush: 'post' })
     <!-- Always in the first viewport: it rises with the first cards from first
          paint rather than fading in after hydration. -->
     <header class="archive-header animate-rise">
-      <div class="archive-heading">
-        <h1 ref="headingRef" class="archive-title" tabindex="-1">{{ title }}</h1>
-        <p class="archive-subtitle">{{ subtitle }}</p>
-      </div>
+      <h1 ref="headingRef" class="archive-title" tabindex="-1">{{ title }}</h1>
 
       <!-- Links, so a filtered view has its own URL. RouterLink ignores the query
            when it decides a link is current, so aria-current is set here. Left
@@ -189,7 +185,6 @@ watch(currentTag, revealCurrentTag, { flush: 'post' })
   letter-spacing: -0.01em;
   line-height: 1.04;
   color: var(--heading);
-  margin-bottom: var(--stack-tight);
 }
 
 /* At phone sizes the display face turns thin at 400. */
@@ -202,12 +197,6 @@ watch(currentTag, revealCurrentTag, { flush: 'post' })
 /* Focus only lands here from script, after paging; it is not a control. */
 .archive-title:focus {
   outline: none;
-}
-
-.archive-subtitle {
-  font-size: var(--text-md);
-  line-height: 1.55;
-  color: var(--muted);
 }
 
 .tag-filter {
