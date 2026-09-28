@@ -75,7 +75,9 @@ export type AdminConfig = ReturnType<typeof adminConfig>
 export const missingSetup = (config: AdminConfig) => {
   if (config.storage === 'local') return []
   const missing: string[] = []
-  if (!config.clientId) missing.push('NUXT_ADMIN_GITHUB_CLIENT_ID')
+  // All digits is the App ID, listed just above the Client ID on the App's
+  // page; GitHub answers a sign-in with it with a 404.
+  if (!config.clientId || /^\d+$/.test(config.clientId)) missing.push('NUXT_ADMIN_GITHUB_CLIENT_ID')
   if (!config.clientSecret) missing.push('NUXT_ADMIN_GITHUB_CLIENT_SECRET')
   if (!config.repo) missing.push('NUXT_ADMIN_REPO')
   if (!config.sessionPassword) missing.push('NUXT_ADMIN_SESSION_PASSWORD')

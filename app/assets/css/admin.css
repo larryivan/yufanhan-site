@@ -573,6 +573,12 @@
   margin-top: 4px;
 }
 
+.admin-setup-hint {
+  display: block;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
 .admin-note,
 .admin-signin .admin-note {
   margin: 14px 0 0;

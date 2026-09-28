@@ -16,6 +16,10 @@ const SIGNIN_ERRORS: Record<string, string> = {
   'not-allowed': 'That GitHub account is not allowed to edit this site.'
 }
 
+const SETUP_HINTS: Record<string, string> = {
+  NUXT_ADMIN_GITHUB_CLIENT_ID: 'The Client ID (starts with Iv), not the App ID.'
+}
+
 const error = computed(() => SIGNIN_ERRORS[String(route.query.signin ?? '')] ?? '')
 const href = computed(() => signInUrl(route.path === '/admin' ? '/admin' : route.fullPath.replace(/[?&]signin=[^&]*/, '')))
 const setup = computed(() => props.session?.setup ?? [])
@@ -35,7 +39,10 @@ const setup = computed(() => props.session?.setup ?? [])
         <h1>Almost there</h1>
         <p>Set these environment variables for the deployment, then redeploy:</p>
         <ul>
-          <li v-for="name in setup" :key="name"><code>{{ name }}</code></li>
+          <li v-for="name in setup" :key="name">
+            <code>{{ name }}</code>
+            <span v-if="SETUP_HINTS[name]" class="admin-setup-hint">{{ SETUP_HINTS[name] }}</span>
+          </li>
         </ul>
       </template>
       <template v-else>
