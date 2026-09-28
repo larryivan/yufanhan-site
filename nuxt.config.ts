@@ -132,13 +132,15 @@ export default defineNuxtConfig({
       siteName: SITE_NAME,
       siteDescription: SITE_DESCRIPTION,
       siteUrl: SITE_URL || 'http://localhost:3000',
-      // Comments (giscus, on this repository's GitHub Discussions). Values from
-      // giscus.app; the comments section renders only when the repo and both ids are set.
+      // Comments (giscus), kept in this repository's GitHub Discussions under
+      // Announcements. The ids are public (giscus.app shows them to anyone);
+      // GISCUS_* variables override them, e.g. in a fork. The comments section
+      // renders only when the repo and both ids are set.
       giscus: {
-        repo: env.GISCUS_REPO || '',
-        repoId: env.GISCUS_REPO_ID || '',
-        category: env.GISCUS_CATEGORY || '',
-        categoryId: env.GISCUS_CATEGORY_ID || ''
+        repo: env.GISCUS_REPO || 'larryivan/yufanhan-site',
+        repoId: env.GISCUS_REPO_ID || 'R_kgDOUxKGog',
+        category: env.GISCUS_CATEGORY || 'Announcements',
+        categoryId: env.GISCUS_CATEGORY_ID || 'DIC_kwDOUxKGos4DGm3B'
       }
     }
   },
@@ -202,6 +204,11 @@ export default defineNuxtConfig({
     }
   },
   content: {
+    // Node's built-in SQLite, not better-sqlite3. A native addon only loads on the
+    // Node version it was installed for, and Nitro runs a Vercel function on Node
+    // 22 at most whatever Node built it, so on a newer build image every query
+    // (the archives, search) failed with a 500.
+    experimental: { sqliteConnector: 'native' },
     // v3 moved parser options under `build`; collections live in content.config.ts.
     // Content is parsed at build time, so none of these plugins reach the browser;
     // only KaTeX's stylesheet does, imported by PostArticle.
