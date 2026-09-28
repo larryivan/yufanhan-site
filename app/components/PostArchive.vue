@@ -107,8 +107,9 @@ watch(currentTag, revealCurrentTag, { flush: 'post' })
       </div>
 
       <!-- Links, so a filtered view has its own URL. RouterLink ignores the query
-           when it decides a link is current, so aria-current is set here. -->
-      <nav ref="filterRef" class="tag-filter" aria-label="Filter by tag">
+           when it decides a link is current, so aria-current is set here. Left
+           out while no post has a tag, where "All" would be the only chip. -->
+      <nav v-if="tags.length" ref="filterRef" class="tag-filter" aria-label="Filter by tag">
         <NuxtLink
           :to="tagLink()"
           class="tag-pill"

@@ -42,7 +42,8 @@ const posts = computed(() => latestPosts.value ?? [])
       </div>
     </section>
 
-    <section class="section-block">
+    <!-- Left out until there is a post: an empty grid under a heading reads as broken. -->
+    <section v-if="posts.length" class="section-block">
       <div class="section-head">
         <h2>Latest posts</h2>
         <NuxtLink to="/blog" class="text-link">
