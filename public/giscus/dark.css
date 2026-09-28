@@ -1,7 +1,7 @@
 /*
- * giscus theme (dark). The comments sit in a frosted panel on the page
- * (.comments-panel in main.css); inside it giscus's own surfaces are thin
- * sheets of glass, so the panel's light shows through them.
+ * giscus theme (dark). One surface: the site draws no panel around the
+ * frame, so the comment box is the only sheet of glass, and the comments
+ * below it are plain rows with a hairline between them.
  *
  * The giscus iframe loads this file from the site with crossorigin="anonymous"
  * (routeRules gives /giscus/** its CORS header), and only on a public https
@@ -35,9 +35,15 @@
 }
 
 main {
+  /* Site-only: the box's glass, its edge and lit rim, the glow under the
+     send button, the rule between comments, a resting button. */
+  --lih-surface: rgba(255, 255, 255, 0.045);
+  --lih-border: rgba(255, 255, 255, 0.1);
   --lih-highlight: rgba(255, 255, 255, 0.08);
+  --lih-shadow: rgba(0, 0, 0, 0.35);
   --lih-glow: rgba(140, 122, 235, 0.5);
-  --lih-pill: rgba(255, 255, 255, 0.1);
+  --lih-rule: rgba(255, 255, 255, 0.08);
+  --lih-ghost: rgba(255, 255, 255, 0.07);
 
   --color-fg-default: #d8d3d6;
   --color-fg-muted: #a7a0a8;
@@ -137,137 +143,128 @@ main :not(code, pre, kbd, samp, code *, pre *) {
 /* giscus sets most of these with utility classes of higher specificity, hence
    the !important throughout. */
 
-/* ---------------------------------------------------------------- header */
-
-/* "12 comments · 3 replies" as one quiet line of labels. */
-main .gsc-comments-count,
-main .gsc-comments-count-separator,
-main .gsc-replies-count {
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  color: var(--color-fg-default) !important;
+/* Room for the box's rim and focus ring, which the frame would otherwise cut
+   off at its edges; the site pulls the frame out by as much (main.css). */
+main {
+  padding: 6px 6px 12px !important;
 }
 
-main .gsc-replies-count,
-main .gsc-comments-count-separator {
-  font-weight: 500 !important;
-  color: var(--color-fg-muted) !important;
-}
-
-main .gsc-comments-count a {
-  text-decoration: none !important;
-}
-
-main .gsc-left-header em {
-  font-size: 12px !important;
-  color: var(--color-fg-subtle) !important;
-}
-
-/* Oldest / Newest: a pill switch. */
-main .gsc-right-header.BtnGroup {
-  padding: 3px !important;
-  border-radius: 999px !important;
-  background: var(--color-segmented-control-bg) !important;
-}
-
-main .gsc-right-header .btn {
-  border: 0 !important;
-  border-radius: 999px !important;
-  background: transparent !important;
-  color: var(--color-fg-muted) !important;
-  font-weight: 500 !important;
-  box-shadow: none !important;
-}
-
-main .gsc-right-header [aria-current="true"] .btn {
-  background: var(--lih-pill) !important;
-  color: var(--color-fg-default) !important;
-  box-shadow: inset 0 1px 0 var(--lih-highlight), 0 0 0 1px var(--color-border-default) !important;
+/* The page already says "Comments"; the count and the sort switch are left out. */
+main .gsc-header {
+  display: none !important;
 }
 
 /* ---------------------------------------------------------------- comment box */
 
 main .gsc-comment-box {
   overflow: hidden;
+  border: 1px solid var(--lih-border) !important;
   border-radius: 16px !important;
-  border: 1px solid var(--color-border-default) !important;
-  background: var(--color-canvas-default) !important;
-  box-shadow: inset 0 1px 0 var(--lih-highlight) !important;
-}
-
-/* Write / Preview as a pill switch instead of folder tabs. */
-main .gsc-comment-box-tabs {
-  border: 0 !important;
-  border-bottom: 1px solid var(--color-border-muted) !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-}
-
-main .gsc-comment-box-tabs > div:first-child {
-  display: flex;
-  gap: 2px;
-  margin: 8px !important;
-  padding: 3px;
-  border-radius: 999px;
-  background: var(--color-segmented-control-bg);
-}
-
-main .gsc-comment-box-tabs > div:first-child button {
-  margin: 0 !important;
-  padding: 3px 14px !important;
-  border: 0 !important;
-  border-radius: 999px !important;
-  background: transparent !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-}
-
-main .gsc-comment-box-tabs > div:first-child button.color-bg-canvas {
-  background: var(--lih-pill) !important;
-  box-shadow: inset 0 1px 0 var(--lih-highlight), 0 0 0 1px var(--color-border-default) !important;
-}
-
-main .gsc-comment-box-textarea {
-  border: 1px solid var(--color-border-default) !important;
-  border-radius: 12px !important;
-  background: var(--color-canvas-inset) !important;
-  box-shadow: none !important;
+  background: var(--lih-surface) !important;
+  box-shadow:
+    inset 0 1px 0 var(--lih-highlight),
+    0 1px 2px var(--lih-shadow),
+    0 4px 12px -6px var(--lih-shadow) !important;
   transition: border-color 0.2s, box-shadow 0.3s;
 }
 
-main .gsc-comment-box-textarea:focus {
+main .gsc-comment-box:focus-within {
   border-color: var(--color-accent-muted) !important;
   box-shadow:
-    0 0 0 3px var(--color-accent-subtle),
-    0 12px 30px -18px var(--lih-glow) !important;
+    inset 0 1px 0 var(--lih-highlight),
+    0 0 0 3px var(--color-accent-subtle) !important;
 }
 
-/* The Markdown hint bar under the field: the field says it all. */
+/* Just the field: no Write / Preview tabs, no formatting button, no Markdown hint. */
+main .gsc-comment-box-tabs,
 main .gsc-comment-box-textarea-extras {
   display: none !important;
 }
 
-main .gsc-comment-box-bottom {
-  padding-top: 4px !important;
+main .gsc-comment-box-main {
+  margin: 0 !important;
 }
 
-/* The send / sign-in button: an ink pill with a glow under it. */
+main .gsc-comment-box-textarea {
+  display: block;
+  width: 100%;
+  min-height: 88px;
+  padding: 16px 18px 4px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--color-fg-default) !important;
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+  resize: none !important;
+}
+
+main .gsc-comment-box-textarea:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+main .gsc-comment-box-textarea::placeholder {
+  color: var(--color-fg-subtle) !important;
+  opacity: 1;
+}
+
+main .gsc-comment-box-textarea:disabled {
+  cursor: default;
+}
+
+main .gsc-comment-box-bottom {
+  align-items: center;
+  margin: 0 !important;
+  padding: 4px 10px 10px 18px !important;
+}
+
+/* "Sign out" as one quiet word. */
+main .gsc-comment-box-bottom > :not(.gsc-comment-box-buttons) {
+  color: var(--color-fg-subtle) !important;
+  font-size: 13px !important;
+  text-decoration: none !important;
+  transition: color 0.2s;
+}
+
+main .gsc-comment-box-bottom > :not(.gsc-comment-box-buttons):hover {
+  color: var(--color-fg-default) !important;
+}
+
+main .gsc-comment-box-bottom > :not(.gsc-comment-box-buttons) svg {
+  display: none !important;
+}
+
+/* Send and sign in: a violet pill with a glow under it. */
 main .btn-primary {
+  display: inline-flex !important;
+  align-items: center;
+  height: 34px;
+  padding: 0 16px !important;
   border: 0 !important;
   border-radius: 999px !important;
-  padding: 6px 18px !important;
+  font-size: 13.5px !important;
   font-weight: 500 !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    0 10px 24px -12px var(--lih-glow) !important;
-  transition: transform 0.25s, box-shadow 0.25s, background-color 0.2s !important;
+    0 10px 22px -12px var(--lih-glow) !important;
+  transition: transform 0.25s, box-shadow 0.25s, background-color 0.2s, color 0.2s !important;
 }
 
-main .btn-primary:hover {
+main .btn-primary:not(:disabled):hover {
   transform: translateY(-1px);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    0 14px 30px -12px var(--lih-glow) !important;
+    0 14px 28px -12px var(--lih-glow) !important;
+}
+
+/* With nothing to send yet, a resting grey pill rather than a faded violet. */
+main .btn-primary:disabled {
+  background: var(--lih-ghost) !important;
+  color: var(--color-fg-subtle) !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
 }
 
 main .btn:not(.btn-primary) {
@@ -276,31 +273,198 @@ main .btn:not(.btn-primary) {
 
 /* ---------------------------------------------------------------- comments */
 
+
+/* No cards: rows on the page. */
 main .gsc-comment > div {
-  border-radius: 16px !important;
-  border-color: var(--color-border-default) !important;
-  background: var(--color-canvas-default) !important;
-  box-shadow: inset 0 1px 0 var(--lih-highlight) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
+main .gsc-comment + .gsc-comment > div,
+main .gsc-pagination + .gsc-comment > div {
+  border-top: 1px solid var(--lih-rule) !important;
+}
+
+main .gsc-comment-header {
+  padding: 18px 0 0 !important;
+}
+
+/* giscus already spaces the list 24px from the box. */
+main .gsc-timeline > .gsc-comment:first-child .gsc-comment-header {
+  padding-top: 6px !important;
+}
+
+main .gsc-comment-author-avatar img {
+  width: 28px !important;
+  height: 28px !important;
+  margin-right: 10px !important;
+}
+
+main .gsc-comment-author .link-primary,
+main .gsc-reply-author .link-primary {
+  color: var(--color-fg-default) !important;
+  font-weight: 600 !important;
+}
+
+main .gsc-comment-author time,
+main .gsc-reply-author time,
+main .gsc-comment-edited {
+  color: var(--color-fg-subtle) !important;
+  font-size: 12.5px !important;
+}
+
+main .gsc-comment-author a.link-secondary,
+main .gsc-reply-author a.link-secondary {
+  text-decoration: none !important;
+}
+
+main .gsc-comment-author a.link-secondary:hover,
+main .gsc-reply-author a.link-secondary:hover {
+  text-decoration: underline !important;
+}
+
+main .gsc-comment-author span.rounded-xl {
+  border-color: var(--lih-border) !important;
+  color: var(--color-fg-subtle) !important;
+}
+
+/* The text lines up with the name, past the avatar. */
+main .gsc-comment-content {
+  padding: 4px 0 0 38px !important;
+  font-size: 15px !important;
+  line-height: 1.65 !important;
+}
+
+main .gsc-comment-footer {
+  margin: 10px 0 14px 38px !important;
+}
+
+main .gsc-comment-reactions {
+  margin-left: 0 !important;
+}
+
+main .gsc-comment-replies-count {
+  margin-right: 12px !important;
+}
+
+/* Replies: indented behind one thin rule instead of an inset box. */
 main .gsc-replies {
-  border-radius: 0 0 15px 15px !important;
-  border-color: var(--color-border-muted) !important;
-  background: var(--color-canvas-subtle) !important;
-}
-
-main .gsc-social-reaction-summary-item {
-  border-color: var(--color-border-default) !important;
+  margin: 0 0 16px 38px !important;
+  padding: 0 0 0 16px !important;
+  border: 0 !important;
+  border-left: 2px solid var(--lih-rule) !important;
+  border-radius: 0 !important;
   background: transparent !important;
 }
 
-main .gsc-pagination-button {
-  border-radius: 999px !important;
-  background: var(--color-canvas-default) !important;
+main .gsc-replies > div:first-child:not(.gsc-reply) {
+  padding-left: 0 !important;
 }
 
-main .pagination-loader-container {
-  background-image: url("https://github.com/images/modules/pulls/progressive-disclosure-line-dark.svg");
+main .gsc-replies > div:first-child:not(.gsc-reply) > div:first-child {
+  display: none !important;
+}
+
+main .gsc-reply {
+  padding: 10px 0 4px !important;
+}
+
+main .gsc-tl-line {
+  display: none !important;
+}
+
+main .gsc-reply-author-avatar img {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+main .gsc-reply-content {
+  padding: 2px 0 6px !important;
+  font-size: 14.5px !important;
+  line-height: 1.6 !important;
+}
+
+main .gsc-reply-box {
+  padding: 8px 0 4px !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+main .gsc-reply-box > button {
+  border: 1px solid var(--lih-border) !important;
+  border-radius: 999px !important;
+  background: var(--lih-surface) !important;
+  box-shadow: none !important;
+}
+
+/* Reactions: small outline pills. */
+main .gsc-social-reaction-summary-item {
+  border: 1px solid var(--lih-border) !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  color: var(--color-fg-muted) !important;
+}
+
+main .gsc-social-reaction-summary-item:hover {
+  background: var(--color-social-reaction-bg-hover) !important;
+}
+
+main .gsc-social-reaction-summary-item.has-reacted {
+  border-color: var(--color-accent-muted) !important;
+  background: var(--color-accent-subtle) !important;
+  color: var(--color-accent-fg) !important;
+}
+
+main .gsc-reactions-popover {
+  border-radius: 12px !important;
+  box-shadow: 0 12px 32px -12px var(--lih-shadow) !important;
+}
+
+/* Older comments: a small pill, no dashed line. */
+main .gsc-pagination {
+  margin: 8px 0 !important;
+  background-image: none !important;
+}
+
+main .gsc-pagination-button {
+  padding: 6px 16px !important;
+  border: 1px solid var(--lih-border) !important;
+  border-radius: 999px !important;
+  background: var(--lih-surface) !important;
+  font-size: 13px !important;
+}
+
+/* ---------------------------------------------------------------- text */
+
+main .gsc-comment-content a,
+main .gsc-reply-content a {
+  color: var(--color-accent-fg) !important;
+  text-decoration: underline !important;
+  text-decoration-color: var(--color-accent-muted) !important;
+  text-underline-offset: 3px;
+}
+
+/* Headings in a comment stay at reading size. */
+main .markdown :is(h1, h2, h3, h4, h5, h6) {
+  margin: 16px 0 8px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+}
+
+main .markdown blockquote {
+  padding-left: 12px !important;
+  border-left: 2px solid var(--lih-rule) !important;
+  color: var(--color-fg-muted) !important;
+}
+
+main .markdown pre {
+  border-radius: 10px !important;
+  background: var(--color-canvas-subtle) !important;
 }
 
 main .gsc-loading-image {

@@ -1447,9 +1447,10 @@ html.is-first-load .animate-rise {
   max-width: var(--measure);
 }
 
-/* Comments (GiscusComments): the frame around giscus's iframe, which draws
-   itself with the site's own theme (public/giscus/). No rule of its own: the
-   post navigation above already closes the article with one. */
+/* Comments (GiscusComments): giscus's iframe straight on the page, drawn with
+   the site's own theme (public/giscus/), where the comment box is the one
+   surface. No rule of its own: the post navigation above already closes the
+   article with one. */
 .article-comments {
   max-width: var(--measure);
   margin-top: var(--stack-block);
@@ -1473,53 +1474,6 @@ html.is-first-load .animate-rise {
   color: var(--heading);
 }
 
-/* A frosted panel with a lit edge and a halo, like the header. giscus draws its
-   own surfaces inside it as thin glass (public/giscus/). */
-.comments-panel {
-  position: relative;
-  padding: 18px;
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
-  background:
-    linear-gradient(180deg, var(--surface-sheen) 0, transparent 40%),
-    var(--glass-card);
-  backdrop-filter: blur(20px) saturate(170%);
-  box-shadow:
-    inset 0 1px 0 var(--surface-highlight),
-    0 0 0 1px var(--line-soft),
-    var(--elev-2),
-    0 30px 70px -40px var(--surface-glow-strong);
-}
-
-/* The halo sits behind the panel, not in it: the panel's backdrop-filter makes
-   it a stacking context, so a pseudo-element of its own would paint over its
-   fill. The section is not one, so its pseudo-element goes under the panel. */
-.article-comments {
-  position: relative;
-}
-
-.article-comments::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  top: 40px;
-  left: 10%;
-  width: 80%;
-  height: 160px;
-  border-radius: 999px;
-  background: radial-gradient(closest-side, var(--surface-glow-strong), transparent);
-  filter: blur(30px);
-  opacity: 0.7;
-  pointer-events: none;
-}
-
-@media (max-width: 640px) {
-  .comments-panel {
-    padding: 12px;
-    border-radius: var(--radius-md);
-  }
-}
-
 /* The widget keeps its space from the start and fades in once giscus has
    drawn it (its first resize message), so the page does not jump under the
    reader and no half-drawn frame flashes. */
@@ -1530,6 +1484,14 @@ html.is-first-load .animate-rise {
   border: 0;
   opacity: 0;
   transition: opacity var(--dur-base) var(--ease-standard);
+}
+
+/* The site's theme pads the widget (6px, 12px below) so the box's rim and
+   focus ring are not cut off at the frame's edge; pulled out by as much, the
+   box lines up with the text. */
+.comments-frame.is-themed {
+  width: calc(100% + 12px);
+  margin: -6px -6px -12px;
 }
 
 .comments-body.is-ready .comments-frame {

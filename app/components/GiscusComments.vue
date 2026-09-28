@@ -32,6 +32,8 @@ const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Re: ${prop
 type State = 'idle' | 'loading' | 'ready' | 'failed'
 const state = ref<State>('idle')
 const src = ref('')
+/** Drawn with the site's own theme (public/giscus/), which pads the widget. */
+const themed = ref(false)
 const height = ref<number | null>(null)
 const section = useTemplateRef<HTMLElement>('section')
 const frame = useTemplateRef<HTMLIFrameElement>('frame')
@@ -71,10 +73,12 @@ const storeSession = (value: string | null) => {
 
 const buildSrc = () => {
   const page = `${window.location.origin}${window.location.pathname}`
+  const theme = themeFor(currentTheme())
+  themed.value = theme.startsWith('https://')
   const params = new URLSearchParams({
     // Where a sign-in returns to: this section of this page.
     origin: `${page}#${SECTION_ID}`,
-    theme: themeFor(currentTheme()),
+    theme,
     // No reaction bar above the box: on a quiet post it was a lone "0 reactions"
     // and an emoji button. Each comment keeps its own reactions.
     reactionsEnabled: '0',
@@ -188,12 +192,13 @@ onBeforeUnmount(() => {
       </a>
     </div>
 
-    <div class="comments-panel comments-body" :class="`is-${state}`">
+    <div class="comments-body" :class="`is-${state}`">
       <iframe
         v-if="src && state !== 'failed'"
         ref="frame"
         :src="src"
         class="comments-frame"
+        :class="{ 'is-themed': themed }"
         title="Comments"
         scrolling="no"
         allow="clipboard-write"
