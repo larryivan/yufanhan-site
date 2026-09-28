@@ -6,6 +6,7 @@ type IconName =
   | 'moon'
   | 'sun'
   | 'arrow-right'
+  | 'arrow-left'
   | 'arrow-up'
   | 'chevron-left'
   | 'chevron-right'
@@ -25,7 +26,7 @@ const props = withDefaults(
   }>(),
   {
     size: 16,
-    strokeWidth: 2
+    strokeWidth: 1.75
   }
 )
 
@@ -43,7 +44,10 @@ const paths: Record<IconName, string[]> = {
     'M18.19 5.81l1.59-1.59',
     'M12 16.5A4.5 4.5 0 1 0 12 7.5a4.5 4.5 0 0 0 0 9Z'
   ],
-  'arrow-right': ['M5 12h14', 'm13-5 5 5-5 5'],
+  // Each entry renders as its own <path>, so every subpath must be absolute —
+  // a relative `m` here starts from (0,0), not from the end of the shaft.
+  'arrow-right': ['M5 12h14', 'M12 5l7 7-7 7'],
+  'arrow-left': ['M19 12H5', 'M12 5l-7 7 7 7'],
   'arrow-up': ['M12 19V5', 'M5 12l7-7 7 7'],
   'chevron-left': ['m14.25 18-6-6 6-6'],
   'chevron-right': ['m9.75 6 6 6-6 6'],

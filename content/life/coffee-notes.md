@@ -2,7 +2,6 @@
 title: "Writing Code in a Coffee Shop"
 description: "A window seat, noise-cancelling headphones, and a quiet session to ship something small."
 date: 2024-08-02
-section: life
 tags:
   - Coffee
   - Routine

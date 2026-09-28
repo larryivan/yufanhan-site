@@ -1,5 +1,6 @@
 # Nuxt dev/build outputs
 .output
+.vercel
 .data
 .nuxt
 .nitro
@@ -22,3 +23,9 @@ logs
 .env
 .env.*
 !.env.example
+
+# Python bytecode from scripts/brand
+__pycache__/
+
+# Local Claude Code settings
+.claude/

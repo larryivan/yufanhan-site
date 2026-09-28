@@ -1,12 +1,11 @@
 ---
 title: "About"
-description: "A personal blog for engineering notes, design details, and everyday life."
-section: about
+description: "Yufan Han studies biology and writes code about reading population history from genomes."
 date: 2024-11-01
 ---
 
-I write about how things are built: frontend details, product interfaces, systems, and the small decisions that shape good software.
+I study biology, and somewhere along the way I started writing a lot of code. Most of it is about reading population history from genomes.
 
-This site is intentionally quiet. The focus is the note itself: enough context to be useful, not enough decoration to get in the way.
+This site is where I keep notes: on the methods and tools I use or build, and on the everyday life around them.
 
-Engineering, design, and ordinary life all appear here, but only when they leave something worth keeping.
+My code is on [GitHub](https://github.com/larryivan). To say hello, write to [larryivanhan@gmail.com](mailto:larryivanhan@gmail.com).

@@ -1,99 +1,216 @@
 :root {
   color-scheme: light;
-  --bg: #f5f2eb;
-  --bg-elevated: #fffdf9;
-  --bg-subtle: #eeeadf;
-  --glass: rgba(255, 253, 249, 0.82);
-  --line: rgba(15, 23, 42, 0.1);
-  --line-strong: rgba(15, 23, 42, 0.18);
-  --text: #334155;
-  --heading: #0f172a;
-  --muted: #64748b;
-  --accent: #314a8a;
-  --accent-soft: rgba(49, 74, 138, 0.08);
-  --shadow-soft: 0 16px 40px rgba(15, 23, 42, 0.05);
-  --shadow-card: 0 22px 60px rgba(15, 23, 42, 0.06);
-  --ambient-glow: rgba(91, 122, 218, 0.14);
-  --ambient-glow-warm: rgba(241, 196, 123, 0.14);
-  --hero-glow: rgba(116, 145, 224, 0.18);
-  --hero-glow-soft: rgba(247, 212, 154, 0.12);
-  --rainbow-color-1: oklch(66.2% 0.225 25.9);
-  --rainbow-color-2: oklch(60.4% 0.26 302);
-  --rainbow-color-3: oklch(69.6% 0.165 251);
-  --rainbow-color-4: oklch(80.2% 0.134 225);
-  --rainbow-color-5: oklch(90.7% 0.231 133);
-  --rainbow-speed: 2.4s;
-  --surface-highlight: rgba(255, 255, 255, 0.68);
-  --surface-sheen: rgba(255, 255, 255, 0.42);
-  --surface-glow: rgba(96, 125, 213, 0.12);
-  --surface-glow-strong: rgba(96, 125, 213, 0.18);
-  --focus-glow: rgba(96, 125, 213, 0.22);
-  --footer-glow: rgba(229, 188, 120, 0.22);
+  /* Warm off-white paper and warm ink, with one violet for everything that is
+     interactive or current, lit by a soft violet glow through frosted
+     surfaces. */
+  --bg: #faf8f4;
+  --bg-elevated: #fffefb;
+  --bg-subtle: #f2efe8;
+  /* The header pill at rest, and once scrolled (thinner, so more of the page
+     shows through the blur). Opaque enough that --muted nav text holds 4.5:1
+     over a photo scrolled underneath. */
+  --glass: rgba(255, 254, 251, 0.74);
+  --glass-scrolled: rgba(255, 254, 251, 0.6);
+  /* Cards and panels: a frosted sheet over the page glow. */
+  --glass-card: rgba(255, 254, 251, 0.8);
+  --glass-strong: rgba(255, 254, 251, 0.9);
+  --glass-border: rgba(255, 255, 255, 0.85);
+  --line: rgba(30, 24, 20, 0.1);
+  --line-strong: rgba(30, 24, 20, 0.18);
+  --line-soft: rgba(30, 24, 20, 0.055);
+  /* The one faint fill: hovered and current controls, and inline code. */
+  --wash: rgba(30, 24, 20, 0.045);
+  --text: #3b342e;
+  --heading: #1e1814;
+  /* 6.00 / 6.31 / 5.54:1 on --bg / --bg-elevated / --bg-subtle. */
+  --muted: #665e56;
+  /* The violet: 7.3:1 on the paper, and paper text holds 7.4:1 on it. */
+  --accent: #5242a7;
+  --on-accent: #fbf8f2;
+  /* Warm tan (the footer's edge; the logo and the name carry their own
+     colours) and the footer's ink line. */
+  --tan: #a67f56;
+  --stripe: #1e1814;
+  /* A plain weave in place of a paper grain, the weft reading first,
+     near-invisible. */
+  --weave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Cpath d='M0 .5H4M0 2.5H4' stroke='%231e1814' stroke-opacity='.026'/%3E%3Cpath d='M1.5 0V2M3.5 2V4' stroke='%231e1814' stroke-opacity='.012'/%3E%3C/svg%3E");
+  /* The light itself: the page glow, the halo under the header and a hovered
+     card, and the top edge every frosted surface catches. */
+  --glow-1: rgba(82, 66, 167, 0.2);
+  --glow-2: rgba(140, 125, 220, 0.16);
+  --glow-3: rgba(166, 127, 86, 0.14);
+  --surface-glow: rgba(82, 66, 167, 0.16);
+  --surface-glow-strong: rgba(82, 66, 167, 0.3);
+  --surface-highlight: rgba(255, 255, 255, 0.85);
+  --surface-sheen: rgba(255, 255, 255, 0.5);
+  /* Callouts (> [!NOTE] …): one ink per kind, used for the rule and the title,
+     and at 6% for the fill. Each title holds 5:1 or more on its fill. */
+  --callout-note: #2f5d8a;
+  --callout-tip: #3a6634;
+  --callout-important: #684a98;
+  --callout-warning: #80530a;
+  --callout-caution: #a32d28;
+  /* sRGB fallbacks, upgraded to oklch() below where supported. The CTA puts
+     these in the same `background` as its fill, so one unsupported value would
+     void the whole declaration and leave white text on the paper. */
+  --rainbow-color-1: #ff4242;
+  --rainbow-color-2: #a142fe;
+  --rainbow-color-3: #40a1ff;
+  --rainbow-color-4: #43d0ff;
+  --rainbow-color-5: #a0ff42;
+  --rainbow-speed: 5.5s;
+  --radius-xs: 6px;
   --radius-sm: 12px;
   --radius-md: 18px;
   --radius-lg: 26px;
   --page-width: 1220px;
-  --content-width: 820px;
-  --font-sans: "IBM Plex Sans", "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
-  --font-display: "Fraunces", "Noto Sans SC", Georgia, "Times New Roman", serif;
+  /* One side gutter for the page column and the header pill, so both share
+     the same two edges at every width. */
+  --gutter: 28px;
+  /* Band the sticky header can cover (it ends at 86px on phones, 72px on
+     desktop). Scroll-into-view and the router's hash jumps keep targets below
+     it; ContentTOC reads the same value for its scroll-spy. */
+  --header-offset: 96px;
+  /* The header row: the pill's resting height, and the room the header holds in
+     the flow even while the pill is drawn in. */
+  --header-bar: 56px;
+  /* Stacking scale for the layers that sit over the page. The back-to-top
+     button used to be 1250, above the search dialog it then covered. */
+  --z-float: 900;
+  --z-header: 1000;
+  --z-overlay: 1200;
+  /* The back-to-top button's distance from the bottom edge, and the footer
+     row's height: the footer uses both to park the button at the row's end. */
+  --float-bottom: 24px;
+  --footer-row: 40px;
+  /* Ceiling for a card's cover. Tracks stay `1fr` so a row always fills the
+     width (only a lone card is capped, see `.post-grid`); what made a wide
+     card overwhelming was its width turning into height, so the height is
+     what gets capped. Wide cards simply letterbox. */
+  --cover-max-h: 180px;
+  /* The home headline: a full sentence, set on two lines on a wide screen. */
+  --text-display-1: clamp(2.25rem, 4.5vw, 3.625rem);
+  --text-display-2: clamp(2.125rem, 3.9vw, 3rem);
+  --text-display-3: clamp(1.75rem, 2.9vw, 2.375rem);
+  /* Body/UI steps. Before these existed the stylesheet carried 22 distinct
+     font sizes, including 0.92/0.94/0.95/0.96rem and 1.05/1.1/1.12/1.15rem —
+     differences too small to read as hierarchy, large enough to look untidy. */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 1.0625rem;
+  --text-lg: 1.1875rem;
+  --text-xl: 1.4375rem;
+  --text-2xl: clamp(1.4375rem, 2vw, 1.75rem);
+  /* Long-form reading: 16px on a 1.6 line, the same on every screen, with a
+     paragraph break a little under one line's height. */
+  --text-prose: 1rem;
+  --prose-leading: 1.6;
+  --prose-gap: 0.8em;
+  /* Code blocks: size, leading and side padding (the highlighted-line bar
+     reaches out to the block's edge by the same padding). */
+  --code-size: 0.8125rem;
+  --code-leading: 1.6;
+  --code-pad: 14px;
+  /* The mono caps label (dates, meta, TOC title). Monospace caps already have
+     wide, even side-bearings; more than this spells the words out. */
+  --tracking-label: 0.06em;
+  /* The widest a column of text runs: an article with a contents list fills
+     the page up to it, and one without stops there. Wide on purpose, so the
+     page is used rather than framed in margins. */
+  --measure: 56rem;
+  /* Vertical rhythm. Measured gaps down the article ran 18 / 8 / 12 / 18 / 16 —
+     five near-identical values, so nothing read as grouped. These tiers encode
+     the grouping instead: items within a block, blocks within a section, and
+     sections against each other. */
+  --stack-tight: 10px;
+  --stack-group: 24px;
+  --stack-block: 36px;
+  --stack-section: 56px;
+  /* CJK is served by the reader's system font rather than a multi-MB webfont. */
+  --font-cjk: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC";
+  --font-cjk-serif: "Songti SC", "Source Han Serif SC", "Noto Serif CJK SC", "Microsoft YaHei";
+  /* Self-hosted via @fontsource (see nuxt.config css). */
+  --font-sans: "IBM Plex Sans Variable", "IBM Plex Sans", system-ui, -apple-system, BlinkMacSystemFont, var(--font-cjk), sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-display: "Fraunces Variable", "Fraunces", Georgia, "Times New Roman", var(--font-cjk-serif), serif;
   --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --dur-fast: 180ms;
   --dur-base: 320ms;
-  --dur-slow: 480ms;
+  --dur-slow: 560ms;
+  /* Shadows only for what floats: 1 the scrolled header, back-to-top, a
+     hovered card and the skip link; 2 the menu; 3 the search dialog. */
   --elev-1:
-    0 1px 2px rgba(15, 23, 42, 0.04),
-    0 4px 12px -3px rgba(15, 23, 42, 0.05);
+    0 1px 2px rgba(30, 24, 20, 0.04),
+    0 4px 12px -3px rgba(30, 24, 20, 0.06);
   --elev-2:
-    0 2px 6px rgba(15, 23, 42, 0.05),
-    0 16px 32px -14px rgba(15, 23, 42, 0.1);
+    0 2px 6px rgba(30, 24, 20, 0.05),
+    0 16px 32px -14px rgba(30, 24, 20, 0.12);
   --elev-3:
-    0 4px 12px rgba(15, 23, 42, 0.06),
-    0 28px 56px -22px rgba(15, 23, 42, 0.13);
+    0 4px 12px rgba(30, 24, 20, 0.06),
+    0 28px 56px -22px rgba(30, 24, 20, 0.16);
 }
 
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --bg: #0a0c0f;
-  --bg-elevated: #161b22;
-  --bg-subtle: #1b212a;
-  --glass: rgba(20, 25, 32, 0.82);
-  --line: rgba(255, 255, 255, 0.1);
-  --line-strong: rgba(255, 255, 255, 0.16);
-  --text: #c4cfdd;
-  --heading: #f8fafc;
-  --muted: #94a3b8;
-  --accent: #b8c7ff;
-  --accent-soft: rgba(184, 199, 255, 0.12);
-  --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.3);
-  --shadow-card: 0 30px 80px rgba(0, 0, 0, 0.34);
-  --ambient-glow: rgba(111, 145, 255, 0.14);
-  --ambient-glow-warm: rgba(99, 224, 255, 0.08);
-  --hero-glow: rgba(120, 156, 255, 0.16);
-  --hero-glow-soft: rgba(121, 229, 255, 0.08);
-  --elev-1:
-    0 1px 2px rgba(0, 0, 0, 0.3),
-    0 4px 12px -3px rgba(0, 0, 0, 0.4);
-  --elev-2:
-    0 2px 6px rgba(0, 0, 0, 0.4),
-    0 16px 32px -14px rgba(0, 0, 0, 0.52);
-  --elev-3:
-    0 4px 12px rgba(0, 0, 0, 0.45),
-    0 30px 60px -22px rgba(0, 0, 0, 0.62);
-  --rainbow-color-1: oklch(66.2% 0.225 25.9);
-  --rainbow-color-2: oklch(60.4% 0.26 302);
-  --rainbow-color-3: oklch(69.6% 0.165 251);
-  --rainbow-color-4: oklch(80.2% 0.134 225);
-  --rainbow-color-5: oklch(90.7% 0.231 133);
-  --rainbow-speed: 2.4s;
-  --surface-highlight: rgba(255, 255, 255, 0.08);
-  --surface-sheen: rgba(255, 255, 255, 0.03);
-  --surface-glow: rgba(120, 156, 255, 0.18);
-  --surface-glow-strong: rgba(120, 156, 255, 0.28);
-  --focus-glow: rgba(120, 156, 255, 0.32);
-  --footer-glow: rgba(120, 156, 255, 0.14);
+@supports (color: oklch(0 0 0)) {
+  :root {
+    --rainbow-color-1: oklch(66.2% 0.225 25.9);
+    --rainbow-color-2: oklch(60.4% 0.26 302);
+    --rainbow-color-3: oklch(69.6% 0.165 251);
+    --rainbow-color-4: oklch(80.2% 0.134 225);
+    --rainbow-color-5: oklch(90.7% 0.231 133);
+  }
+}
+
+/* The dark palette is a screen treatment. Paper is always light: printed from
+   the dark theme, headings came out at 2.79:1 and body text at 3.99:1. */
+@media screen {
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    /* A violet-black, lit from above by a violet glow. */
+    --bg: #121016;
+    --bg-elevated: #1b181f;
+    --bg-subtle: #231f28;
+    --glass: rgba(27, 24, 31, 0.72);
+    --glass-scrolled: rgba(25, 22, 29, 0.58);
+    --glass-card: rgba(30, 27, 35, 0.66);
+    --glass-strong: rgba(27, 24, 31, 0.9);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --line: rgba(245, 242, 236, 0.1);
+    --line-strong: rgba(245, 242, 236, 0.17);
+    --line-soft: rgba(245, 242, 236, 0.06);
+    --wash: rgba(245, 242, 236, 0.06);
+    --text: #d8d3d6;
+    --heading: #f5f2ec;
+    /* 7.3 / 6.8 / 6.3:1 on the three surfaces. */
+    --muted: #a7a0a8;
+    --accent: #a99bf0;
+    --on-accent: #121016;
+    --tan: #c09264;
+    --stripe: #f5f2ec;
+    --weave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Cpath d='M0 .5H4M0 2.5H4' stroke='%23f5f2ec' stroke-opacity='.022'/%3E%3Cpath d='M1.5 0V2M3.5 2V4' stroke='%23f5f2ec' stroke-opacity='.01'/%3E%3C/svg%3E");
+    --glow-1: rgba(124, 107, 224, 0.26);
+    --glow-2: rgba(169, 155, 240, 0.14);
+    --glow-3: rgba(166, 127, 86, 0.07);
+    --surface-glow: rgba(140, 122, 235, 0.22);
+    --surface-glow-strong: rgba(140, 122, 235, 0.36);
+    --surface-highlight: rgba(255, 255, 255, 0.1);
+    --surface-sheen: rgba(255, 255, 255, 0.035);
+    --callout-note: #8cb4e0;
+    --callout-tip: #92c388;
+    --callout-important: #bca2e6;
+    --callout-warning: #dbad5a;
+    --callout-caution: #ec8a82;
+    --elev-1:
+      0 1px 2px rgba(0, 0, 0, 0.3),
+      0 4px 12px -3px rgba(0, 0, 0, 0.4);
+    --elev-2:
+      0 2px 6px rgba(0, 0, 0, 0.4),
+      0 16px 32px -14px rgba(0, 0, 0, 0.52);
+    --elev-3:
+      0 4px 12px rgba(0, 0, 0, 0.45),
+      0 30px 60px -22px rgba(0, 0, 0, 0.62);
+  }
 }
 
 *,
@@ -102,18 +219,19 @@
   box-sizing: border-box;
 }
 
+/* Keeps focused elements and fragment targets out from under the sticky header
+   and clear of the back-to-top button. No `scroll-behavior: smooth`: the router
+   (app/router.options.ts) smooths in-page hash jumps only; as a global default
+   it also animated every page change and Back/Forward restore. */
 html {
-  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-offset);
+  scroll-padding-bottom: 88px;
 }
 
 body {
   margin: 0;
   min-width: 320px;
-  background:
-    radial-gradient(72% 42% at 50% -8%, var(--ambient-glow) 0, transparent 60%),
-    linear-gradient(180deg, var(--bg-subtle) 0, var(--bg) 360px),
-    var(--bg);
-  background-attachment: fixed;
+  background-color: var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
   line-height: 1.65;
@@ -121,9 +239,34 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* `height: auto` so a capped width doesn't leave a height attribute's pixel
+   value in place and squash the image; the attributes still reserve the ratio. */
 img {
   display: block;
   max-width: 100%;
+  height: auto;
+}
+
+/* The page glow: soft light pooled at the top of the window, which stays put
+   while the page scrolls, so frosted surfaces pass over it. A fixed layer of its
+   own rather than `background-attachment: fixed`, which repaints the whole
+   viewport on every scroll frame; this one is composited once. A faint grain
+   keeps the gradients from banding. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(70% 45% at 50% -12%, var(--glow-1), transparent 70%),
+    radial-gradient(38% 32% at 100% 0%, var(--glow-2), transparent 72%),
+    radial-gradient(42% 36% at 0% 22%, var(--glow-3), transparent 72%);
+}
+
+/* The weave over the paper (tokens above). */
+body {
+  background-image: var(--weave);
 }
 
 a {
@@ -138,6 +281,15 @@ select {
   font: inherit;
 }
 
+/* JetBrains Mono joins -> and != into single arrows and signs; code should
+   read exactly as typed. */
+code,
+kbd,
+pre,
+samp {
+  font-variant-ligatures: none;
+}
+
 button {
   border: 0;
   background: none;
@@ -146,12 +298,12 @@ button {
 button,
 a {
   transition:
-    color 180ms ease,
-    background-color 180ms ease,
-    border-color 180ms ease,
-    box-shadow 180ms ease,
-    transform 180ms ease,
-    opacity 180ms ease;
+    color 180ms var(--ease-standard),
+    background-color 180ms var(--ease-standard),
+    border-color 180ms var(--ease-standard),
+    box-shadow 180ms var(--ease-standard),
+    transform 180ms var(--ease-standard),
+    opacity 180ms var(--ease-standard);
 }
 
 h1,
@@ -164,7 +316,7 @@ h6 {
   color: var(--heading);
   font-weight: 600;
   line-height: 1.1;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.01em;
 }
 
 p {
@@ -182,32 +334,62 @@ ol {
   outline-offset: 3px;
 }
 
+/* Read by screen readers, not shown: the footnotes' heading, for one. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* 8.0:1 light, 11.8:1 dark. */
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
 .container {
   width: min(100%, var(--page-width));
   margin: 0 auto;
-  padding: 0 28px;
+  padding: 0 var(--gutter);
 }
 
-main {
-  padding: 36px 0 96px;
+/* Sticky footer: short pages (a 2-post archive, the about page) must not leave
+   the footer floating in the middle of the viewport. */
+.site-shell {
+  display: flex;
+  min-height: 100vh;
+  min-height: 100dvh;
+  flex-direction: column;
+}
+
+.site-main {
+  flex: 1 0 auto;
+  /* 36px put a display-size page title right under the sticky header. The
+     bottom value is the single source of space before the footer — components
+     used to add their own on top of it. */
+  padding: var(--stack-block) 0 var(--stack-section);
 }
 
 .surface-card {
   position: relative;
-  border: 1px solid var(--line);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
   background:
     linear-gradient(180deg, var(--surface-sheen) 0, transparent 34%),
-    var(--bg-elevated);
+    var(--glass-card);
   box-shadow:
     inset 0 1px 0 var(--surface-highlight),
-    var(--elev-2);
+    0 0 0 1px var(--line-soft),
+    var(--elev-1);
 }
 
 .eyebrow {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.14em;
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--muted);
 }
@@ -215,20 +397,29 @@ main {
 .text-link {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   color: var(--heading);
-  font-size: 0.95rem;
+  font-size: var(--text-sm);
 }
 
-.text-link:hover {
-  color: var(--accent);
+.text-link .app-icon {
+  width: 14px;
+  height: 14px;
+}
+
+@media (hover: hover) {
+  .text-link:hover {
+    color: var(--accent);
+  }
 }
 
 .home-actions {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: 4px;
+  /* An action, not another line of copy: a wider break than the one above the
+     description (the grid's 14px gap plus this). */
+  margin-top: 8px;
 }
 
 .home-cta-button {
@@ -245,7 +436,7 @@ main {
   border: 0.125rem solid transparent;
   border-radius: 14px;
   color: #f8fafc;
-  font-size: 0.95rem;
+  font-size: var(--text-sm);
   font-weight: 500;
   background:
     linear-gradient(#121213, #121213),
@@ -262,6 +453,9 @@ main {
   background-origin: border-box;
   background-size: 200% auto;
   animation: rainbow-edge-shift var(--rainbow-speed) infinite linear;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 10px 24px -20px rgba(15, 23, 42, 0.3);
   transition:
     transform 180ms ease,
     box-shadow 180ms ease,
@@ -286,9 +480,23 @@ main {
   background-size: 200% auto;
 }
 
-.home-cta-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 12px 28px -24px rgba(15, 23, 42, 0.26);
+.home-cta-button .app-icon {
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+/* Hover rules apply only where a pointer can hover: on touch, :hover sticks
+   after a tap and left controls lifted or filled. */
+@media (hover: hover) {
+  .home-cta-button:hover {
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      0 16px 32px -20px rgba(15, 23, 42, 0.36);
+  }
+
+  .home-cta-button:hover .app-icon {
+    transform: translateX(3px);
+  }
 }
 
 .home-cta-button:active {
@@ -304,10 +512,10 @@ main {
   content: "";
   position: absolute;
   left: 50%;
-  bottom: -20%;
+  bottom: -22%;
   z-index: 0;
-  width: 60%;
-  height: 20%;
+  width: 72%;
+  height: 26%;
   border-radius: 999px;
   transform: translateX(-50%);
   background: linear-gradient(
@@ -319,8 +527,8 @@ main {
     var(--rainbow-color-2)
   );
   background-size: 200% auto;
-  filter: blur(0.75rem);
-  opacity: 0.95;
+  filter: blur(1rem);
+  opacity: 0.55;
   pointer-events: none;
   animation: rainbow-edge-shift var(--rainbow-speed) infinite linear;
 }
@@ -329,20 +537,12 @@ main {
   flex-shrink: 0;
 }
 
-.text-link .app-icon,
-.home-cta-button .app-icon,
-.mobile-nav-link .app-icon {
-  transition: transform var(--dur-base) var(--ease-out);
-}
-
-.text-link:hover .app-icon,
-.home-cta-button:hover .app-icon,
-.mobile-nav-link:hover .app-icon {
-  transform: translateX(3px);
-}
-
-.animate-rise {
-  animation: rise-in 460ms var(--ease-out) both;
+/* Entrance motion for the page a visit opens on. After that, a client-side
+   navigation has its own entrance (the page transition below), and a second
+   rise inside it, on its own timing, read as a stutter. `is-first-load` is set
+   by the inline head script and removed on the first navigation. */
+html.is-first-load .animate-rise {
+  animation: rise-in 560ms var(--ease-out) both;
   animation-delay: var(--delay, 0s);
 }
 
@@ -355,37 +555,132 @@ main {
 }
 
 .has-js .reveal {
-  opacity: 0;
-  translate: 0 18px;
   transition:
     opacity var(--dur-slow) var(--ease-out),
     translate var(--dur-slow) var(--ease-out);
   transition-delay: var(--delay, 0s);
-  will-change: opacity, translate;
 }
 
-.has-js .reveal.reveal-in {
-  opacity: 1;
-  translate: none;
+/* The v-reveal directive adds `.reveal-in`. Content is only held back on
+   screen and when motion is welcome, so print and reduced motion always get
+   it. If the directive never runs (bundle failed, hydration error), the
+   fallback animation shows it anyway, a little after the directive's own
+   timeout would have. */
+@media screen and (prefers-reduced-motion: no-preference) {
+  .has-js .reveal:not(.reveal-in) {
+    opacity: 0;
+    translate: 0 18px;
+    will-change: opacity, translate;
+    animation: reveal-fallback 0s linear 2.5s forwards;
+  }
+}
+
+/* Page changes. Only the content moves: it has a transition name of its own,
+   so the rest of the page (the header, the fixed glow, the footer) stays in the
+   root snapshot, which cross-fades in place. The two root images are blended
+   with plus-lighter, so wherever they are the same, the sum is the same pixel:
+   the header and the glow no longer dimmed halfway, which flashed on every
+   click, and nothing in the root moves, which misaligned them. */
+.site-main {
+  view-transition-name: page;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   ::view-transition-old(root),
   ::view-transition-new(root) {
-    animation-duration: 320ms;
+    animation-duration: 240ms;
+    animation-timing-function: var(--ease-standard);
+    mix-blend-mode: plus-lighter;
+  }
+
+  /* The content's box jumps to its new size rather than morphing: a page of a
+     different height would be stretched on the way. */
+  ::view-transition-group(page) {
+    animation: none;
+  }
+
+  ::view-transition-old(page) {
+    animation: 160ms var(--ease-standard) both vt-page-out;
+  }
+
+  ::view-transition-new(page) {
+    animation: 320ms 60ms var(--ease-out) both vt-page-in;
+  }
+
+  ::view-transition-group(*.post-cover) {
+    animation-duration: 360ms;
     animation-timing-function: var(--ease-out);
   }
 }
 
-@keyframes rise-in {
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* A card's cover morphs into the article's 16:7 one. A stacked card's cover is
+   a full-width band of the same photo (16:9, or a strip where its height is
+   capped), so drawn at the moving box's width and centred the two coincide;
+   the pair clips the taller one to the box. Cropped to the box with
+   `object-fit: cover`, they were scaled differently and the cross-fade showed
+   a doubled photo. */
+::view-transition-image-pair(*.post-cover) {
+  overflow: clip;
+}
+
+::view-transition-old(*.post-cover),
+::view-transition-new(*.post-cover) {
+  inset-block-start: 50%;
+  translate: 0 -50%;
+}
+
+/* A landscape card's 4:3 cover (PostCard, same query) crops the photo's sides
+   too, so at full width its snapshot would draw the photo at 1.35x or more of
+   the article's for the whole morph. Cropped to the box, the two stay within
+   ~10% while the cross-fade is near even and drift apart only as the card's
+   snapshot fades out. */
+@media (min-width: 481px) and (max-width: 760px) {
+  ::view-transition-old(*.post-cover),
+  ::view-transition-new(*.post-cover) {
+    inset-block-start: 0;
+    translate: none;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+@keyframes vt-page-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes vt-page-in {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(8px);
+  }
+}
+
+/* Movement only. Starting from opacity 0 kept the article's cover and title
+   out of LCP until the fade ended, ~0.7s later on a throttled phone. */
+@keyframes rise-in {
+  from {
+    transform: translateY(16px);
   }
 
   to {
-    opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes reveal-fallback {
+  to {
+    opacity: 1;
+    translate: none;
   }
 }
 
@@ -399,20 +694,30 @@ main {
   }
 }
 
+/* ---------------------------------------------------------------- header */
+
+/* The header keeps one height in the flow whatever the pill inside does: when
+   the pill drew in on scroll, the page under it moved up 6px, and near the
+   threshold that moved the scroll position itself, so the header could flip
+   back and forth. */
 .site-header {
   position: sticky;
   top: 16px;
-  z-index: 1000;
-  padding: 0 24px;
-  transition: all 0.5s var(--ease-standard);
+  z-index: var(--z-header);
+  height: var(--header-bar);
+  padding: 0 var(--gutter);
+  transition: top 0.5s var(--ease-standard);
 }
 
+/* A frosted pill with a lit top edge and a soft halo. Once the page scrolls it
+   draws in: narrower, lower, thinner glass with a stronger blur, and a deeper
+   shadow and glow as it floats over the content. */
 .header-inner {
   position: relative;
   overflow: hidden;
   width: 100%;
-  max-width: var(--page-width);
-  height: 56px;
+  max-width: calc(var(--page-width) - 2 * var(--gutter));
+  height: var(--header-bar);
   margin: 0 auto;
   padding: 0 6px 0 16px;
   display: flex;
@@ -420,35 +725,39 @@ main {
   justify-content: space-between;
   gap: 20px;
   border-radius: 999px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--glass-border);
   background: var(--glass);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  /* Unprefixed only: the build adds -webkit- itself. Writing both made lightningcss
+     keep just the prefixed copy, which Chrome ignores — the glass lost its blur.
+     One blur for both states: animating its radius re-rendered the blurred
+     backdrop on every frame and stuttered. The thinner glass once scrolled is
+     what lets more of the page through. */
+  backdrop-filter: blur(24px) saturate(200%);
   box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.02),
+    0 4px 12px rgba(30, 24, 20, 0.03),
     0 20px 40px -34px var(--surface-glow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4);
-  transition: all 0.5s var(--ease-standard);
+    inset 0 1px 0 var(--surface-highlight);
+  transition:
+    max-width 0.5s var(--ease-standard),
+    height 0.5s var(--ease-standard),
+    background-color 0.5s var(--ease-standard),
+    border-color 0.5s var(--ease-standard),
+    box-shadow 0.5s var(--ease-standard);
 }
 
-:root[data-theme='dark'] .header-inner {
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.2),
-    0 22px 42px -34px var(--surface-glow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
+/* The lit edge along the top. */
 .header-inner::before {
   content: "";
   position: absolute;
+  top: 0;
   left: 20px;
   right: 20px;
-  top: 0;
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--surface-highlight), transparent);
   pointer-events: none;
 }
 
+/* The halo behind the brand. */
 .header-inner::after {
   content: "";
   position: absolute;
@@ -459,7 +768,7 @@ main {
   border-radius: 999px;
   background: radial-gradient(circle, var(--surface-glow) 0, transparent 72%);
   filter: blur(16px);
-  opacity: 0.72;
+  opacity: 0.8;
   pointer-events: none;
 }
 
@@ -472,27 +781,36 @@ main {
   top: 12px;
 }
 
+/* The thinner glass lets whatever scrolls underneath through, a bright photo
+   included, so the labels take the body-text colour to stay legible over it. */
+.site-header.is-scrolled .nav-link:not(.active) {
+  color: var(--text);
+}
+
 .site-header.is-scrolled .header-inner {
-  max-width: calc(var(--page-width) - 60px);
+  max-width: calc(var(--page-width) - 2 * var(--gutter) - 60px);
   height: 50px;
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(32px) saturate(240%);
-  -webkit-backdrop-filter: blur(32px) saturate(240%);
-  border-color: rgba(0, 0, 0, 0.08);
-  box-shadow: 
-    0 16px 40px -8px rgba(0, 0, 0, 0.08),
-    0 24px 50px -38px var(--surface-glow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+  background: var(--glass-scrolled);
+  border-color: var(--glass-border);
+  box-shadow:
+    0 16px 40px -8px rgba(30, 24, 20, 0.1),
+    0 24px 50px -36px var(--surface-glow-strong),
+    inset 0 1px 0 var(--surface-highlight),
     inset 0 0 0 1px rgba(255, 255, 255, 0.2);
 }
 
+:root[data-theme='dark'] .header-inner {
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.2),
+    0 22px 42px -34px var(--surface-glow),
+    inset 0 1px 0 var(--surface-highlight);
+}
+
 :root[data-theme='dark'] .site-header.is-scrolled .header-inner {
-  background: rgba(18, 22, 28, 0.55);
-  border-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 
+  box-shadow:
     0 16px 40px -8px rgba(0, 0, 0, 0.6),
-    0 24px 50px -36px var(--surface-glow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 24px 50px -36px var(--surface-glow-strong),
+    inset 0 1px 0 var(--surface-highlight),
     inset 0 0 0 1px rgba(255, 255, 255, 0.02);
 }
 
@@ -502,58 +820,32 @@ main {
   gap: 12px;
   min-width: 0;
   color: var(--heading);
-  font-size: 1.05rem;
-  font-weight: 700;
+  font-size: var(--text-md);
+  font-weight: 600;
   letter-spacing: -0.01em;
-  transition: transform 0.4s var(--ease-standard);
 }
 
-.brand:hover {
-  transform: translateY(-1px);
-}
-
+/* The logo (assets/brand/logo.svg): a matte red disc sunk into a matte tan
+   block, the name's Y softly raised in gold. It keeps its colours in both
+   themes, and does not move on hover, so nothing in the header jitters. */
 .brand-mark {
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  background: linear-gradient(135deg, var(--heading), var(--muted));
-  color: var(--bg);
-  font-family: var(--font-mono);
-  font-size: 1rem;
-  font-weight: 800;
-  transition: all 0.5s var(--ease-spring);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  display: block;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  filter:
+    drop-shadow(0 0.5px 0.5px rgba(40, 24, 10, 0.28))
+    drop-shadow(0 1.5px 2.5px rgba(40, 24, 10, 0.1));
 }
 
 :root[data-theme='dark'] .brand-mark {
-  border-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.55));
 }
 
-.brand-mark-core {
-  width: 10px;
-  height: 10px;
-  background: var(--bg);
-  border-radius: 2px;
-  transform: rotate(45deg);
-  transition: all 0.5s var(--ease-standard);
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
-}
-
-.brand:hover .brand-mark {
-  transform: translateY(-1px) scale(1.04);
-  border-radius: 10px;
-  box-shadow:
-    0 10px 24px -18px var(--surface-glow-strong),
-    inset 0 1px 0 rgba(255, 255, 255, 0.22);
-}
-
-.brand:hover .brand-mark-core {
-  transform: rotate(45deg) scale(1.08);
-  border-radius: 4px;
+.brand-mark svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .brand-name {
@@ -564,289 +856,479 @@ main {
   display: flex;
   align-items: center;
   gap: 4px;
-  position: relative;
 }
 
+/* The current page keeps the same weight as the rest, so the labels never
+   shift; colour and the bar below mark it. */
 .nav-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 8px 14px;
   border-radius: 999px;
   color: var(--muted);
-  font-size: 0.92rem;
+  font-size: var(--text-sm);
   font-weight: 500;
-  position: relative;
-  transition: all 0.4s var(--ease-standard);
-  display: flex;
-  justify-content: center;
+  transition: color var(--dur-fast) var(--ease-standard);
 }
 
-.nav-link-text {
-  display: inline-block;
-  position: relative;
-  z-index: 2;
-  transition: transform 0.4s var(--ease-standard), color 0.4s;
-}
-
-.nav-link:hover .nav-link-text {
-  transform: translateY(-1px);
+.nav-link.active {
   color: var(--heading);
 }
 
-.nav-link.active .nav-link-text {
-  color: var(--heading);
-  font-weight: 600;
+@media (hover: hover) {
+  .nav-link:hover {
+    color: var(--heading);
+  }
 }
 
-/* Exquisite Glowing Line */
+/* The current page: a short glowing bar that grows out from the middle. */
 .nav-link::after {
   content: "";
   position: absolute;
   bottom: 2px;
   left: 50%;
-  transform: translateX(-50%) scaleX(0);
   width: 12px;
   height: 2px;
   border-radius: 2px;
   background: var(--heading);
-  transition: all 0.4s var(--ease-standard);
   opacity: 0;
-}
-
-.nav-link:hover::after {
-  transform: translateX(-50%) scaleX(1);
-  opacity: 0.3;
-  background: var(--muted);
+  transform: translateX(-50%) scaleX(0);
+  transition:
+    transform var(--dur-base) var(--ease-standard),
+    opacity var(--dur-base) var(--ease-standard);
 }
 
 .nav-link.active::after {
-  transform: translateX(-50%) scaleX(1.2);
   opacity: 1;
-  background: var(--heading);
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+  transform: translateX(-50%) scaleX(1.2);
+  box-shadow: 0 -2px 8px rgba(30, 24, 20, 0.25);
 }
 
 :root[data-theme='dark'] .nav-link.active::after {
-  box-shadow: 0 -2px 8px rgba(255, 255, 255, 0.4);
+  box-shadow: 0 -2px 10px rgba(255, 255, 255, 0.45);
+}
+
+@media (hover: hover) {
+  .nav-link:not(.active):hover::after {
+    opacity: 0.35;
+    transform: translateX(-50%) scaleX(1);
+  }
 }
 
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
 }
 
-.icon-btn {
-  width: 36px;
-  height: 36px;
+/* One quiet icon button everywhere: the header's, the dialog's close and the
+   footer's social links. */
+.icon-btn,
+.footer-social-link {
   display: grid;
   place-items: center;
-  border-radius: 999px;
+  width: 40px;
+  height: 40px;
   border: 1px solid transparent;
+  border-radius: 999px;
   color: var(--muted);
   cursor: pointer;
-  position: relative;
-  transition: all 0.4s var(--ease-standard);
+  transition:
+    color var(--dur-fast) var(--ease-standard),
+    background-color var(--dur-fast) var(--ease-standard),
+    box-shadow var(--dur-base) var(--ease-standard);
 }
 
-.icon-btn::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: var(--heading);
-  opacity: 0;
-  transform: scale(0.8);
-  transition: all 0.4s var(--ease-standard);
-  z-index: -1;
+@media (hover: hover) {
+  .icon-btn:hover,
+  .footer-social-link:hover {
+    color: var(--heading);
+    background: var(--glass-strong);
+    box-shadow:
+      inset 0 1px 0 var(--surface-highlight),
+      0 0 0 1px var(--line),
+      0 8px 20px -10px var(--surface-glow-strong);
+  }
 }
 
-.icon-btn:hover {
-  color: var(--bg);
-  transform: translateY(-2px);
+.icon-btn:active,
+.footer-social-link:active {
+  background: var(--line);
 }
 
-.icon-btn:active {
-  transform: translateY(0) scale(0.94);
+/* One glyph per theme; the choice is CSS-only so SSR output is theme-agnostic. */
+.theme-icon--dark {
+  display: none;
 }
 
-.icon-btn:hover::before {
-  opacity: 1;
-  transform: scale(1);
-  box-shadow: var(--shadow-soft);
-  border: 1px solid var(--line);
+:root[data-theme='dark'] .theme-icon--light {
+  display: none;
+}
+
+:root[data-theme='dark'] .theme-icon--dark {
+  display: block;
 }
 
 .mobile-toggle {
   display: none;
 }
 
+/* Heavy frosted glass: the locked page shows through only as colour. */
 .mobile-nav-overlay {
   width: min(100%, var(--page-width));
   margin: 12px auto 0;
-  padding: 16px;
-  border: 1px solid var(--line);
+  padding: 8px;
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
-  background: var(--glass);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  box-shadow: var(--shadow-card);
+  background: var(--glass-strong);
+  backdrop-filter: blur(28px) saturate(200%);
+  box-shadow:
+    inset 0 1px 0 var(--surface-highlight),
+    var(--elev-3),
+    0 30px 60px -40px var(--surface-glow-strong);
 }
 
 .mobile-nav-content {
   display: grid;
-  gap: 8px;
 }
 
-.mobile-nav-link,
-.mobile-search-trigger {
-  width: 100%;
+.mobile-nav-link {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 14px 16px;
-  border-radius: var(--radius-sm);
-  background: var(--bg-elevated);
+  min-height: 48px;
+  padding: 12px;
+  border-radius: var(--radius-xs);
   color: var(--heading);
 }
 
+/* Hairlines between the rows, kept off the current row's fill. */
+.mobile-nav-link + .mobile-nav-link::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  inset-inline: 12px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.mobile-nav-link.active::before,
+.mobile-nav-link.active + .mobile-nav-link::before {
+  display: none;
+}
+
 .mobile-nav-link.active {
-  background: var(--accent-soft);
+  background: var(--wash);
+  font-weight: 600;
 }
 
-.mobile-nav-footer {
-  padding-top: 8px;
+@media (hover: hover) {
+  .mobile-nav-link:hover {
+    background: var(--wash);
+  }
 }
 
-.home-page,
-.reading-container {
-  width: 100%;
-}
+/* ---------------------------------------------------------------- home */
 
 .home-page {
   display: block;
+  width: 100%;
 }
 
 .home-hero {
-  display: block;
-  margin-bottom: 40px;
   position: relative;
+  margin-bottom: var(--stack-section);
   isolation: isolate;
 }
 
-.home-hero::before {
-  content: "";
-  position: absolute;
-  left: -4%;
-  top: -96px;
-  width: min(820px, 80vw);
-  height: min(420px, 42vw);
-  background:
-    radial-gradient(circle at 30% 38%, var(--hero-glow) 0, transparent 52%);
-  filter: blur(12px);
-  opacity: 0.9;
-  pointer-events: none;
-  z-index: -1;
-}
-
+/* The headline takes the full column: a sentence this long in 720px ran to
+   four lines on a wide screen, where it now sets on two. */
 .home-copy {
   display: grid;
   gap: 14px;
-  padding: 14px 0 0;
-  max-width: 620px;
 }
 
+/* Book weight and near-default spacing: at high optical sizes Fraunces is
+   already set tight, and 500 with negative tracking crowded the letters. */
 .home-title {
   font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(2.5rem, 6vw, 4.4rem);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
+  font-weight: 400;
+  font-size: var(--text-display-1);
+  line-height: 1.04;
+  letter-spacing: -0.01em;
   text-wrap: balance;
 }
 
+/* At phone sizes the display face turns thin at 400 (same rule as the about,
+   archive and error titles). */
+@media (max-width: 640px) {
+  .home-title {
+    font-weight: 500;
+  }
+}
+
+/* The accented phrase in the display face's own italic, in the violet. The
+   block lettering lives on the name beside the hero instead: on a lowercase
+   phrase it read as an outlined font. The italic's last letter leans past its
+   box, hence the sliver of padding. */
+.home-title em {
+  font-style: italic;
+  letter-spacing: -0.005em;
+  padding-inline-end: 0.04em;
+  color: var(--accent);
+}
+
+/* A soft light pooled behind the headline, under the page glow's brightest
+   spot. `isolation` on .home-hero keeps it behind the text. */
+.home-hero::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -12%;
+  left: -6%;
+  width: min(760px, 90%);
+  height: 130%;
+  border-radius: 50%;
+  background:
+    radial-gradient(closest-side at 40% 45%, var(--glow-1), transparent),
+    radial-gradient(closest-side at 70% 60%, var(--glow-2), transparent);
+  filter: blur(40px);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+/* The accented phrase is read as one; split over two lines it read as two
+   accents. A phone keeps the break, or the phrase would overflow. */
+@media (min-width: 641px) {
+  .home-title em {
+    white-space: nowrap;
+  }
+}
+
+/* The one lead style: the line under a page title. */
+.home-description,
+.article-lead {
+  font-size: var(--text-md);
+  line-height: 1.55;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
 .home-description {
-  max-width: 32rem;
-  font-size: 1rem;
-  color: var(--muted);
+  max-width: 40rem;
 }
 
-.post-card-meta,
-.reading-meta,
-.result-topline,
-.pagination-status {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-  font-family: var(--font-mono);
-  font-size: 0.76rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
+/* LARRY in padded block letters (assets/brand/larry.svg, from
+   scripts/brand/lettering.py): off-white blocks, one constant-width red cord
+   that also lines the A and R counters, tonal double stitching, stepping up
+   and leaning back toward the end of the word. It is the hero's signature:
+   its bottom on the CTA's bottom line, its right edge on the content edge,
+   so the hero keeps its height. The colours are set here, per theme, and the
+   inlined SVG reads them. */
+.name-mark {
+  --nm-face: #eee9e2;
+  --nm-face-hi: #f6f3ee;
+  --nm-face-lo: #e3ddd4;
+  --nm-cord: #a5303a;
+  --nm-cord-lit: #c24a55;
+  --nm-cord-deep: #86131f;
+  --nm-edge: #5a1a1e;
+  --nm-edge-a: 0.35;
+  --nm-lip: #e58f97;
+  --nm-lip-a: 0.8;
+  --nm-crease: #4a0710;
+  --nm-crease-a: 0.35;
+  --nm-thread: #a0968c;
+  --nm-thread-a: 0.9;
+  --nm-ridge-a: 0.9;
+  --nm-puff-shade: #cfc6be;
+  --nm-puff-shade-a: 0.95;
+  --nm-puff-hi: #f9f7f3;
+  --nm-puff-hi-a: 0.9;
+  /* The largest letter's cap height; the word is 6.048 caps wide and 4.592
+     times as wide as tall (lettering.py prints both). */
+  --nm-cap: 28px;
+  position: relative;
+  z-index: 0;
+  display: none;
+  width: calc(var(--nm-cap) * 6.048);
+  pointer-events: none;
 }
 
-.feature-cover,
-.reading-cover {
-  overflow: hidden;
-  border-radius: calc(var(--radius-md) - 4px);
-  border: 1px solid var(--line);
-  background: var(--bg-subtle);
+:root[data-theme='dark'] .name-mark {
+  --nm-face: #cec6b8;
+  --nm-face-hi: #d9d2c6;
+  --nm-face-lo: #c2b9aa;
+  --nm-cord: #a52a35;
+  --nm-cord-lit: #bd4853;
+  --nm-cord-deep: #7e121d;
+  --nm-edge: #000;
+  --nm-edge-a: 0.45;
+  --nm-lip: #d9868e;
+  --nm-lip-a: 0.6;
+  --nm-crease: #3a050c;
+  --nm-crease-a: 0.4;
+  --nm-thread: #857b71;
+  --nm-ridge-a: 0.4;
+  --nm-puff-shade: #9f9587;
+  --nm-puff-shade-a: 0.9;
+  --nm-puff-hi: #ddd7cc;
+  --nm-puff-hi-a: 0.7;
 }
 
-.feature-cover img {
-  aspect-ratio: 16 / 10;
+.name-mark svg {
+  display: block;
   width: 100%;
-  object-fit: cover;
+  height: auto;
+  aspect-ratio: 4.592;
+  overflow: visible;
+}
+
+/* A faint pool of the page's violet light behind it, never past its right
+   edge, so the sail is not tinted and the page never scrolls sideways. */
+.name-mark::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -30% 0 -10% -10%;
+  border-radius: 50%;
+  background:
+    radial-gradient(closest-side at 50% 46%, var(--glow-1), transparent 100%),
+    radial-gradient(closest-side at 30% 62%, var(--glow-2), transparent 100%);
+  filter: blur(20px);
+  opacity: 0.25;
+}
+
+.name-mark .nm-edge { fill: none; stroke: var(--nm-edge); stroke-opacity: var(--nm-edge-a); }
+.name-mark .nm-lip { fill: none; stroke: var(--nm-lip); stroke-opacity: var(--nm-lip-a); }
+.name-mark .nm-crease { fill: none; stroke: var(--nm-crease); stroke-opacity: var(--nm-crease-a); }
+.name-mark .nm-ridge { fill: none; stroke: #fff; stroke-opacity: var(--nm-ridge-a); stroke-linecap: round; }
+.name-mark .nm-thread { fill: none; stroke: var(--nm-thread); stroke-opacity: var(--nm-thread-a); stroke-linecap: round; }
+
+/* The tonal stitching resolves only on 2x screens at these cap heights; on a
+   1x screen it would be grey fuzz. */
+.name-mark .nm-stitch {
+  display: none;
+}
+
+@media (min-resolution: 2dppx) and (min-width: 640px) {
+  .name-mark .nm-stitch {
+    display: inline;
+  }
+}
+
+/* Phones: on the CTA's row, bottoms aligned. Hidden below 375px, where the
+   room beside the CTA runs out. */
+@media (min-width: 375px) {
+  .home-copy {
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 16px;
+  }
+
+  .home-title {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .home-description {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .home-actions {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .name-mark {
+    display: block;
+    grid-column: 2;
+    grid-row: 3;
+    align-self: end;
+    justify-self: end;
+  }
+}
+
+/* Wider: beside the lead and the CTA. */
+@media (min-width: 640px) {
+  .home-copy {
+    column-gap: 32px;
+  }
+
+  .home-description {
+    grid-column: 1;
+  }
+
+  .name-mark {
+    --nm-cap: clamp(34px, 5vw, 44px);
+    grid-row: 2 / span 2;
+  }
+
+  .name-mark::before {
+    opacity: 0.35;
+  }
+}
+
+@media (min-width: 960px) {
+  .home-copy {
+    column-gap: 48px;
+  }
+
+  .name-mark {
+    --nm-cap: clamp(40px, 2.4vw + 16px, 52px);
+  }
 }
 
 .section-block {
   display: grid;
-  gap: 14px;
+  gap: var(--stack-group);
 }
 
+/* On one baseline at every width, wrapping only when the two no longer fit. */
 .section-head {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  align-items: baseline;
   justify-content: space-between;
-  gap: 16px;
+  gap: 8px 16px;
 }
 
 .section-head h2 {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: 1.5rem;
-  letter-spacing: -0.015em;
+  font-size: var(--text-2xl);
+  letter-spacing: -0.01em;
 }
 
 .post-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
+  /* Shared by the home page and both archives. PostCard's cover `sizes` assumes
+     these tracks (auto-fit from 300px, a 2x2 for exactly four cards, a 36rem
+     lone card, one column at <=760px) — update it together with these rules. */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 18px;
 }
 
-.home-outro {
-  margin-top: 80px;
-  padding-top: 30px;
-  border-top: 1px solid var(--line);
-  display: grid;
-  gap: 14px;
-  max-width: 40rem;
+/* Quantity query: exactly four cards sit 3 + 1 in a three-up grid, so they
+   get a full-width 2x2 instead of leaving one orphaned on its own row. Two
+   fixed tracks rather than a wider auto-fit minimum, which fell to a single
+   column between 761 and ~920px. Single column at <=760px (below). */
+.post-grid:has(> :nth-child(4):last-child) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.home-outro-text {
-  color: var(--muted);
-  font-size: 1.05rem;
-  line-height: 1.65;
-  text-wrap: pretty;
+/* A filtered archive with one result keeps a card's usual size, on the left,
+   instead of stretching it into a banner across the page. */
+.post-grid:has(> :only-child) {
+  grid-template-columns: minmax(0, 36rem);
 }
 
-.article-page {
-  padding-top: 0;
-}
+/* ---------------------------------------------------------------- article */
 
 .article-hero {
   text-align: left;
-  padding: 0 0 16px;
+  padding: 0;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -854,60 +1336,91 @@ main {
 
 .article-title {
   font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(1.9rem, 3.6vw, 2.75rem);
-  line-height: 1.14;
-  letter-spacing: -0.015em;
+  font-weight: 400;
+  font-size: var(--text-display-3);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
   color: var(--heading);
-  margin: 0 0 8px;
+  margin: 0 0 var(--stack-tight);
   text-wrap: balance;
 }
 
+/* The hero is a flex column sized to its content, so an unbreakable token (an
+   API name, an env var) set the title's minimum width and ran off a phone
+   screen. `anywhere` lowers that minimum, not just where the line breaks. */
+.article-title,
 .article-lead {
-  font-size: 1.05rem;
-  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.article-lead {
+  margin: 0 0 16px;
   line-height: 1.5;
-  margin: 0 0 12px;
-  max-width: none;
 }
 
 .article-meta {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: flex-start;
-  gap: 10px;
+  gap: 4px 10px;
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: var(--text-xs);
   color: var(--muted);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--tracking-label);
 }
 
-.meta-divider {
-  color: var(--line-strong);
+/* Only `npm run dev` shows a draft. */
+.article-meta .meta-draft {
+  color: var(--accent);
 }
 
+/* Drawn inside the item it precedes, so a wrapped line never ends on a
+   dangling dot; below 640px the row wraps and the gap alone separates the
+   facts. The empty alt text keeps the dot out of the line's accessible text;
+   the plain `content` is for browsers without alt text. */
+.article-meta .meta-item + .meta-item::before {
+  content: "·";
+  content: "·" / "";
+  margin-inline-end: 10px;
+  color: var(--muted);
+  opacity: 0.55;
+}
+
+/* The cover is optional, so the gap under it belongs to the prose: without a
+   cover the first heading sat flush against the header or the contents' rule. */
 .article-cover-wrapper {
-  margin: 0 0 24px;
-  padding: 0;
-  max-width: none;
+  margin-top: var(--stack-block);
 }
 
+.article-main > .prose {
+  margin-top: var(--stack-block);
+}
+
+/* The card's radius, so the cover's corners hold through the morph from it. */
 .article-cover-img {
   width: 100%;
-  aspect-ratio: 16 / 7;
+  aspect-ratio: 5 / 2;
   object-fit: cover;
-  border-radius: var(--radius-sm);
-  box-shadow: 0 8px 24px -12px var(--surface-glow);
+  border-radius: var(--radius-md);
   border: 1px solid var(--line);
+  box-shadow:
+    var(--elev-2),
+    0 30px 70px -40px var(--surface-glow-strong);
 }
 
+/* Already inside the layout's `.container`; re-declaring the width and padding
+   here stacked a second 20px gutter and pushed the article 20px off the edge
+   every other page aligns to. */
 .article-container {
-  max-width: min(100%, var(--page-width));
-  margin: 0 auto;
-  padding: 0 20px;
+  width: 100%;
 }
 
+/* The article spans the page between the header's two edges: the column takes
+   whatever the contents list leaves, and text, code, tables and images all
+   share its edges. With the text alone capped at a narrow measure, every
+   paragraph ended 200px short of the code blocks and the contents list. */
 .article-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -917,24 +1430,123 @@ main {
 
 .article-layout.has-sidebar {
   grid-template-columns: minmax(0, 1fr) 220px;
-  gap: 32px;
+  gap: 56px;
 }
 
+/* Flex column so the section margins below are exact. In normal flow the
+   prose's trailing margin collapsed into the next block's margin-top, which is
+   why two gaps both set to 80px measured 64 and 96. */
 .article-main {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   min-width: 0;
   width: 100%;
+  /* Only binds without a contents list: then the column would otherwise run
+     the whole page wide. */
+  max-width: var(--measure);
 }
 
+/* Comments (GiscusComments): the frame around giscus's iframe, which draws
+   itself with the site's own theme (public/giscus/). No rule of its own: the
+   post navigation above already closes the article with one. */
 .article-comments {
-  margin-top: 32px;
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
+  max-width: var(--measure);
+  margin-top: var(--stack-block);
+}
+
+/* Title and "Reply by email" on one line, like "Latest posts" and "View all". */
+.comments-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 24px;
+  margin-bottom: var(--stack-tight);
 }
 
 .comments-title {
-  font-size: 1.15rem;
-  margin-bottom: 16px;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  line-height: 1.3;
   color: var(--heading);
+}
+
+/* A frosted panel with a lit edge and a halo, like the header. giscus draws its
+   own surfaces inside it as thin glass (public/giscus/). */
+.comments-panel {
+  position: relative;
+  padding: 18px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(180deg, var(--surface-sheen) 0, transparent 40%),
+    var(--glass-card);
+  backdrop-filter: blur(20px) saturate(170%);
+  box-shadow:
+    inset 0 1px 0 var(--surface-highlight),
+    0 0 0 1px var(--line-soft),
+    var(--elev-2),
+    0 30px 70px -40px var(--surface-glow-strong);
+}
+
+/* The halo sits behind the panel, not in it: the panel's backdrop-filter makes
+   it a stacking context, so a pseudo-element of its own would paint over its
+   fill. The section is not one, so its pseudo-element goes under the panel. */
+.article-comments {
+  position: relative;
+}
+
+.article-comments::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 40px;
+  left: 10%;
+  width: 80%;
+  height: 160px;
+  border-radius: 999px;
+  background: radial-gradient(closest-side, var(--surface-glow-strong), transparent);
+  filter: blur(30px);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .comments-panel {
+    padding: 12px;
+    border-radius: var(--radius-md);
+  }
+}
+
+/* The widget keeps its space from the start and fades in once giscus has
+   drawn it (its first resize message), so the page does not jump under the
+   reader and no half-drawn frame flashes. */
+.comments-frame {
+  display: block;
+  width: 100%;
+  min-height: 150px;
+  border: 0;
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-standard);
+}
+
+.comments-body.is-ready .comments-frame {
+  opacity: 1;
+}
+
+.comments-note {
+  color: var(--muted);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+
+.comments-note a {
+  color: var(--heading);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  text-underline-offset: 3px;
 }
 
 .article-sidebar {
@@ -948,13 +1560,77 @@ main {
   gap: 10px;
 }
 
-.toc-title {
+.toc-title,
+.article-toc-inline > summary {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: var(--text-xs);
   color: var(--muted);
-  letter-spacing: 0.1em;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
+}
+
+.toc-title {
   margin-bottom: 2px;
+}
+
+/* Below 1100px the rail gives way to this disclosure under the article
+   header, where the contents are still of use before reading. */
+.article-toc-inline {
+  display: none;
+  max-width: var(--measure);
+  margin-top: var(--stack-group);
+  border-block: 1px solid var(--line);
+}
+
+.article-toc-inline > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 40px;
+  list-style: none;
+  cursor: pointer;
+}
+
+.article-toc-inline > summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Alt text as for the meta dots: the summary is named "On this page". */
+.article-toc-inline > summary::after {
+  content: "+";
+  content: "+" / "";
+  display: inline-block;
+  font-size: var(--text-base);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.article-toc-inline[open] > summary::after {
+  transform: rotate(45deg);
+}
+
+/* Where the browser can animate <details>, the list unfolds instead of
+   appearing at once. Elsewhere it opens as before. */
+@supports selector(::details-content) {
+  .article-toc-inline {
+    interpolate-size: allow-keywords;
+  }
+
+  .article-toc-inline::details-content {
+    block-size: 0;
+    overflow-y: clip;
+    transition:
+      block-size var(--dur-base) var(--ease-out),
+      content-visibility var(--dur-base) allow-discrete;
+  }
+
+  .article-toc-inline[open]::details-content {
+    block-size: auto;
+  }
+}
+
+.article-toc-inline .toc-container {
+  margin-bottom: var(--stack-tight);
 }
 
 .toc-container {
@@ -993,47 +1669,104 @@ main {
   position: relative;
   color: var(--muted);
   line-height: 1.4;
-  transition: color 0.2s ease, transform 0.2s ease;
-  font-size: 0.9rem;
+  /* A heading with a long identifier in it would otherwise spill out of the
+     220px column, or widen the article from the inline contents below 1100px. */
+  overflow-wrap: anywhere;
+  transition:
+    color var(--dur-fast) var(--ease-standard),
+    transform var(--dur-base) var(--ease-out);
+  font-size: var(--text-sm);
 }
 
-.toc-link:hover {
-  color: var(--heading);
+/* A hovered entry leans toward the track. A transform, so nothing re-wraps. */
+@media (hover: hover) {
+  .toc-link:hover {
+    color: var(--heading);
+    transform: translateX(3px);
+  }
 }
 
+/* Colour only: a weight change re-wrapped long entries as the reader scrolled.
+   The track carries the rest. */
 .toc-link.is-active {
   color: var(--accent);
-  font-weight: 500;
-  transform: translateX(2px);
 }
 
-.toc-link.is-active::before {
-  content: "";
+/* The current entry's bar (ContentTOC places it): the header's current-page
+   bar stood on end, gliding from entry to entry with the same glow. The track
+   above it is lit, fading in from the top: the part of the post already read. */
+.toc-fill,
+.toc-marker {
   position: absolute;
   top: 0;
-  bottom: 0;
-  left: -16px;
-  width: 2px;
-  background: var(--accent);
-  border-radius: 2px;
+  pointer-events: none;
 }
 
-.toc-link--child {
-  font-size: 0.85rem;
+.toc-fill {
+  left: 0;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--accent) 8%, transparent),
+    color-mix(in srgb, var(--accent) 55%, transparent)
+  );
 }
+
+.toc-marker {
+  left: -0.5px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+  box-shadow:
+    0 0 6px color-mix(in srgb, var(--accent) 55%, transparent),
+    0 0 14px var(--surface-glow-strong);
+  opacity: 0;
+}
+
+.toc-marker.is-shown {
+  opacity: 1;
+}
+
+.toc-container.is-animated :is(.toc-fill, .toc-marker) {
+  transition:
+    transform var(--dur-slow) var(--ease-out),
+    height var(--dur-slow) var(--ease-out),
+    opacity var(--dur-base) var(--ease-standard);
+}
+
+/* ---------------------------------------------------------------- prose */
 
 .prose {
-  max-width: none;
   color: var(--text);
-  font-size: 1rem;
-  line-height: 1.65;
-  word-wrap: break-word;
+  font-size: var(--text-prose);
+  line-height: var(--prose-leading);
+  overflow-wrap: break-word;
 }
 
-.prose > * + * {
-  margin-top: 1.1em;
+/* Where the prose sits in a wider box (the about page), the text keeps the
+   measure. In an article the column is the measure already. */
+.prose :is(p, ul, ol, blockquote, h1, h2, h3, h4, h5, h6, hr, .prose-heading) {
+  max-width: var(--measure);
 }
 
+/* An image on its own is looked at rather than read. */
+.prose p:has(> img:only-child) {
+  max-width: none;
+}
+
+/* An image on its own or in a figure: natural size up to the column, and never
+   taller than most of a screen. Stretched to the column, a portrait gel photo
+   stood 1000px tall and a small chart blurred. The paragraph or figure carries
+   the spacing; the image's own margins would collapse through it and outlive
+   the first/last-child resets. */
+.prose :is(p > img:only-child, figure img) {
+  display: block;
+  width: auto;
+  max-height: min(85vh, 44rem);
+  margin: 0;
+}
+
+/* A heading sits nearer the text it opens than the text it closes. */
 .prose h1,
 .prose h2,
 .prose h3 {
@@ -1041,9 +1774,9 @@ main {
   color: var(--heading);
   font-weight: 500;
   line-height: 1.22;
-  letter-spacing: -0.015em;
-  margin-top: 1.7em;
-  margin-bottom: 0.6em;
+  letter-spacing: 0;
+  margin-top: 1.45em;
+  margin-bottom: 0.45em;
 }
 
 .prose h4,
@@ -1053,18 +1786,37 @@ main {
   font-weight: 600;
   line-height: 1.3;
   letter-spacing: -0.01em;
-  margin-top: 1.6em;
-  margin-bottom: 0.6em;
+  margin-top: 1.4em;
+  margin-bottom: 0.4em;
 }
 
-.prose h1 { font-size: 2.1rem; letter-spacing: -0.02em; }
-.prose h2 { font-size: 1.55rem; padding-bottom: 0.3em; border-bottom: 1px solid var(--line); }
-.prose h3 { font-size: 1.28rem; }
-.prose h4 { font-size: 1.1rem; }
+.prose h1 { font-size: var(--text-2xl); letter-spacing: -0.01em; }
+.prose h2 { font-size: var(--text-xl); }
+.prose h3 { font-size: var(--text-lg); }
+.prose h4 { font-size: var(--text-md); }
 
 .prose p {
-  margin-top: 1em;
-  margin-bottom: 1em;
+  margin-top: var(--prose-gap);
+  margin-bottom: var(--prose-gap);
+  text-wrap: pretty;
+}
+
+/* After `.prose p`, and held at its specificity by :where(), so the first- and
+   last-child resets below still win for an image that opens or ends a post. */
+.prose p:where(:has(> img:only-child)) {
+  margin-block: var(--stack-group);
+}
+
+/* The first and last blocks' outer margins would otherwise sit inside the
+   prose box, so the gaps to the cover above and to the prev/next rule below
+   varied with whatever a post opens or ends with. Shiki appends a <style> to
+   the rendered content, hence `of :not(style)`. */
+.prose > * > :nth-child(1 of :not(style)) {
+  margin-top: 0;
+}
+
+.prose > * > :nth-last-child(1 of :not(style)) {
+  margin-bottom: 0;
 }
 
 .prose strong {
@@ -1072,55 +1824,56 @@ main {
   font-weight: 600;
 }
 
-.prose a {
+/* Body links only; a heading's permalink keeps the heading's look. */
+.prose a:not(.prose-heading-link) {
   color: var(--heading);
   text-decoration: underline;
-  text-decoration-color: rgba(49, 74, 138, 0.25);
-  text-underline-offset: 4px;
-  text-decoration-thickness: 2px;
-  transition: all 0.3s ease;
-  border-radius: 2px;
+  text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition:
+    color var(--dur-fast) var(--ease-standard),
+    text-decoration-color var(--dur-fast) var(--ease-standard);
 }
 
-:root[data-theme='dark'] .prose a {
-  text-decoration-color: rgba(184, 199, 255, 0.25);
-}
-
-.prose a:hover {
-  color: var(--accent);
-  text-decoration-color: var(--accent);
-  background: rgba(49, 74, 138, 0.06);
-  padding: 0 2px;
-  margin: 0 -2px;
-}
-
-:root[data-theme='dark'] .prose a:hover {
-  background: rgba(184, 199, 255, 0.08);
+@media (hover: hover) {
+  .prose a:not(.prose-heading-link):hover {
+    color: var(--accent);
+    text-decoration-color: currentColor;
+  }
 }
 
 .prose ul,
 .prose ol {
-  padding-left: 1.5rem;
-  margin-top: 1.25em;
-  margin-bottom: 1.25em;
+  padding-left: 1.3rem;
+  margin-top: var(--prose-gap);
+  margin-bottom: var(--prose-gap);
 }
 
-.prose li {
-  margin-top: 0.5em;
+/* Between items only: on the first item the margin collapsed through its list
+   and survived the list's own first-child reset. */
+.prose li + li {
+  margin-top: 0.3em;
 }
 
 .prose li::marker {
   color: var(--muted);
 }
 
+.prose blockquote :is(code, .prose-pre-wrapper) {
+  font-style: normal;
+}
+
 .prose blockquote {
-  margin: 1.6em 0;
-  padding: 1.2em 1.4em;
-  border-left: 4px solid var(--accent);
-  background: var(--bg-subtle);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  color: var(--text);
+  margin: 1.3em 0;
+  padding: 0 0 0 1.25em;
+  border-left: 2px solid var(--accent);
+  color: var(--heading);
+  font-family: var(--font-display);
   font-style: italic;
+  font-size: var(--text-md);
+  line-height: 1.55;
+  letter-spacing: -0.005em;
 }
 
 .prose blockquote p:first-child { margin-top: 0; }
@@ -1130,89 +1883,387 @@ main {
   border: 0;
   height: 1px;
   background: var(--line);
-  margin: 2.5em 0;
+  margin: 2em 0;
 }
 
 .prose img {
+  max-width: 100%;
+  height: auto;
   border-radius: var(--radius-md);
   border: 1px solid var(--line);
-  box-shadow: 0 16px 32px -16px var(--surface-glow);
-  margin: 2em auto;
+}
+
+/* Embeds are capped like images; a pasted 960px video or 560px player used to
+   run off a phone, or under the sticky TOC on desktop. An iframe has no
+   intrinsic ratio, so it takes the width and keeps 16:9. */
+.prose :is(iframe, video, embed) {
   display: block;
   max-width: 100%;
+  margin: 1.5em 0;
+  border: 0;
 }
 
+.prose video {
+  height: auto;
+}
+
+.prose iframe {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+
+/* A tint and the face mark it; a border made a field of boxes of a technical
+   paragraph. Each line of a wrapped token gets its own rounded ends. */
 .prose code:not(pre code) {
-  padding: 0.2em 0.4em;
-  border-radius: 6px;
-  background: var(--bg-subtle);
+  /* Tight horizontal padding plus a negative margin so inline code does not
+     visibly detach from adjacent punctuation. */
+  padding: 0.1em 0.3em;
+  margin: 0 -0.06em;
+  border-radius: var(--radius-xs);
+  background: var(--wash);
   color: var(--heading);
   font-family: var(--font-mono);
-  font-size: 0.88em;
-  border: 1px solid var(--line);
+  font-size: 0.85em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
+/* `font-family` too: the UA's `code { font-family: monospace }` otherwise beats
+   the family the block inherits, and code blocks rendered in Menlo. */
 .prose pre code {
   background: transparent;
   padding: 0;
   border: 0;
   color: inherit;
+  font-family: inherit;
   font-size: inherit;
 }
 
+/* ProseTable's wrapper is the scroller, so a table wider than the column pans
+   inside it instead of widening the whole page on phones, and ProseTable can
+   tell when to make it a focusable region. It also carries the margin, so the
+   first/last-child resets reach a table that opens or ends a post. */
+.prose-table-wrapper {
+  max-width: 100%;
+  overflow-x: auto;
+  margin: 1.5em 0;
+}
+
+/* Fills the column and wraps its cells; only a table whose narrowest layout is
+   still wider than the column overflows into the wrapper's scroll. Ruled, not
+   boxed: hairlines between rows, a stronger one under the header. */
 .prose table {
   width: 100%;
-  margin: 2em 0;
   border-collapse: collapse;
-  font-size: 0.95em;
+  font-size: 0.875em;
+  font-variant-numeric: tabular-nums;
 }
 
 .prose th,
 .prose td {
-  padding: 0.75em 1em;
-  border: 1px solid var(--line);
+  padding: 0.5em 1em 0.5em 0;
+  border-bottom: 1px solid var(--line);
   text-align: left;
+  vertical-align: top;
+}
+
+.prose :is(th, td):last-child {
+  padding-right: 0;
+}
+
+/* The alignment a divider row asks for (`---:`, `:---:`). The rule above would
+   otherwise beat the cells' align attribute, and numbers never lined up. */
+.prose :is(th, td)[align="right"] {
+  text-align: right;
+}
+
+.prose :is(th, td)[align="center"] {
+  text-align: center;
 }
 
 .prose th {
-  background: var(--bg-subtle);
+  border-bottom-color: var(--line-strong);
   color: var(--heading);
   font-weight: 600;
 }
 
-.prose tr:nth-child(even) {
+/* ---------------------------------------------------------------- research notes */
+
+/* Formulas (KaTeX, rendered at build time). KaTeX's own 1.21em suits 10pt
+   paper; at the prose size it towered over the text around it. */
+.prose .katex {
+  font-size: 1.06em;
+}
+
+/* Display math is centred on the text measure, not on the wider column the
+   code and images use, and a long equation scrolls instead of widening the
+   page. The padding keeps tall glyphs clear of the scroll box's clip. */
+.prose .katex-display {
+  max-width: var(--measure);
+  margin: 1.1em 0;
+  padding: 0.2em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.prose .katex-display > .katex {
+  font-size: 1.15em;
+}
+
+/* Callouts: `> [!NOTE]`, `> [!TIP]`, `> [!IMPORTANT]`, `> [!WARNING]`,
+   `> [!CAUTION]`, as GitHub and Obsidian write them. */
+.prose .callout {
+  --callout: var(--callout-note);
+  max-width: var(--measure);
+  margin: 1.3em 0;
+  padding: 0.7em 1em;
+  border-left: 2px solid var(--callout);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: color-mix(in srgb, var(--callout) 6%, transparent);
+}
+
+.prose .callout-tip { --callout: var(--callout-tip); }
+.prose .callout-important { --callout: var(--callout-important); }
+.prose .callout-warning { --callout: var(--callout-warning); }
+.prose .callout-caution { --callout: var(--callout-caution); }
+
+.prose .callout-title {
+  margin: 0 0 0.15em;
+  color: var(--callout);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.prose .callout > :is(p, ul, ol) {
+  margin-block: 0.45em;
+}
+
+.prose .callout > :nth-child(2) {
+  margin-top: 0;
+}
+
+.prose .callout > :last-child {
+  margin-bottom: 0;
+}
+
+/* Figures: an image with a title, or a ::figure block. Left-aligned like the
+   text, with the caption on the measure under it. */
+.prose figure {
+  margin: var(--stack-group) 0;
+}
+
+.prose figcaption {
+  max-width: var(--measure);
+  margin-top: 0.6em;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+/* Footnotes. The references stay small and off the line height; the notes
+   close the text under a hairline. */
+.prose sup {
+  line-height: 0;
+}
+
+.prose a[data-footnote-ref] {
+  padding-inline: 0.12em;
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  text-decoration: none;
+}
+
+.prose .footnotes {
+  max-width: var(--measure);
+  margin-top: var(--stack-block);
+  padding-top: var(--stack-tight);
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.8125rem;
+  line-height: 1.55;
+}
+
+.prose .footnotes ol {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.prose .footnotes li {
+  padding: 0.2em 0.5em;
+  margin-left: -0.5em;
+  border-radius: var(--radius-xs);
+  transition: background-color var(--dur-base) var(--ease-standard);
+}
+
+.prose .footnotes li + li {
+  margin-top: 0.15em;
+}
+
+.prose .footnotes li:target {
+  background: var(--wash);
+}
+
+.prose .footnotes :is(p, code) {
+  margin: 0;
+}
+
+.prose a.data-footnote-backref {
+  margin-left: 0.3em;
+  text-decoration: none;
+}
+
+/* Collapsible sections: raw <details><summary> in the Markdown. The marker
+   matches the article's inline table of contents. */
+.prose details {
+  max-width: var(--measure);
+  margin: 1.6em 0;
+  padding: 0.7em 0;
+  border-block: 1px solid var(--line);
+}
+
+.prose summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--heading);
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+.prose summary::-webkit-details-marker {
+  display: none;
+}
+
+.prose summary::after {
+  content: "+" / "";
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-weight: 400;
+}
+
+.prose details[open] > summary::after {
+  content: "\2212" / "";
+}
+
+.prose details > :nth-child(2) {
+  margin-top: 0.6em;
+}
+
+.prose details > :last-child {
+  margin-bottom: 0;
+}
+
+.prose kbd {
+  padding: 0.1em 0.4em;
+  border: 1px solid var(--line-strong);
+  border-bottom-width: 2px;
+  border-radius: var(--radius-xs);
+  background: var(--bg-elevated);
+  color: var(--heading);
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  white-space: nowrap;
+}
+
+/* Task lists: `- [x] done`, `- [ ] to do`. Drawn rather than native: the
+   boxes are disabled, and browsers grey a disabled box out to near invisible. */
+.prose .contains-task-list {
+  padding-left: 0;
+  list-style: none;
+}
+
+.prose .task-list-item input {
+  appearance: none;
+  position: relative;
+  width: 1em;
+  height: 1em;
+  margin: 0 0.65em 0 0;
+  vertical-align: -0.14em;
+  border: 1.5px solid var(--line-strong);
+  border-radius: 4px;
   background: var(--bg-elevated);
 }
 
+.prose .task-list-item input:checked {
+  border-color: var(--heading);
+  background: var(--heading);
+}
+
+.prose .task-list-item input:checked::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 8.5l3 3 6-7'/%3E%3C/svg%3E") center / 100% no-repeat;
+}
+
+/* A formula and the punctuation touching it break as one. */
+.prose .nowrap {
+  white-space: nowrap;
+}
+
+/* Highlighted code lines ({2-4} after the language). Each line is a block as
+   wide as the longest one, so the fill spans the whole block, into its padding,
+   even when it scrolls. */
+.prose pre code {
+  display: block;
+  min-width: max-content;
+}
+
+.prose pre .line {
+  display: block;
+}
+
+.prose pre .line.highlight {
+  margin-inline: calc(-1 * var(--code-pad));
+  padding-inline: var(--code-pad);
+  background: var(--wash);
+  box-shadow: inset 2px 0 var(--accent);
+}
+
+/* ---------------------------------------------------------------- search */
+
+/* Anchored to the top, so the field stays put as results arrive and clear of
+   a phone's keyboard. */
 .search-backdrop {
+  --search-top: clamp(16px, 12vh, 128px);
   position: fixed;
   inset: 0;
-  z-index: 1200;
+  z-index: var(--z-overlay);
   display: grid;
-  place-items: center;
-  padding: 24px;
-  background: rgba(15, 23, 42, 0.42);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  place-items: start center;
+  padding: var(--search-top) 16px 16px;
+  background: rgba(30, 24, 20, 0.3);
+  backdrop-filter: blur(10px) saturate(140%);
+}
+
+:root[data-theme='dark'] .search-backdrop {
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .search-modal {
   position: relative;
   width: min(100%, 720px);
-  max-width: 720px;
-  max-height: min(720px, calc(100vh - 48px));
+  max-height: min(720px, calc(100vh - var(--search-top) - 16px));
+  max-height: min(720px, calc(100dvh - var(--search-top) - 16px));
   overflow: auto;
   overscroll-behavior: contain;
-  padding: 24px;
-  border: 1px solid var(--line);
+  padding: 20px;
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   background:
     linear-gradient(180deg, var(--surface-sheen) 0, transparent 30%),
-    var(--bg-elevated);
+    var(--glass-strong);
+  backdrop-filter: blur(28px) saturate(200%);
   box-shadow:
     inset 0 1px 0 var(--surface-highlight),
-    var(--shadow-card),
-    0 30px 80px -44px var(--surface-glow-strong);
+    var(--elev-3),
+    0 30px 80px -40px var(--surface-glow-strong);
 }
 
 .search-head {
@@ -1223,7 +2274,10 @@ main {
 }
 
 .search-head h2 {
-  font-size: 1.35rem;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  letter-spacing: 0;
 }
 
 .search-field {
@@ -1232,19 +2286,19 @@ main {
   gap: 12px;
   margin-top: 16px;
   padding: 0 16px;
-  min-height: 54px;
+  min-height: 48px;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: var(--bg);
-  box-shadow: inset 0 1px 0 var(--surface-highlight);
 }
 
+/* The input drops its own outline so the ring can wrap the whole pill. It is an
+   outline, like every other focus ring: the old 4px tinted shadow measured
+   1.13:1, and forced colors removes shadows altogether. */
 .search-field:focus-within {
   border-color: var(--line-strong);
-  box-shadow:
-    inset 0 1px 0 var(--surface-highlight),
-    0 0 0 4px var(--accent-soft),
-    0 18px 36px -28px var(--focus-glow);
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .search-field input {
@@ -1260,42 +2314,51 @@ main {
   color: var(--muted);
 }
 
-.search-results {
-  margin-top: 18px;
+/* Chrome and Safari draw their own clear button in the system blue. */
+.search-field input::-webkit-search-cancel-button {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  background-color: var(--muted);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.25' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6 6 18'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
+@media (hover: hover) {
+  .search-field input::-webkit-search-cancel-button:hover {
+    background-color: var(--heading);
+  }
+}
+
+.search-results {
+  margin-top: 16px;
+}
+
+/* Rows between hairlines, not boxes. */
 .search-grid {
   display: grid;
-  gap: 10px;
 }
 
+.search-grid > li + li {
+  border-top: 1px solid var(--line-soft);
+}
+
+/* The negative margin lines the text up with the field and title while the
+   hover fill reaches into the dialog's padding; it stays within the padding
+   with the focus ring included. */
 .search-result {
-  width: 100%;
   display: grid;
-  gap: 8px;
-  text-align: left;
-  padding: 16px;
-  border: 1px solid var(--line);
+  gap: 4px;
+  margin-inline: -10px;
+  padding: 12px 10px;
   border-radius: var(--radius-sm);
-  background: var(--bg);
-  cursor: pointer;
+  text-align: left;
 }
 
-.search-result:hover {
-  border-color: var(--line-strong);
-  background: var(--bg-elevated);
-  box-shadow:
-    inset 0 1px 0 var(--surface-highlight),
-    var(--elev-2);
-}
-
-.search-result h3 {
-  font-size: 1.05rem;
-  line-height: 1.25;
-}
-
-.result-arrow {
-  color: var(--muted);
+@media (hover: hover) {
+  .search-result:hover {
+    background: var(--wash);
+  }
 }
 
 .search-empty {
@@ -1306,29 +2369,16 @@ main {
 
 .comment-status {
   padding: 18px 20px;
+  overflow-wrap: anywhere;
 }
 
-.reading-comments {
-  display: grid;
-  gap: 14px;
-}
-
-.reading-comments-head {
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--line);
-}
-
-.reading-comments-title {
-  color: var(--heading);
-  font-size: 1rem;
-  font-weight: 600;
-}
+/* ---------------------------------------------------------------- back to top */
 
 .reading-progress {
   position: fixed;
-  right: 28px;
-  bottom: calc(24px + env(safe-area-inset-bottom));
-  z-index: 1250;
+  right: var(--gutter);
+  bottom: calc(var(--float-bottom) + env(safe-area-inset-bottom));
+  z-index: var(--z-float);
   opacity: 0;
   transform: translateY(12px) scale(0.9);
   pointer-events: none;
@@ -1341,37 +2391,44 @@ main {
   pointer-events: auto;
 }
 
+/* The progress track is the button's edge: one ring, and the arc the only
+   thing that moves. */
 .progress-ring-btn {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: var(--bg-elevated);
-  box-shadow: var(--elev-2);
+  background: var(--glass-strong);
+  backdrop-filter: blur(16px) saturate(180%);
+  box-shadow:
+    inset 0 1px 0 var(--surface-highlight),
+    var(--elev-2),
+    0 12px 28px -14px var(--surface-glow-strong);
   cursor: pointer;
-  transition: all 0.4s var(--ease-standard);
-  border: 1px solid var(--line);
+  transition:
+    transform var(--dur-base) var(--ease-standard),
+    box-shadow var(--dur-base) var(--ease-standard);
 }
 
-.progress-ring-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--elev-3);
-  border-color: var(--line-strong);
-  background: var(--glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+@media (hover: hover) {
+  .progress-ring-btn:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 var(--surface-highlight),
+      var(--elev-2),
+      0 16px 32px -12px var(--surface-glow-strong);
+  }
 }
 
 .progress-ring-svg {
   position: absolute;
-  top: -1px;
-  left: -1px;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   transform: rotate(-90deg);
-  width: 56px;
-  height: 56px;
   pointer-events: none;
 }
 
@@ -1386,288 +2443,584 @@ main {
 }
 
 .progress-ring-icon {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   color: var(--muted);
-  transition: color 0.4s, transform 0.4s var(--ease-standard);
+  transition: color var(--dur-fast) var(--ease-standard);
 }
 
-.progress-ring-btn:hover .progress-ring-icon {
-  color: var(--heading);
-  transform: translateY(-2px);
+@media (hover: hover) {
+  .progress-ring-btn:hover .progress-ring-icon {
+    color: var(--heading);
+  }
 }
+
+/* ---------------------------------------------------------------- footer */
 
 .site-footer {
-  position: relative;
-  margin-top: 64px;
-  padding: 30px 0 44px;
-  border-top: 1px solid var(--line);
+  padding-bottom: 20px;
 }
 
-.site-footer::before {
+/* At the foot of an article the back-to-top button (fixed, 44px) comes to rest
+   at the end of the footer row, level with the social links: the footer's
+   bottom padding puts the row's centre where the button's centre is. It used
+   to hold 92px of empty space under the row to keep the button off the links. */
+.site-main:has(.reading-progress) + .site-footer {
+  padding-bottom: calc(var(--float-bottom) + 22px - var(--footer-row) / 2 + env(safe-area-inset-bottom));
+}
+
+/* Where the column reaches the button's edge, the links leave it room at the
+   end of the row: the 44px button and about the gap between two glyphs. */
+@media (max-width: 1307px) {
+  .site-main:has(.reading-progress) + .site-footer .footer-social {
+    margin-inline-end: 48px;
+  }
+}
+
+/* One row under a hairline. The rule is drawn on the content column, like
+   every other rule on the page, not across the whole window. */
+.footer-inner {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding-top: 20px;
+}
+
+.footer-inner::before {
   content: "";
   position: absolute;
-  left: 50%;
-  top: -1px;
-  width: min(520px, 58vw);
-  height: 1px;
-  transform: translateX(-50%);
-  background: linear-gradient(90deg, transparent, var(--footer-glow), transparent);
-  box-shadow: 0 0 24px 2px var(--footer-glow);
+  top: 0;
+  inset-inline: var(--gutter);
+  border-top: 1.5px solid var(--stripe);
+}
+
+/* Under the ink rule above, a thin band of speckled tan. */
+.footer-inner::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  inset-inline: var(--gutter);
+  height: 6px;
+  border-radius: 999px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='6'%3E%3Ccircle cx='81.4' cy='3.4' r='0.75' fill='%233a2410' fill-opacity='0.56'/%3E%3Ccircle cx='34.2' cy='4.8' r='0.75' fill='%233a2410' fill-opacity='0.54'/%3E%3Ccircle cx='16.9' cy='1.8' r='0.4' fill='%233a2410' fill-opacity='0.57'/%3E%3Ccircle cx='114.2' cy='3.6' r='0.75' fill='%23fff3dc' fill-opacity='0.50'/%3E%3Ccircle cx='110.8' cy='0.9' r='0.4' fill='%23fff3dc' fill-opacity='0.32'/%3E%3Ccircle cx='6.4' cy='5.3' r='0.4' fill='%23fff3dc' fill-opacity='0.40'/%3E%3Ccircle cx='106.4' cy='1.2' r='0.5' fill='%233a2410' fill-opacity='0.45'/%3E%3Ccircle cx='119.2' cy='2.7' r='0.6' fill='%233a2410' fill-opacity='0.47'/%3E%3Ccircle cx='167.7' cy='0.5' r='0.6' fill='%233a2410' fill-opacity='0.37'/%3E%3Ccircle cx='52.0' cy='0.4' r='0.4' fill='%233a2410' fill-opacity='0.55'/%3E%3Ccircle cx='69.6' cy='5.7' r='0.4' fill='%233a2410' fill-opacity='0.58'/%3E%3Ccircle cx='9.4' cy='2.3' r='0.75' fill='%233a2410' fill-opacity='0.47'/%3E%3Ccircle cx='35.7' cy='4.0' r='0.6' fill='%233a2410' fill-opacity='0.40'/%3E%3Ccircle cx='173.5' cy='4.5' r='0.4' fill='%233a2410' fill-opacity='0.51'/%3E%3Ccircle cx='2.0' cy='2.8' r='0.75' fill='%233a2410' fill-opacity='0.47'/%3E%3Ccircle cx='80.5' cy='1.1' r='0.5' fill='%233a2410' fill-opacity='0.42'/%3E%3Ccircle cx='71.1' cy='5.9' r='0.4' fill='%233a2410' fill-opacity='0.59'/%3E%3Ccircle cx='144.6' cy='1.8' r='0.4' fill='%233a2410' fill-opacity='0.42'/%3E%3Ccircle cx='153.8' cy='3.9' r='0.4' fill='%233a2410' fill-opacity='0.34'/%3E%3Ccircle cx='79.5' cy='0.1' r='0.6' fill='%23fff3dc' fill-opacity='0.42'/%3E%3Ccircle cx='13.4' cy='1.3' r='0.5' fill='%233a2410' fill-opacity='0.41'/%3E%3Ccircle cx='112.0' cy='0.8' r='0.75' fill='%23fff3dc' fill-opacity='0.34'/%3E%3Ccircle cx='69.5' cy='3.8' r='0.6' fill='%23fff3dc' fill-opacity='0.55'/%3E%3Ccircle cx='44.9' cy='1.1' r='0.5' fill='%233a2410' fill-opacity='0.42'/%3E%3Ccircle cx='86.9' cy='0.5' r='0.4' fill='%233a2410' fill-opacity='0.31'/%3E%3Ccircle cx='173.3' cy='1.4' r='0.75' fill='%233a2410' fill-opacity='0.55'/%3E%3Ccircle cx='107.4' cy='1.8' r='0.5' fill='%23fff3dc' fill-opacity='0.59'/%3E%3Ccircle cx='22.8' cy='2.9' r='0.4' fill='%233a2410' fill-opacity='0.58'/%3E%3Ccircle cx='36.7' cy='0.1' r='0.6' fill='%233a2410' fill-opacity='0.37'/%3E%3Ccircle cx='8.4' cy='1.7' r='0.5' fill='%233a2410' fill-opacity='0.34'/%3E%3Ccircle cx='81.1' cy='2.0' r='0.5' fill='%233a2410' fill-opacity='0.58'/%3E%3Ccircle cx='85.5' cy='2.1' r='0.6' fill='%23fff3dc' fill-opacity='0.31'/%3E%3Ccircle cx='114.5' cy='2.9' r='0.6' fill='%233a2410' fill-opacity='0.60'/%3E%3Ccircle cx='13.5' cy='3.3' r='0.4' fill='%23fff3dc' fill-opacity='0.52'/%3E%3Ccircle cx='126.7' cy='4.8' r='0.6' fill='%233a2410' fill-opacity='0.51'/%3E%3Ccircle cx='162.2' cy='5.2' r='0.75' fill='%23fff3dc' fill-opacity='0.31'/%3E%3Ccircle cx='90.0' cy='0.1' r='0.75' fill='%233a2410' fill-opacity='0.30'/%3E%3Ccircle cx='13.0' cy='0.5' r='0.4' fill='%23fff3dc' fill-opacity='0.56'/%3E%3Ccircle cx='131.1' cy='2.3' r='0.75' fill='%233a2410' fill-opacity='0.55'/%3E%3Ccircle cx='15.1' cy='4.5' r='0.4' fill='%233a2410' fill-opacity='0.33'/%3E%3Ccircle cx='4.0' cy='5.7' r='0.4' fill='%233a2410' fill-opacity='0.48'/%3E%3Ccircle cx='165.7' cy='1.5' r='0.4' fill='%233a2410' fill-opacity='0.34'/%3E%3Ccircle cx='110.1' cy='3.1' r='0.6' fill='%233a2410' fill-opacity='0.43'/%3E%3Ccircle cx='160.5' cy='2.0' r='0.6' fill='%233a2410' fill-opacity='0.43'/%3E%3Ccircle cx='145.1' cy='5.5' r='0.5' fill='%233a2410' fill-opacity='0.47'/%3E%3Ccircle cx='57.0' cy='0.8' r='0.75' fill='%233a2410' fill-opacity='0.57'/%3E%3C/svg%3E") 0 0 / 180px 6px, var(--tan);
+  box-shadow: inset 0 -1px 2px rgba(60, 38, 18, 0.22);
   pointer-events: none;
-}
-
-.footer-inner {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 24px;
-  align-items: end;
-}
-
-.footer-brand {
-  display: grid;
-  gap: 8px;
-}
-
-.footer-kicker {
-  margin: 0;
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: 0.76rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
 }
 
 .footer-copy {
   color: var(--muted);
-  font-size: 0.95rem;
-  max-width: 34rem;
+  font-size: var(--text-sm);
 }
 
+/* The negative margin, half the space the 40px button leaves around its 18px
+   glyph, puts the last glyph, not its button, on the column edge. The touch
+   block at the end of the file redoes it for 44px buttons. */
 .footer-social {
   display: flex;
+  gap: 4px;
+  margin-inline-end: -11px;
+}
+
+/* ---------------------------------------------------------------- article furniture */
+
+.article-kicker {
+  display: inline-flex;
+  align-items: center;
   gap: 6px;
-  margin-top: 16px;
-}
-
-.footer-social-link {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 999px;
+  margin-bottom: var(--stack-tight);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
   color: var(--muted);
-  border: 1px solid var(--line);
-  background: var(--bg-elevated);
-  transition:
-    color var(--dur-fast) var(--ease-standard),
-    border-color var(--dur-fast) var(--ease-standard),
-    background-color var(--dur-fast) var(--ease-standard),
-    transform var(--dur-fast) var(--ease-standard),
-    box-shadow var(--dur-fast) var(--ease-standard);
 }
 
-.footer-social-link:hover {
-  color: var(--heading);
-  border-color: var(--line-strong);
-  transform: translateY(-2px);
-  box-shadow: var(--elev-1);
+@media (hover: hover) {
+  .article-kicker:hover {
+    color: var(--accent);
+  }
 }
 
-.footer-social-link:active {
-  transform: translateY(0) scale(0.94);
-}
-
-.footer-nav {
+/* "Tagged" and the tags: a quiet line closing the text. */
+.article-tags {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 0;
-}
-
-.footer-link {
-  position: relative;
-  padding: 4px 0 4px 18px;
+  align-items: baseline;
+  gap: 4px 14px;
+  max-width: var(--measure);
+  margin-top: var(--stack-group);
   color: var(--muted);
-  font-size: 0.94rem;
+  font-size: var(--text-sm);
 }
 
-.footer-link::before {
-  content: "/";
-  position: absolute;
-  left: 7px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--line-strong);
+.article-tag {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 
-.footer-link:first-child {
-  padding-left: 0;
+@media (hover: hover) {
+  .article-tag:hover {
+    color: var(--accent);
+    text-decoration-color: currentColor;
+  }
 }
 
-.footer-link:first-child::before {
-  display: none;
+/* Plain links under the section rule: a mono label over a serif title. */
+.article-nav {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--stack-group) 32px;
+  margin-top: var(--stack-block);
+  padding-top: var(--stack-group);
+  border-top: 1px solid var(--line);
 }
 
-.footer-link:hover {
+.article-nav-link {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+}
+
+.article-nav-link.is-next {
+  text-align: right;
+}
+
+.article-nav-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.article-nav-link.is-next .article-nav-label {
+  justify-content: flex-end;
+}
+
+.article-nav-title {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 500;
+  line-height: 1.3;
   color: var(--heading);
+  transition: color var(--dur-fast) var(--ease-standard);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 
-.wl-editor,
-.wl-panel,
-.wl-card {
-  border-radius: var(--radius-sm);
+@media (hover: hover) {
+  .article-nav-link:hover .article-nav-title {
+    color: var(--accent);
+  }
 }
 
-.wl-editor,
-.wl-input {
-  background: var(--bg-elevated);
+/* ---------------------------------------------------------------- heading anchors */
+
+/* The heading text is itself the permalink (ProseH2-4), so the heading's
+   accessible name is just its text, and the heading stays a plain block: the
+   flex layout the old separate anchor needed dropped the spaces around inline
+   code and split long headings into side-by-side columns. */
+.prose-heading {
+  position: relative;
+  overflow-wrap: anywhere;
 }
 
-.wl-panel {
-  background: transparent;
+.prose-heading-link {
+  color: inherit;
+  text-decoration: none;
 }
 
-.wl-border,
-.wl-editor,
-.wl-input {
-  border-color: var(--line) !important;
+@media (hover: hover) {
+  .prose-heading-link:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.18em;
+  }
 }
 
-.wl-panel {
-  border: none !important;
+/* A decorative "#" hung in the left gutter. Narrower layouts have no gutter,
+   so it is not rendered there; the empty alt text keeps it out of the
+   heading's accessible name. */
+@media (min-width: 1181px) {
+  .prose-heading-link::before {
+    content: "#" / "";
+    position: absolute;
+    right: 100%;
+    padding-right: 0.35em;
+    color: var(--muted);
+    font-weight: 400;
+    opacity: 0;
+    transition: opacity var(--dur-fast) var(--ease-standard);
+  }
+
+  .prose-heading-link:focus-visible::before {
+    opacity: 1;
+  }
+
+  @media (hover: hover) {
+    .prose-heading-link:hover::before {
+      opacity: 1;
+    }
+  }
 }
 
-.wl-count,
-.wl-meta,
-.wl-empty {
-  color: var(--muted) !important;
-}
+/* ---------------------------------------------------------------- responsive */
 
+/* Widest to narrowest, so a narrower breakpoint always wins: the 1100px grid
+   rule used to sit last and undo the 760px single column on phones. */
 @media (max-width: 1100px) {
-  .post-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .article-layout {
-    grid-template-columns: 1fr;
-  }
-
+  /* `minmax(0, …)` as in the base rule: an `auto` minimum let a long
+     unbreakable word widen the article. */
   .article-layout.has-sidebar {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
+  /* Stacked, the rail landed after the article, where it navigated nothing. */
   .article-sidebar {
-    position: static;
+    display: none;
+  }
+
+  .article-toc-inline {
+    display: block;
   }
 }
 
 @media (max-width: 860px) {
+  :root {
+    --gutter: 20px;
+  }
+
   .site-header {
-    padding: 12px 16px 0;
+    height: calc(12px + var(--header-bar));
+    padding: 12px var(--gutter) 0;
   }
 
-  .container {
-    padding: 0 20px;
+  /* The column is the pill's width here, so it draws in from the sides. */
+  .site-header.is-scrolled .header-inner {
+    max-width: calc(100% - 16px);
   }
 
-  .nav-links,
-  .hide-mobile {
+  .nav-links {
     display: none;
   }
 
   .mobile-toggle {
     display: grid;
   }
+}
 
-  .post-grid {
+@media (max-width: 760px) {
+  .post-grid,
+  .post-grid:has(> :nth-child(4):last-child),
+  .post-grid:has(> :only-child) {
     grid-template-columns: 1fr;
-  }
-
-  .pagination {
-    flex-direction: column;
-    align-items: stretch;
   }
 }
 
 @media (max-width: 640px) {
-  .container {
-    padding: 0 16px;
+  /* The same tiers one step tighter: at desktop values the gaps read as empty
+     bands on a phone rather than as grouping. */
+  :root {
+    --gutter: 16px;
+    --stack-tight: 8px;
+    --stack-group: 20px;
+    --stack-block: 26px;
+    --stack-section: 40px;
+    --text-md: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.3125rem;
+    --code-size: 0.78125rem;
+    --code-pad: 12px;
   }
 
-  main {
-    padding: 28px 0 72px;
+  .post-grid {
+    gap: 14px;
+  }
+
+  :root {
+    --header-bar: 58px;
   }
 
   .header-inner {
-    min-height: 58px;
     padding: 0 10px 0 14px;
   }
 
   .brand-name {
-    font-size: 0.96rem;
+    font-size: var(--text-sm);
   }
 
-  .home-title,
-  .page-title,
-  .article-title {
-    letter-spacing: -0.04em;
+  .brand-mark {
+    width: 30px;
+    height: 30px;
   }
 
-  .article-hero {
-    padding: 12px 0 24px;
+  /* About two word spaces, so the facts still read as separate. */
+  .article-meta {
+    column-gap: 18px;
   }
 
-  .page-title {
-    max-width: none;
+  .article-meta .meta-item + .meta-item::before {
+    display: none;
   }
 
-  .post-card,
-  .article-sheet,
+  /* Near the top edge and nearly full width. */
+  .search-backdrop {
+    --search-top: calc(8px + env(safe-area-inset-top));
+    padding-inline: 8px;
+    padding-bottom: 8px;
+  }
+
   .search-modal {
-    padding: 18px;
+    padding: 16px;
+    border-radius: var(--radius-md);
   }
 
-  .article-title {
-    max-width: none;
+  :root {
+    --float-bottom: 16px;
   }
 
-  .reading-progress {
-    right: 16px;
-    bottom: calc(16px + env(safe-area-inset-bottom));
-  }
-
-  .section-head {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-.site-footer {
-    margin-top: 48px;
-    padding: 24px 0 36px;
-  }
-
-  .footer-inner {
+  .article-nav {
     grid-template-columns: 1fr;
-    gap: 14px;
-    align-items: start;
   }
 
-  .footer-nav {
+  /* The placeholder that keeps a lone Next in the right-hand column would
+     only add a gap above it here. */
+  .article-nav > :empty {
+    display: none;
+  }
+
+  .article-nav-link.is-next,
+  .article-nav-link.is-next .article-nav-label {
+    text-align: left;
     justify-content: flex-start;
-    margin-left: -2px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
   *,
   *::before,
   *::after {
     animation: none !important;
     transition: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------- forced colors */
+
+@media (forced-colors: active) {
+  /* The page glow is decoration over the system Canvas. */
+  body::before {
+    display: none;
+  }
+
+  /* The logo and the name are pictures, drawn in their materials' colours. */
+  .brand-mark,
+  .name-mark {
+    forced-color-adjust: none;
+  }
+
+  /* The grain is a url(), which forced colors leaves in place, textured over
+     the system Canvas. */
+  body {
+    background-image: none;
+  }
+
+  /* Current-location markers and the TOC rail are backgrounds, which forced
+     colors paints over with Canvas. Author system colours are kept. */
+  .nav-link.active::after,
+  .toc-marker {
+    background: CanvasText;
+  }
+
+  .toc-fill {
+    background: GrayText;
+  }
+
+  /* The drawn task-list boxes: the fill is the only sign of a checked one. */
+  .prose .task-list-item input {
+    forced-color-adjust: none;
+    border-color: CanvasText;
+    background: Canvas;
+  }
+
+  .prose .task-list-item input:checked {
+    background: CanvasText;
+  }
+
+  .prose .task-list-item input:checked::before {
+    background: Canvas;
+  }
+
+  .toc-track {
+    background: GrayText;
+  }
+
+  /* Not a Highlight fill: forced colors put a Canvas backplate behind the
+     label, the same colour as HighlightText, so the current row's name
+     vanished. A frame marks it instead; the padding gives back its width. */
+  .mobile-nav-link.active {
+    border: 2px solid CanvasText;
+    padding: 10px;
+  }
+
+  /* SVG keeps its author colour under forced colors; take the system one. */
+  .progress-ring-icon,
+  .progress-ring-btn:hover .progress-ring-icon,
+  .progress-ring-fill {
+    color: inherit;
+  }
+
+  .progress-ring-bg {
+    color: GrayText;
+  }
+}
+
+/* ---------------------------------------------------------------- print */
+
+@media print {
+  body::before {
+    display: none;
+  }
+
+  /* Chrome, not content. The sticky header printed wherever the reader had
+     scrolled to, over a line of text, and an article ended on an extra sheet
+     of buttons, a TOC without page numbers and the comment box. Important
+     because a component's scoped rule (PaginationBar's `display: flex`)
+     outranks a bare class. */
+  .site-header,
+  .reading-progress,
+  .search-backdrop,
+  .article-sidebar,
+  .article-toc-inline,
+  .article-nav,
+  .article-comments,
+  .pagination,
+  .site-footer,
+  .name-mark {
+    display: none !important;
+  }
+
+  /* A table wider than the column would be cut off at its scroll box. */
+  .prose-table-wrapper {
+    overflow: visible;
+  }
+
+  /* Paper is static; anything caught mid-animation would print faded. */
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .site-main {
+    padding: 0;
+  }
+
+  .prose :is(h2, h3, h4) {
+    break-after: avoid;
+  }
+
+  /* Code wraps rather than being cut off at the edge of the page. */
+  .prose .prose-pre-wrapper pre {
+    overflow: visible;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  /* The palette is light on paper (see the dark tokens); Shiki's own dark
+     rule outranks a plain `.shiki span`, so it is undone here. */
+  :root.dark .shiki span {
+    color: var(--shiki-default);
+  }
+
+  /* Backgrounds are not printed: the CTA label lost its fill. */
+  .home-cta-button,
+  :root[data-theme='dark'] .home-cta-button {
+    background: none;
+    border-color: var(--line-strong);
+    box-shadow: none;
+    color: var(--heading);
+  }
+
+  .home-cta-button::before {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------- touch targets */
+
+/* Measured on a 375px viewport: the header's three controls were 36x36, social
+   links 38x38 and footer links 31px tall — all under the 44px guideline, and
+   these are the entire mobile navigation. Kept last in the file so the sizes
+   are not undone by the component rules above, and scoped to coarse pointers so
+   the desktop proportions are untouched. */
+@media (pointer: coarse) {
+  :root {
+    --footer-row: 44px;
+  }
+
+  .icon-btn,
+  .footer-social-link {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* (44 - 18) / 2: the last glyph stays on the column edge. */
+  .footer-social {
+    margin-inline-end: -13px;
+  }
+
+  .brand,
+  .nav-link,
+  .text-link,
+  .article-kicker,
+  .article-tag {
+    min-height: 44px;
+  }
+
+  /* The header pill clips its contents; at 56px (58px on phones) it clears a
+     44px control's 54px focus ring. The brand's ring is rounded like the pill
+     so its corners clear the pill's rounded end. */
+  .brand {
+    border-radius: 999px;
+  }
+
+  .text-link,
+  .article-kicker,
+  .article-tag {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* The extra height comes out of its margins, so the kicker keeps its place. */
+  .article-kicker {
+    margin-block: -12px calc(var(--stack-tight) - 12px);
+  }
+
+  .toc-list,
+  .toc-children {
+    gap: 0;
+  }
+
+  .toc-children {
+    margin-top: 0;
+  }
+
+  .toc-link {
+    min-height: 44px;
+    padding-block: 12px;
   }
 }

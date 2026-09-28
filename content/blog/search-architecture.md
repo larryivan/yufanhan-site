@@ -1,8 +1,8 @@
 ---
 title: "Two Ways to Add Search to a Markdown Blog"
-description: "Frontend fuzzy search versus a server-side queryContent API, and when each one makes sense."
+description: "Frontend fuzzy search versus a server-side queryCollection API, and when each one makes sense."
 date: 2024-10-18
-section: blog
+updatedAt: 2026-09-25
 tags:
   - Search
   - Nuxt Content
@@ -18,7 +18,7 @@ draft: false
 
 ## Server-side querying in this project
 
-- Use `queryContent(event)` inside Nitro routes to filter and paginate by keyword, tag, or year.
+- Use `queryCollection(event, 'posts')` inside a Nitro route: the draft, section and year filters run in SQL, then keyword and tag matching and paging run over the returned card rows.
 - This scales better and keeps results fresh, but it does require runtime infrastructure or serverless execution.
 
 ## Performance notes
@@ -27,4 +27,4 @@ draft: false
 - Add a debounce around 250ms to keep the UI responsive.
 - If the archive grows large, a lightweight inverted index plus cached hot queries is a reasonable next step.
 
-![](/images/hap3.png)
+![Agarose gel with three sample lanes beside a DNA ladder labelled 100 to 2000 bp](/images/hap3.webp){width="1150" height="1320"}

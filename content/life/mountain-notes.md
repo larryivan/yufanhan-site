@@ -2,7 +2,6 @@
 title: "A Night in the Mountains"
 description: "Stepping away from the screen, looking at the stars, and drafting the next post in quieter air."
 date: 2024-09-12
-section: life
 tags:
   - Life
   - Travel

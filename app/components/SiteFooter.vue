@@ -1,52 +1,40 @@
 <script setup lang="ts">
-const year = new Date().getFullYear()
+import { onMounted } from 'vue'
 
-const links = [
-  { to: '/', label: 'Home' },
-  { to: '/blog', label: 'Blog' },
-  { to: '/life', label: 'Life' },
-  { to: '/about', label: 'About' }
-]
+// The server's year travels in the payload, so hydration matches the HTML even
+// on a page prerendered last year; the current year replaces it once mounted.
+const year = useState('footer-year', () => new Date().getFullYear())
+const siteName = String(useRuntimeConfig().public.siteName)
+
+onMounted(() => {
+  year.value = new Date().getFullYear()
+})
 
 const socials = [
-  { label: 'GitHub', href: 'https://github.com/larryivanhan', icon: 'github' as const },
+  { label: 'GitHub', href: 'https://github.com/larryivan', icon: 'github' as const },
   { label: 'X', href: 'https://x.com/larryivanhan', icon: 'twitter' as const },
-  { label: 'Email', href: 'mailto:larryivanhan@gmail.com', icon: 'mail' as const }
+  { label: 'Email', href: `mailto:${CONTACT_EMAIL}`, icon: 'mail' as const }
 ]
 </script>
 
 <template>
   <footer class="site-footer">
     <div class="container footer-inner">
-      <div class="footer-brand">
-        <p class="footer-kicker">LiH Blog</p>
-        <p class="footer-copy">© {{ year }} LiH Blog. Notes on engineering, design, and everyday life.</p>
+      <p class="footer-copy">© {{ year }} {{ siteName }}</p>
 
-        <div class="footer-social">
-          <a
-            v-for="s in socials"
-            :key="s.label"
-            :href="s.href"
-            class="footer-social-link"
-            :aria-label="s.label"
-            :target="s.href.startsWith('http') ? '_blank' : undefined"
-            :rel="s.href.startsWith('http') ? 'noopener noreferrer' : undefined"
-          >
-            <AppIcon :name="s.icon" :size="18" />
-          </a>
-        </div>
-      </div>
-
-      <nav class="footer-nav" aria-label="Footer navigation">
-        <NuxtLink
-          v-for="link in links"
-          :key="link.to"
-          :to="link.to"
-          class="footer-link"
+      <div class="footer-social">
+        <a
+          v-for="s in socials"
+          :key="s.label"
+          :href="s.href"
+          class="footer-social-link"
+          :aria-label="s.label"
+          :target="s.href.startsWith('http') ? '_blank' : undefined"
+          :rel="s.href.startsWith('http') ? 'noopener noreferrer' : undefined"
         >
-          {{ link.label }}
-        </NuxtLink>
-      </nav>
+          <AppIcon :name="s.icon" :size="18" />
+        </a>
+      </div>
     </div>
   </footer>
 </template>

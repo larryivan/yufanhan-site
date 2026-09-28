@@ -1,0 +1,308 @@
+/*
+ * giscus theme (dark). The comments sit in a frosted panel on the page
+ * (.comments-panel in main.css); inside it giscus's own surfaces are thin
+ * sheets of glass, so the panel's light shows through them.
+ *
+ * The giscus iframe loads this file from the site with crossorigin="anonymous"
+ * (routeRules gives /giscus/** its CORS header), and only on a public https
+ * origin: localhost is out of its reach and falls back to a built-in theme
+ * (see GiscusComments.vue).
+ *
+ * Variable names are giscus's own (Primer primitives, MIT License, Copyright
+ * (c) 2018 GitHub Inc.). Code colours stay github-dark, like the site's.
+ */
+
+@font-face {
+  font-family: "IBM Plex Sans Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 700;
+  src: url("./ibm-plex-sans.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "IBM Plex Sans Variable";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 100 700;
+  src: url("./ibm-plex-sans-italic.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+main {
+  --lih-highlight: rgba(255, 255, 255, 0.08);
+  --lih-glow: rgba(140, 122, 235, 0.5);
+  --lih-pill: rgba(255, 255, 255, 0.1);
+
+  --color-fg-default: #d8d3d6;
+  --color-fg-muted: #a7a0a8;
+  --color-fg-subtle: #7a7380;
+  --color-canvas-default: rgba(255, 255, 255, 0.035);
+  --color-canvas-overlay: #1b181f;
+  --color-canvas-inset: rgba(0, 0, 0, 0.28);
+  --color-canvas-subtle: rgba(255, 255, 255, 0.03);
+  --color-border-default: rgba(255, 255, 255, 0.1);
+  --color-border-muted: rgba(255, 255, 255, 0.06);
+  --color-neutral-muted: rgba(255, 255, 255, 0.08);
+  --color-accent-fg: #a99bf0;
+  --color-accent-emphasis: #bdb2f4;
+  --color-accent-muted: rgba(169, 155, 240, 0.35);
+  --color-accent-subtle: rgba(169, 155, 240, 0.1);
+  --color-success-fg: #92c388;
+  --color-attention-fg: #dbad5a;
+  --color-attention-muted: rgba(219, 173, 90, 0.35);
+  --color-attention-subtle: rgba(219, 173, 90, 0.1);
+  --color-danger-fg: #ec8a82;
+  --color-danger-muted: rgba(236, 138, 130, 0.35);
+  --color-danger-subtle: rgba(236, 138, 130, 0.1);
+  --color-btn-text: #f5f2ec;
+  --color-btn-bg: rgba(255, 255, 255, 0.05);
+  --color-btn-border: rgba(255, 255, 255, 0.1);
+  --color-btn-shadow: none;
+  --color-btn-inset-shadow: none;
+  --color-btn-hover-bg: rgba(255, 255, 255, 0.09);
+  --color-btn-hover-border: rgba(255, 255, 255, 0.16);
+  --color-btn-active-bg: rgba(255, 255, 255, 0.12);
+  --color-btn-active-border: rgba(255, 255, 255, 0.16);
+  --color-btn-selected-bg: rgba(255, 255, 255, 0.08);
+  --color-btn-primary-text: #121016;
+  --color-btn-primary-bg: #a99bf0;
+  --color-btn-primary-border: transparent;
+  --color-btn-primary-shadow: none;
+  --color-btn-primary-inset-shadow: none;
+  --color-btn-primary-hover-bg: #bdb2f4;
+  --color-btn-primary-hover-border: transparent;
+  --color-btn-primary-selected-bg: #a99bf0;
+  --color-btn-primary-selected-shadow: none;
+  --color-btn-primary-disabled-text: rgba(18, 16, 22, 0.7);
+  --color-btn-primary-disabled-bg: rgba(169, 155, 240, 0.4);
+  --color-btn-primary-disabled-border: transparent;
+  --color-action-list-item-default-hover-bg: rgba(255, 255, 255, 0.06);
+  --color-segmented-control-bg: rgba(255, 255, 255, 0.05);
+  --color-segmented-control-button-bg: rgba(255, 255, 255, 0.1);
+  --color-segmented-control-button-selected-border: rgba(255, 255, 255, 0.14);
+  --color-primer-shadow-inset: none;
+  --color-scale-gray-7: rgba(255, 255, 255, 0.08);
+  --color-scale-blue-8: rgba(169, 155, 240, 0.16);
+  --color-social-reaction-bg-hover: var(--color-scale-gray-7);
+  --color-social-reaction-bg-reacted-hover: var(--color-scale-blue-8);
+
+  /* github-dark, as in the site's code blocks */
+  --color-prettylights-syntax-comment:#8b949e;
+  --color-prettylights-syntax-constant:#79c0ff;
+  --color-prettylights-syntax-entity:#d2a8ff;
+  --color-prettylights-syntax-storage-modifier-import:#c9d1d9;
+  --color-prettylights-syntax-entity-tag:#7ee787;
+  --color-prettylights-syntax-keyword:#ff7b72;
+  --color-prettylights-syntax-string:#a5d6ff;
+  --color-prettylights-syntax-variable:#ffa657;
+  --color-prettylights-syntax-brackethighlighter-unmatched:#f85149;
+  --color-prettylights-syntax-invalid-illegal-text:#f0f6fc;
+  --color-prettylights-syntax-invalid-illegal-bg:#8e1519;
+  --color-prettylights-syntax-carriage-return-text:#f0f6fc;
+  --color-prettylights-syntax-carriage-return-bg:#b62324;
+  --color-prettylights-syntax-string-regexp:#7ee787;
+  --color-prettylights-syntax-markup-list:#f2cc60;
+  --color-prettylights-syntax-markup-heading:#1f6feb;
+  --color-prettylights-syntax-markup-italic:#c9d1d9;
+  --color-prettylights-syntax-markup-bold:#c9d1d9;
+  --color-prettylights-syntax-markup-deleted-text:#ffdcd7;
+  --color-prettylights-syntax-markup-deleted-bg:#67060c;
+  --color-prettylights-syntax-markup-inserted-text:#aff5b4;
+  --color-prettylights-syntax-markup-inserted-bg:#033a16;
+  --color-prettylights-syntax-markup-changed-text:#ffdfb6;
+  --color-prettylights-syntax-markup-changed-bg:#5a1e02;
+  --color-prettylights-syntax-markup-ignored-text:#c9d1d9;
+  --color-prettylights-syntax-markup-ignored-bg:#1158c7;
+  --color-prettylights-syntax-meta-diff-range:#d2a8ff;
+  --color-prettylights-syntax-brackethighlighter-angle:#8b949e;
+  --color-prettylights-syntax-sublimelinter-gutter-mark:#484f58;
+  --color-prettylights-syntax-constant-other-reference-link:#a5d6ff;
+}
+
+/* ---------------------------------------------------------------- type */
+
+/* The site's sans in place of the system stack. Code keeps its monospace. */
+main,
+main :not(code, pre, kbd, samp, code *, pre *) {
+  font-family: "IBM Plex Sans Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", sans-serif, "Apple Color Emoji", "Segoe UI Emoji" !important;
+}
+
+/* giscus sets most of these with utility classes of higher specificity, hence
+   the !important throughout. */
+
+/* ---------------------------------------------------------------- header */
+
+/* "12 comments · 3 replies" as one quiet line of labels. */
+main .gsc-comments-count,
+main .gsc-comments-count-separator,
+main .gsc-replies-count {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--color-fg-default) !important;
+}
+
+main .gsc-replies-count,
+main .gsc-comments-count-separator {
+  font-weight: 500 !important;
+  color: var(--color-fg-muted) !important;
+}
+
+main .gsc-comments-count a {
+  text-decoration: none !important;
+}
+
+main .gsc-left-header em {
+  font-size: 12px !important;
+  color: var(--color-fg-subtle) !important;
+}
+
+/* Oldest / Newest: a pill switch. */
+main .gsc-right-header.BtnGroup {
+  padding: 3px !important;
+  border-radius: 999px !important;
+  background: var(--color-segmented-control-bg) !important;
+}
+
+main .gsc-right-header .btn {
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  color: var(--color-fg-muted) !important;
+  font-weight: 500 !important;
+  box-shadow: none !important;
+}
+
+main .gsc-right-header [aria-current="true"] .btn {
+  background: var(--lih-pill) !important;
+  color: var(--color-fg-default) !important;
+  box-shadow: inset 0 1px 0 var(--lih-highlight), 0 0 0 1px var(--color-border-default) !important;
+}
+
+/* ---------------------------------------------------------------- comment box */
+
+main .gsc-comment-box {
+  overflow: hidden;
+  border-radius: 16px !important;
+  border: 1px solid var(--color-border-default) !important;
+  background: var(--color-canvas-default) !important;
+  box-shadow: inset 0 1px 0 var(--lih-highlight) !important;
+}
+
+/* Write / Preview as a pill switch instead of folder tabs. */
+main .gsc-comment-box-tabs {
+  border: 0 !important;
+  border-bottom: 1px solid var(--color-border-muted) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+main .gsc-comment-box-tabs > div:first-child {
+  display: flex;
+  gap: 2px;
+  margin: 8px !important;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--color-segmented-control-bg);
+}
+
+main .gsc-comment-box-tabs > div:first-child button {
+  margin: 0 !important;
+  padding: 3px 14px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+main .gsc-comment-box-tabs > div:first-child button.color-bg-canvas {
+  background: var(--lih-pill) !important;
+  box-shadow: inset 0 1px 0 var(--lih-highlight), 0 0 0 1px var(--color-border-default) !important;
+}
+
+main .gsc-comment-box-textarea {
+  border: 1px solid var(--color-border-default) !important;
+  border-radius: 12px !important;
+  background: var(--color-canvas-inset) !important;
+  box-shadow: none !important;
+  transition: border-color 0.2s, box-shadow 0.3s;
+}
+
+main .gsc-comment-box-textarea:focus {
+  border-color: var(--color-accent-muted) !important;
+  box-shadow:
+    0 0 0 3px var(--color-accent-subtle),
+    0 12px 30px -18px var(--lih-glow) !important;
+}
+
+/* The Markdown hint bar under the field: the field says it all. */
+main .gsc-comment-box-textarea-extras {
+  display: none !important;
+}
+
+main .gsc-comment-box-bottom {
+  padding-top: 4px !important;
+}
+
+/* The send / sign-in button: an ink pill with a glow under it. */
+main .btn-primary {
+  border: 0 !important;
+  border-radius: 999px !important;
+  padding: 6px 18px !important;
+  font-weight: 500 !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 10px 24px -12px var(--lih-glow) !important;
+  transition: transform 0.25s, box-shadow 0.25s, background-color 0.2s !important;
+}
+
+main .btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 14px 30px -12px var(--lih-glow) !important;
+}
+
+main .btn:not(.btn-primary) {
+  border-radius: 999px !important;
+}
+
+/* ---------------------------------------------------------------- comments */
+
+main .gsc-comment > div {
+  border-radius: 16px !important;
+  border-color: var(--color-border-default) !important;
+  background: var(--color-canvas-default) !important;
+  box-shadow: inset 0 1px 0 var(--lih-highlight) !important;
+}
+
+main .gsc-replies {
+  border-radius: 0 0 15px 15px !important;
+  border-color: var(--color-border-muted) !important;
+  background: var(--color-canvas-subtle) !important;
+}
+
+main .gsc-social-reaction-summary-item {
+  border-color: var(--color-border-default) !important;
+  background: transparent !important;
+}
+
+main .gsc-pagination-button {
+  border-radius: 999px !important;
+  background: var(--color-canvas-default) !important;
+}
+
+main .pagination-loader-container {
+  background-image: url("https://github.com/images/modules/pulls/progressive-disclosure-line-dark.svg");
+}
+
+main .gsc-loading-image {
+  background-image: url("https://github.githubassets.com/images/mona-loading-dark.gif");
+}

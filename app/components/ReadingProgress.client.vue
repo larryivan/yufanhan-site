@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { onMounted, onUnmounted, ref, useTemplateRef, watch } from 'vue'
 
 const props = withDefaults(defineProps<{ targetSelector?: string }>(), {
   targetSelector: '#reading-article-content'
 })
 
+const rootRef = useTemplateRef<HTMLElement>('rootRef')
 const progress = ref(0)
+// Hidden, the button is also inert: out of the tab order and the accessibility tree.
 const isVisible = ref(false)
 
 let frame = 0
@@ -41,8 +43,15 @@ const scheduleUpdate = () => {
   frame = window.requestAnimationFrame(updateProgress)
 }
 
+// An explicit behavior overrides any CSS scroll-behavior, so reduced motion
+// has to be honoured here.
 const scrollToTop = () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' })
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  window.scrollTo({ top: 0, behavior: reduceMotion ? 'instant' : 'smooth' })
+  // The button fades out at the top. Focus left on it would be invisible, and
+  // the next Tab would scroll back down to the footer, so the start of the
+  // content (the skip link's target) takes it.
+  rootRef.value?.closest('main')?.focus({ preventScroll: true })
 }
 
 watch(() => props.targetSelector, scheduleUpdate)
@@ -59,11 +68,14 @@ onUnmounted(() => {
   window.removeEventListener('resize', scheduleUpdate)
 })
 
-const circumference = 2 * Math.PI * 24
+// The track runs along the edge of the 44px button (the touch-target minimum),
+// so button and ring read as one circle.
+const radius = 21
+const circumference = 2 * Math.PI * radius
 </script>
 
 <template>
-  <div class="reading-progress" :class="{ 'is-visible': isVisible }">
+  <div ref="rootRef" class="reading-progress" :class="{ 'is-visible': isVisible }" :inert="!isVisible">
     <button
       class="progress-ring-btn"
       type="button"
@@ -71,24 +83,24 @@ const circumference = 2 * Math.PI * 24
       :title="`${progress}% read · Back to top`"
       @click="scrollToTop"
     >
-      <svg class="progress-ring-svg" width="56" height="56" viewBox="0 0 56 56">
-        <circle 
+      <svg class="progress-ring-svg" width="44" height="44" viewBox="0 0 44 44">
+        <circle
           class="progress-ring-bg"
-          stroke="currentColor" 
-          stroke-width="2" 
-          fill="transparent" 
-          r="24" 
-          cx="28" 
-          cy="28" 
+          stroke="currentColor"
+          stroke-width="2"
+          fill="transparent"
+          :r="radius"
+          cx="22"
+          cy="22"
         />
-        <circle 
+        <circle
           class="progress-ring-fill"
-          stroke="currentColor" 
-          stroke-width="2" 
-          fill="transparent" 
-          r="24" 
-          cx="28" 
-          cy="28" 
+          stroke="currentColor"
+          stroke-width="2"
+          fill="transparent"
+          :r="radius"
+          cx="22"
+          cy="22"
           :stroke-dasharray="circumference"
           :stroke-dashoffset="circumference - (progress / 100) * circumference"
         />

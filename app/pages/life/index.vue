@@ -1,9 +1,9 @@
 <script setup lang="ts">
-useHead({
+// The canonical is the unfiltered archive: ?tag= and ?page= views are not separate pages.
+useSeo({
   title: 'Life',
-  meta: [
-    { name: 'description', content: 'Observations, travel notes, and daily routine.' }
-  ]
+  description: 'Observations, travel notes, and daily routine.',
+  path: '/life'
 })
 </script>
 

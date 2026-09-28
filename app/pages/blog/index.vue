@@ -1,9 +1,9 @@
 <script setup lang="ts">
-useHead({
+// The canonical is the unfiltered archive: ?tag= and ?page= views are not separate pages.
+useSeo({
   title: 'Blog',
-  meta: [
-    { name: 'description', content: 'Technical notes and frontend engineering write-ups.' }
-  ]
+  description: 'Notes on code, methods, and genomes.',
+  path: '/blog'
 })
 </script>
 
@@ -11,6 +11,6 @@ useHead({
   <PostArchive
     section="blog"
     title="Blog"
-    subtitle="Technical notes & frontend engineering."
+    subtitle="Notes on code, methods, and genomes."
   />
 </template>
