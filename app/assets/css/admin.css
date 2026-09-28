@@ -1,0 +1,1634 @@
+/*
+ * The editor at /admin, in the site's own materials: the same paper, violet,
+ * glass and glow (tokens in main.css), arranged for writing. Loaded by the
+ * admin layout only, so the site itself never downloads it.
+ */
+
+:root {
+  --admin-selection: rgba(82, 66, 167, 0.17);
+  --admin-code: #85562a;
+  --admin-mark: rgba(30, 24, 20, 0.36);
+  --admin-danger: #a32d28;
+  --admin-ok: #2f6a3a;
+  --admin-warn: #80530a;
+  --admin-bar: 56px;
+  --admin-field: rgba(255, 254, 251, 0.62);
+}
+
+@media screen {
+  :root[data-theme='dark'] {
+    --admin-selection: rgba(169, 155, 240, 0.24);
+    --admin-code: #d9a877;
+    --admin-mark: rgba(245, 242, 236, 0.34);
+    --admin-danger: #ec8a82;
+    --admin-ok: #92c388;
+    --admin-warn: #dbad5a;
+    --admin-field: rgba(35, 31, 40, 0.6);
+  }
+}
+
+.admin-shell {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* ---------------------------------------------------------------- bar */
+
+/* The site header's frosted pill, holding still: a tool bar, not a page header. */
+.admin-bar {
+  position: sticky;
+  top: 12px;
+  z-index: var(--z-header);
+  padding: 0 var(--gutter);
+}
+
+.admin-bar-inner {
+  position: relative;
+  overflow: hidden;
+  max-width: calc(var(--page-width) - 2 * var(--gutter));
+  height: var(--admin-bar);
+  margin: 0 auto;
+  padding: 0 8px 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  background: var(--glass);
+  backdrop-filter: blur(24px) saturate(200%);
+  box-shadow:
+    0 4px 12px rgba(30, 24, 20, 0.03),
+    0 20px 40px -34px var(--surface-glow),
+    inset 0 1px 0 var(--surface-highlight);
+}
+
+.admin-bar-inner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--surface-highlight), transparent);
+  pointer-events: none;
+}
+
+.admin-bar-inner::after {
+  content: "";
+  position: absolute;
+  top: -22px;
+  left: 6%;
+  width: 220px;
+  height: 88px;
+  border-radius: 999px;
+  background: radial-gradient(circle, var(--surface-glow) 0, transparent 72%);
+  filter: blur(16px);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.admin-bar-inner > * {
+  position: relative;
+  z-index: 1;
+}
+
+:root[data-theme='dark'] .admin-bar-inner {
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.2),
+    0 22px 42px -34px var(--surface-glow),
+    inset 0 1px 0 var(--surface-highlight);
+}
+
+.admin-brand {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 8px 4px 4px;
+  border-radius: 999px;
+  color: var(--heading);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.admin-brand .brand-mark {
+  width: 30px;
+  height: 30px;
+}
+
+.admin-brand-sub {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.admin-bar-middle {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-bar-actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 4px;
+}
+
+.admin-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+/* ---------------------------------------------------------------- buttons */
+
+.admin-btn {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 38px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--glass-strong);
+  color: var(--heading);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 var(--surface-highlight);
+}
+
+@media (hover: hover) {
+  .admin-btn:hover:not(:disabled) {
+    border-color: var(--line-strong);
+    box-shadow:
+      inset 0 1px 0 var(--surface-highlight),
+      0 8px 20px -12px var(--surface-glow-strong);
+  }
+}
+
+.admin-btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.admin-btn:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+/* The one strong action on a screen: violet, lit from above. */
+.admin-btn.is-primary {
+  border-color: transparent;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent 55%),
+    var(--accent);
+  color: var(--on-accent);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 1px 2px rgba(30, 24, 20, 0.12),
+    0 10px 24px -12px var(--surface-glow-strong);
+}
+
+@media (hover: hover) {
+  .admin-btn.is-primary:hover:not(:disabled) {
+    border-color: transparent;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.22),
+      0 1px 2px rgba(30, 24, 20, 0.12),
+      0 14px 30px -12px var(--surface-glow-strong);
+  }
+}
+
+.admin-btn.is-quiet {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  color: var(--muted);
+}
+
+@media (hover: hover) {
+  .admin-btn.is-quiet:hover:not(:disabled) {
+    border-color: transparent;
+    background: var(--wash);
+    box-shadow: none;
+    color: var(--heading);
+  }
+}
+
+.admin-btn.is-small {
+  height: 32px;
+  padding: 0 12px;
+  font-size: var(--text-xs);
+}
+
+.admin-btn .admin-spinner {
+  width: 14px;
+  height: 14px;
+}
+
+.admin-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: admin-spin 0.7s linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes admin-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------------------------------------------------------------- list page */
+
+.admin-main {
+  width: min(100%, 880px);
+  margin: 0 auto;
+  padding: 44px var(--gutter) 96px;
+}
+
+.admin-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.admin-head h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 1.6rem + 1.6vw, 2.6rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  font-variation-settings: "opsz" 96;
+}
+
+.admin-head p {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+.admin-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+/* One capsule of choices, the current one violet: the archive's chips, packed. */
+.admin-segmented {
+  display: inline-flex;
+  padding: 3px;
+  gap: 2px;
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  background: var(--glass-card);
+  box-shadow:
+    inset 0 1px 0 var(--surface-highlight),
+    0 0 0 1px var(--line-soft);
+}
+
+.admin-segmented button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 13px;
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.admin-segmented button .count {
+  color: inherit;
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+  opacity: 0.7;
+}
+
+@media (hover: hover) {
+  .admin-segmented button:hover:not([aria-pressed='true']) {
+    color: var(--heading);
+    background: var(--wash);
+  }
+}
+
+.admin-segmented button[aria-pressed='true'] {
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 6px 14px -8px var(--surface-glow-strong);
+}
+
+.admin-search {
+  display: flex;
+  flex: 1;
+  min-width: 180px;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  background: var(--glass-card);
+  color: var(--muted);
+  box-shadow:
+    inset 0 1px 0 var(--surface-highlight),
+    0 0 0 1px var(--line-soft);
+}
+
+.admin-search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--heading);
+  font-size: var(--text-sm);
+}
+
+.admin-search:focus-within {
+  box-shadow:
+    inset 0 1px 0 var(--surface-highlight),
+    0 0 0 2px var(--accent);
+}
+
+.admin-list {
+  overflow: hidden;
+  list-style: none;
+}
+
+.admin-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 10px;
+  padding-right: 10px;
+  transition: background-color var(--dur-fast) var(--ease-standard), opacity var(--dur-fast) var(--ease-standard);
+}
+
+.admin-row + .admin-row {
+  border-top: 1px solid var(--line-soft);
+}
+
+/* The row opens the post; its menu sits beside the link, not inside it. */
+.admin-row-main {
+  display: grid;
+  min-width: 0;
+  gap: 5px;
+  padding: 16px 0 16px 20px;
+  color: inherit;
+}
+
+@media (hover: hover) {
+  .admin-row:hover {
+    background: var(--wash);
+  }
+
+  .admin-row-main:hover .admin-row-title {
+    color: var(--accent);
+  }
+}
+
+/* The menu keeps its column whether or not a badge sits before it. */
+.admin-row > .admin-menu-wrap {
+  grid-column: 3;
+}
+
+.admin-row.is-busy {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.admin-row-title {
+  overflow: hidden;
+  color: var(--heading);
+  font-size: var(--text-base);
+  font-weight: 600;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color var(--dur-fast) var(--ease-standard);
+}
+
+.admin-row-meta {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+
+.admin-row-meta > * {
+  flex: none;
+}
+
+.admin-row-draft {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Each row's menu shows on hover or focus, where there is a pointer to hover with. */
+@media (hover: hover) {
+  .admin-row > .admin-menu-wrap {
+    opacity: 0;
+    transition: opacity var(--dur-fast) var(--ease-standard);
+  }
+
+  .admin-row:hover > .admin-menu-wrap,
+  .admin-row:focus-within > .admin-menu-wrap,
+  .admin-row > .admin-menu-wrap:has([aria-expanded="true"]) {
+    opacity: 1;
+  }
+}
+
+.admin-unsaved {
+  margin-bottom: 16px;
+}
+
+/* The section plate from the post cards. */
+.admin-plate {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 6px 2px 7px;
+  border-radius: 2.5px;
+  background: linear-gradient(180deg, #221b16 0, #16110d 60%);
+  color: #eee9de;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  box-shadow:
+    inset 0 0 0 1.75px #16110d,
+    inset 0 0 0 2.5px rgba(238, 233, 222, 0.82);
+}
+
+:root[data-theme='dark'] .admin-plate {
+  background: linear-gradient(180deg, #2e2823, #1c1714);
+  color: #e2dcd0;
+  box-shadow:
+    inset 0 0 0 1.75px #1c1714,
+    inset 0 0 0 2.5px rgba(226, 220, 208, 0.72),
+    0 0 0 0.5px rgba(0, 0, 0, 0.7);
+}
+
+.admin-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 9px;
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.admin-badge.is-muted {
+  border-color: var(--line-strong);
+  color: var(--muted);
+}
+
+.admin-empty {
+  padding: 48px 20px;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ---------------------------------------------------------------- sign-in */
+
+.admin-center {
+  display: grid;
+  min-height: calc(100dvh - 140px);
+  place-items: center;
+  padding: 24px var(--gutter);
+}
+
+.admin-signin {
+  width: min(100%, 400px);
+  padding: 36px 32px 30px;
+  text-align: center;
+}
+
+.admin-signin .brand-mark {
+  display: block;
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 18px;
+}
+
+.admin-signin h1 {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.admin-signin p {
+  margin: 10px 0 24px;
+  color: var(--muted);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+
+.admin-signin .admin-btn {
+  width: 100%;
+  height: 44px;
+}
+
+.admin-signin code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+
+.admin-signin ul {
+  margin: 0 0 20px;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--wash);
+  list-style: none;
+  text-align: left;
+}
+
+.admin-signin li + li {
+  margin-top: 4px;
+}
+
+.admin-note {
+  margin-top: 14px;
+  color: var(--admin-danger);
+  font-size: var(--text-sm);
+}
+
+/* ---------------------------------------------------------------- menus and dialogs */
+
+.admin-menu-wrap {
+  position: relative;
+}
+
+.admin-menu {
+  position: fixed;
+  z-index: var(--z-overlay);
+  min-width: 200px;
+  padding: 6px;
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  background: var(--glass-strong);
+  backdrop-filter: blur(24px) saturate(180%);
+  box-shadow:
+    inset 0 1px 0 var(--surface-highlight),
+    0 0 0 1px var(--line-soft),
+    var(--elev-2);
+}
+
+.admin-menu-label {
+  padding: 8px 10px 6px;
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+
+.admin-menu button,
+.admin-menu a {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 10px;
+  color: var(--heading);
+  font-size: var(--text-sm);
+  text-align: left;
+  cursor: pointer;
+}
+
+.admin-menu button:hover,
+.admin-menu a:hover,
+.admin-menu button:focus-visible,
+.admin-menu a:focus-visible {
+  background: var(--wash);
+  outline: none;
+}
+
+.admin-menu .is-danger {
+  color: var(--admin-danger);
+}
+
+.admin-menu hr {
+  margin: 5px 4px;
+  border: 0;
+  border-top: 1px solid var(--line-soft);
+}
+
+.admin-pop-enter-active,
+.admin-pop-leave-active {
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.admin-pop-enter-from,
+.admin-pop-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+.admin-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(18, 16, 22, 0.28);
+  backdrop-filter: blur(6px);
+}
+
+.admin-dialog {
+  width: min(100%, 460px);
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+  padding: 26px 26px 22px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: var(--glass-strong);
+  backdrop-filter: blur(28px) saturate(180%);
+  box-shadow:
+    inset 0 1px 0 var(--surface-highlight),
+    0 0 0 1px var(--line-soft),
+    var(--elev-3);
+}
+
+.admin-dialog.is-wide {
+  width: min(100%, 620px);
+}
+
+.admin-dialog h2 {
+  font-size: var(--text-lg);
+  letter-spacing: -0.01em;
+}
+
+.admin-dialog p {
+  margin-top: 8px;
+  color: var(--text);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+
+.admin-dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.admin-fade-enter-active,
+.admin-fade-leave-active {
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+
+.admin-fade-enter-active .admin-dialog,
+.admin-fade-leave-active .admin-dialog {
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.admin-fade-enter-from,
+.admin-fade-leave-to {
+  opacity: 0;
+}
+
+.admin-fade-enter-from .admin-dialog,
+.admin-fade-leave-to .admin-dialog {
+  transform: translateY(8px) scale(0.985);
+}
+
+/* ---------------------------------------------------------------- toasts */
+
+/* Under the bar, clear of the footer's counts and the keyboard. */
+.admin-toasts {
+  position: fixed;
+  left: 50%;
+  top: calc(12px + var(--admin-bar) + 12px);
+  z-index: calc(var(--z-overlay) + 1);
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  width: min(calc(100% - 32px), 520px);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.admin-toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  padding: 10px 16px;
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  background: var(--glass-strong);
+  backdrop-filter: blur(20px) saturate(180%);
+  color: var(--heading);
+  font-size: var(--text-sm);
+  box-shadow:
+    inset 0 1px 0 var(--surface-highlight),
+    0 0 0 1px var(--line-soft),
+    var(--elev-2);
+  pointer-events: auto;
+}
+
+.admin-toast.is-error {
+  color: var(--admin-danger);
+}
+
+.admin-toast a {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.admin-toast-enter-active,
+.admin-toast-leave-active {
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+}
+
+.admin-toast-enter-from,
+.admin-toast-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+/* ---------------------------------------------------------------- editor */
+
+/*
+ * The text on the paper itself, set like the article it becomes, and the page it
+ * becomes beside it, the two parted by a hairline. Nothing else on screen but the
+ * bar. Below 1000px, one at a time, and the page scrolls.
+ */
+/* The bar spans both panes. */
+.editor .admin-bar-inner {
+  max-width: calc(1680px - 2 * var(--gutter));
+}
+
+.editor-state {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+.editor-state-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.editor-state .admin-spinner {
+  width: 13px;
+  height: 13px;
+  flex: none;
+}
+
+.editor-state-dot {
+  width: 7px;
+  height: 7px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--admin-ok);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--admin-ok) 16%, transparent);
+}
+
+.editor-state.is-dirty .editor-state-dot {
+  background: var(--tan);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tan) 20%, transparent);
+}
+
+.editor-view-toggle[aria-pressed="true"] {
+  color: var(--accent);
+}
+
+/* The problems, counted beside Publish, listed when clicked. */
+.bar-problems {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 5px;
+  height: 30px;
+  padding: 0 11px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--admin-warn) 12%, transparent);
+  color: var(--admin-warn);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+
+.problem-item {
+  display: grid !important;
+  gap: 2px;
+  align-items: start !important;
+  max-width: min(420px, calc(100vw - 32px));
+}
+
+.problem-item strong {
+  color: var(--admin-warn);
+  font-size: var(--text-xs);
+}
+
+.problem-item span {
+  color: var(--text);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.menu-check {
+  margin-left: auto;
+  color: var(--accent);
+}
+
+.admin-btn.is-danger {
+  background: var(--admin-danger);
+  color: #fff;
+}
+
+.editor-restore {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  width: min(calc(100% - 2 * var(--gutter)), 760px);
+  margin: 14px auto 0;
+  padding: 10px 12px 10px 18px;
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  background: var(--glass-card);
+  color: var(--text);
+  font-size: var(--text-sm);
+  box-shadow:
+    inset 0 1px 0 var(--surface-highlight),
+    0 0 0 1px var(--line-soft),
+    var(--elev-1);
+}
+
+.editor-restore span {
+  flex: 1;
+  min-width: 200px;
+}
+
+/* Over the panes rather than above them, which have the screen's height to themselves. */
+@media (min-width: 1000px) {
+  .editor-restore {
+    position: fixed;
+    top: calc(12px + var(--admin-bar) + 10px);
+    left: 50%;
+    z-index: var(--z-float);
+    margin: 0;
+    transform: translateX(-50%);
+    background: var(--glass-strong);
+    backdrop-filter: blur(20px) saturate(180%);
+    box-shadow:
+      inset 0 1px 0 var(--surface-highlight),
+      0 0 0 1px var(--line-soft),
+      var(--elev-2);
+  }
+}
+
+/* From the bar's lower edge to the bottom of the screen. */
+.editor-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  max-width: 1680px;
+  height: calc(100dvh - 12px - var(--admin-bar));
+  margin: 12px auto 0;
+  padding: 0 var(--gutter);
+}
+
+/* The preview put away: the text alone, in the middle. */
+.editor.is-solo .editor-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.editor.is-solo .editor-preview {
+  display: none;
+}
+
+.editor-pane,
+.editor-preview {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+}
+
+/* No top padding: the toolbar sticks to this box's top edge, and anything above
+   that line would show text scrolling past it. The title's margin gives the room. */
+.editor-doc {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 28px;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+}
+
+.editor-doc > .editor-title {
+  margin-top: 26px;
+}
+
+/* The article's own measure, so a line here is a line there. */
+.editor-doc > * {
+  max-width: var(--measure);
+  margin-inline: auto;
+}
+
+/* The title and description are written as they will read. */
+.editor-title,
+.editor-desc {
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  field-sizing: content;
+  resize: none;
+}
+
+.editor-title {
+  color: var(--heading);
+  font-family: var(--font-display);
+  font-size: var(--text-display-3);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+}
+
+.editor-desc {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: var(--text-md);
+  line-height: 1.55;
+}
+
+.editor-desc:focus {
+  color: var(--text);
+}
+
+.editor-title::placeholder,
+.editor-desc::placeholder {
+  color: var(--muted);
+  opacity: 0.5;
+}
+
+.field-error {
+  margin-top: 6px;
+  color: var(--admin-danger);
+  font-size: var(--text-xs);
+}
+
+/*
+ * The metadata as the article shows it: one line of small monospaced capitals,
+ * parted by dots. Each part is a control — a dotted underline says so on hover.
+ */
+.meta-wrap {
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+.meta-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-left: -26px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  line-height: 28px;
+  text-transform: uppercase;
+}
+
+.meta-item {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Every part starts with its dot; the first on each line is out of sight. */
+.meta-item::before {
+  content: "·";
+  display: inline-block;
+  width: 26px;
+  opacity: 0.55;
+  text-align: center;
+}
+
+.meta-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+  text-decoration: underline dotted transparent;
+  text-underline-offset: 4px;
+  transition: color var(--dur-fast) var(--ease-standard), text-decoration-color var(--dur-fast) var(--ease-standard);
+}
+
+.meta-link:hover,
+.meta-link:focus-within,
+.meta-link[aria-expanded="true"] {
+  color: var(--heading);
+  text-decoration-color: currentColor;
+}
+
+.meta-link:disabled {
+  cursor: default;
+}
+
+.meta-link .admin-icon {
+  opacity: 0.6;
+}
+
+/* A date reads as the article prints it; the real field sits over it, unseen. */
+.meta-date input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.meta-date input::-webkit-calendar-picker-indicator {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  cursor: pointer;
+}
+
+.meta-x {
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  margin-left: 2px;
+  border-radius: 50%;
+  color: var(--muted);
+  opacity: 0.55;
+  cursor: pointer;
+}
+
+.meta-x:hover {
+  background: var(--wash);
+  color: var(--heading);
+  opacity: 1;
+}
+
+.meta-item.is-invalid,
+.meta-item.is-invalid .meta-link {
+  color: var(--admin-danger);
+}
+
+.meta-cover img {
+  width: 18px;
+  height: 18px;
+  margin-right: 6px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+/* Tags and the address keep their own letters. */
+.meta-tags,
+.meta-url {
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.tag-input {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 10px;
+}
+
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text);
+}
+
+.tag-chip::before {
+  content: "#";
+  color: var(--muted);
+  opacity: 0.7;
+}
+
+.tag-chip button {
+  display: inline-grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  color: var(--muted);
+  opacity: 0;
+  cursor: pointer;
+}
+
+.tag-chip:hover button,
+.tag-chip button:focus-visible {
+  opacity: 0.8;
+}
+
+@media (hover: none) {
+  .tag-chip button {
+    opacity: 0.5;
+  }
+}
+
+.tag-input input,
+.meta-url input {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--heading);
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+.tag-input input {
+  width: 5ch;
+  field-sizing: content;
+  min-width: 5ch;
+}
+
+.tag-input input::placeholder,
+.meta-url input::placeholder {
+  color: var(--muted);
+  opacity: 0.7;
+}
+
+.meta-url {
+  color: var(--muted);
+}
+
+.meta-url input {
+  border-bottom: 1px dotted transparent;
+}
+
+.meta-url input:hover,
+.meta-url input:focus {
+  border-bottom-color: currentColor;
+}
+
+/* The tools: a quiet row that stays in reach while the text scrolls under it. */
+.editor-toolbar-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  margin-top: 22px;
+}
+
+.toolbar-sentinel {
+  height: 1px;
+  margin-bottom: -1px;
+}
+
+/* 8px wider than the text on each side, so the icons line up with its edge. */
+.editor-doc > .editor-toolbar {
+  width: min(calc(100% + 16px), calc(var(--measure) + 16px));
+  max-width: none;
+  margin-left: max(-8px, calc((100% - var(--measure)) / 2 - 8px));
+  margin-right: 0;
+}
+
+.editor-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 0;
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color var(--dur-fast) var(--ease-standard),
+    border-color var(--dur-fast) var(--ease-standard);
+}
+
+.editor-toolbar.is-stuck {
+  border-bottom-color: var(--line-soft);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(14px) saturate(160%);
+}
+
+.toolbar-btn {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .toolbar-btn:hover {
+    background: var(--wash);
+    color: var(--heading);
+  }
+}
+
+.toolbar-btn:active,
+.toolbar-btn[aria-expanded="true"] {
+  background: var(--line);
+  color: var(--heading);
+}
+
+.toolbar-grow {
+  flex: 1;
+}
+
+/* Undo and redo for fingers; a keyboard has them. */
+.toolbar-touch {
+  display: none;
+}
+
+@media (hover: none) {
+  .toolbar-touch {
+    display: flex;
+    gap: 2px;
+  }
+}
+
+.admin-menu kbd {
+  margin-left: auto;
+  padding-left: 16px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.menu-callouts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 0 6px 6px;
+}
+
+.admin-menu .menu-callouts button {
+  width: auto;
+  gap: 6px;
+  padding: 5px 9px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--callout, var(--callout-note)) 9%, transparent);
+  color: var(--callout, var(--callout-note));
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.admin-menu .menu-callouts button:hover {
+  background: color-mix(in srgb, var(--callout, var(--callout-note)) 16%, transparent);
+}
+
+.menu-callout--note { --callout: var(--callout-note); }
+.menu-callout--tip { --callout: var(--callout-tip); }
+.menu-callout--important { --callout: var(--callout-important); }
+.menu-callout--warning { --callout: var(--callout-warning); }
+.menu-callout--caution { --callout: var(--callout-caution); }
+
+/* The Markdown text: the article's size and face (the editor sets the rest). */
+.admin-code {
+  margin-top: 12px;
+  font-size: var(--text-prose);
+}
+
+.admin-code .cm-heading {
+  padding-top: 0.35em;
+}
+
+.admin-code .cm-math,
+.admin-code .cm-math-block {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+}
+
+.admin-code .cm-math-block {
+  color: var(--text);
+}
+
+.admin-code .cm-attrs {
+  color: var(--admin-mark);
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+}
+
+/* A heading's #s hang in the margin, so its words line up with the text. */
+@media (min-width: 1000px) {
+  .editor-doc {
+    padding-inline: 48px;
+  }
+
+  .admin-code .cm-line.cm-heading {
+    position: relative;
+  }
+
+  .admin-code .cm-heading-mark {
+    position: absolute;
+    right: 100%;
+    padding-right: 0.3em;
+    white-space: pre;
+  }
+}
+
+/* The preview: the page itself, on the same paper, past a hairline. */
+.editor-preview {
+  position: relative;
+  border-left: 1px solid var(--line-soft);
+}
+
+.preview-stage {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  justify-content: center;
+}
+
+.preview-device {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  transition:
+    width var(--dur-slow) var(--ease-out),
+    margin var(--dur-slow) var(--ease-out);
+}
+
+/* Phone width: the one place a frame is worth drawing. */
+.preview-stage.is-phone .preview-device {
+  width: 390px;
+  max-width: calc(100% - 32px);
+  margin: 18px 0;
+  border-radius: 34px;
+  box-shadow:
+    0 0 0 1px var(--line),
+    0 0 0 7px var(--glass-strong),
+    0 0 0 8px var(--line-soft),
+    var(--elev-3);
+}
+
+.preview-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.preview-loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+  color: var(--muted);
+}
+
+.preview-failed {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--glass-strong);
+  color: var(--admin-warn);
+  font-size: var(--text-xs);
+  transform: translateX(-50%);
+  box-shadow: 0 0 0 1px var(--line-soft), var(--elev-1);
+}
+
+/* The image dialog. */
+.image-items {
+  display: grid;
+  gap: 14px;
+  margin: 18px 0 0;
+  list-style: none;
+}
+
+.image-item {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.image-thumb {
+  display: grid;
+  place-items: center;
+  width: 84px;
+  height: 84px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--wash);
+  color: var(--muted);
+}
+
+.image-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-fields {
+  display: grid;
+  gap: 8px;
+}
+
+.image-fields label {
+  display: grid;
+  gap: 4px;
+}
+
+.image-fields label > span {
+  color: var(--muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.image-fields em {
+  font-style: normal;
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+.image-fields input {
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  outline: 0;
+  background: var(--admin-field);
+  color: var(--heading);
+  font-size: var(--text-sm);
+}
+
+.image-fields input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.image-status {
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+
+@media (max-width: 999px) {
+  .editor-grid {
+    display: block;
+    height: auto;
+    margin-top: 0;
+    padding: 0 var(--gutter);
+  }
+
+  .editor-doc {
+    overflow: visible;
+    padding: 0;
+  }
+
+  .editor-doc > .editor-title {
+    margin-top: 20px;
+  }
+
+  .show-write .editor-preview,
+  .show-preview .editor-pane {
+    display: none;
+  }
+
+  .editor-toolbar-sticky {
+    top: calc(12px + var(--admin-bar) + 6px);
+  }
+
+  /* On a phone the text scrolls under it at once: always its own frosted strip. */
+  .editor-toolbar,
+  .editor-toolbar.is-stuck {
+    padding-inline: 2px;
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    background: var(--glass-strong);
+    backdrop-filter: blur(18px) saturate(180%);
+    box-shadow:
+      inset 0 1px 0 var(--surface-highlight),
+      0 0 0 1px var(--line-soft),
+      0 10px 24px -18px var(--surface-glow-strong);
+  }
+
+  .editor-preview {
+    height: calc(100dvh - 12px - var(--admin-bar) - 8px);
+    margin: 12px calc(-1 * var(--gutter)) 0;
+    border-left: 0;
+    border-top: 1px solid var(--line-soft);
+  }
+}
+
+/* ---------------------------------------------------------------- phones */
+
+@media (max-width: 640px) {
+  :root {
+    --admin-bar: 54px;
+  }
+
+  .admin-bar {
+    top: 8px;
+    padding: 0 10px;
+  }
+
+  .admin-bar-inner {
+    padding: 0 6px;
+    gap: 6px;
+  }
+
+  .admin-brand-sub {
+    display: none;
+  }
+
+  .admin-main {
+    padding: 28px 16px 80px;
+  }
+
+  .admin-row-main {
+    padding: 14px 0 14px 16px;
+  }
+
+  .admin-row {
+    padding-right: 6px;
+  }
+
+  .admin-btn {
+    padding: 0 14px;
+  }
+
+  .editor-hide-sm {
+    display: none;
+  }
+
+  .editor-state-text {
+    display: none;
+  }
+
+  .editor-toolbar-sticky {
+    top: calc(8px + var(--admin-bar) + 6px);
+  }
+
+  .editor-restore {
+    border-radius: 18px;
+  }
+
+  .editor-preview {
+    height: calc(100dvh - 8px - var(--admin-bar) - 4px);
+    margin-inline: -16px;
+  }
+
+  .image-item {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+
+  .image-thumb {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-spinner {
+    animation-duration: 1.6s;
+  }
+}
