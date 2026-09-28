@@ -573,8 +573,9 @@
   margin-top: 4px;
 }
 
-.admin-note {
-  margin-top: 14px;
+.admin-note,
+.admin-signin .admin-note {
+  margin: 14px 0 0;
   color: var(--admin-danger);
   font-size: var(--text-sm);
 }
