@@ -2,9 +2,7 @@
 title: "Writing guide"
 description: "Every Markdown feature this site supports, on one page. A draft: npm run dev shows it, production builds leave it out."
 date: 2026-09-25
-tags:
-  - Meta
-draft: true
+draft: false
 ---
 
 This page is a draft, so it only exists in `npm run dev`, at `/blog/writing-guide`. Copy from it when writing a note.
