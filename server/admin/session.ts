@@ -123,7 +123,17 @@ interface TokenResponse {
   error_description?: string
 }
 
-/** Exchanges an authorization code or a refresh token for a user access token. */
+/** GitHub's reason for refusing a token, e.g. incorrect_client_credentials. */
+export class TokenError extends Error {
+  constructor(readonly code: string) {
+    super(`GitHub refused the token: ${code}`)
+  }
+}
+
+/**
+ * Exchanges an authorization code or a refresh token for a user access token.
+ * Throws a TokenError when GitHub answers without one.
+ */
 export const requestToken = async (config: AdminConfig, grant: Record<string, string>) => {
   const response = await $fetch<TokenResponse>(`${config.web}/login/oauth/access_token`, {
     method: 'POST',
@@ -132,7 +142,7 @@ export const requestToken = async (config: AdminConfig, grant: Record<string, st
     retry: 0,
     timeout: 20_000
   })
-  if (!response.access_token) return null
+  if (!response.access_token) throw new TokenError(response.error || 'no_token')
   const now = Date.now()
   return {
     token: response.access_token,

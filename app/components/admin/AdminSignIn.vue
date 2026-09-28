@@ -20,8 +20,24 @@ const SETUP_HINTS: Record<string, string> = {
   NUXT_ADMIN_GITHUB_CLIENT_ID: 'The Client ID (starts with Iv), not the App ID.'
 }
 
-const error = computed(() => SIGNIN_ERRORS[String(route.query.signin ?? '')] ?? '')
-const href = computed(() => signInUrl(route.path === '/admin' ? '/admin' : route.fullPath.replace(/[?&]signin=[^&]*/, '')))
+// Why GitHub refused a sign-in, when the server passed its reason along.
+const FAILURE_DETAILS: Record<string, string> = {
+  incorrect_client_credentials:
+    "GitHub didn't accept the client secret. On the GitHub App's page, generate a new client secret, set it as NUXT_ADMIN_GITHUB_CLIENT_SECRET and redeploy.",
+  bad_verification_code: 'That sign-in took too long. Try again.',
+  unreachable: "Couldn't reach GitHub. Try again.",
+  no_user: "GitHub didn't return your account. Try again."
+}
+
+const error = computed(() => {
+  const reason = String(route.query.signin ?? '')
+  const detail = String(route.query.detail ?? '')
+  if (reason === 'failed' && detail) return FAILURE_DETAILS[detail] ?? `${SIGNIN_ERRORS.failed} (GitHub: ${detail})`
+  return SIGNIN_ERRORS[reason] ?? ''
+})
+const href = computed(() =>
+  signInUrl(route.path === '/admin' ? '/admin' : route.fullPath.replace(/[?&](?:signin|detail)=[^&]*/g, ''))
+)
 const setup = computed(() => props.session?.setup ?? [])
 </script>
 

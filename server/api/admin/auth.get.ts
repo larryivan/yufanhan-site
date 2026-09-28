@@ -1,7 +1,7 @@
 import { createHash, randomBytes } from 'node:crypto'
 import { getQuery, getRequestURL, sendRedirect } from 'h3'
 import { githubClient } from '../../admin/github'
-import { adminConfig, missingSetup, requestToken, useAdminSession } from '../../admin/session'
+import { adminConfig, missingSetup, requestToken, TokenError, useAdminSession } from '../../admin/session'
 
 /**
  * Sign-in with GitHub, both legs: without a `code` it sends the browser to GitHub
@@ -16,7 +16,8 @@ const randomToken = (bytes = 32) => randomBytes(bytes).toString('base64url')
 const editorPath = (value: unknown) =>
   typeof value === 'string' && /^\/admin(?:[/?#]|$)/.test(value) && !value.includes('\\') ? value : '/admin'
 
-const failed = (reason: string) => `/admin?signin=${reason}`
+const failed = (reason: string, detail?: string) =>
+  `/admin?signin=${reason}${detail ? `&detail=${encodeURIComponent(detail)}` : ''}`
 
 export default defineEventHandler(async (event) => {
   const config = adminConfig(event)
@@ -52,13 +53,16 @@ export default defineEventHandler(async (event) => {
     code: query.code,
     redirect_uri: callback,
     code_verifier: oauth.verifier
-  }).catch(() => null)
-  if (!tokens) return sendRedirect(event, failed('failed'))
+  }).catch((error: unknown) =>
+    // GitHub's own reason (a wrong client secret, say) tells the owner what to fix.
+    error instanceof TokenError ? error.code : 'unreachable'
+  )
+  if (typeof tokens === 'string') return sendRedirect(event, failed('failed', tokens))
 
   const user = await githubClient(config.api, tokens.token)<{ login: string, name: string | null, avatar_url: string }>(
     '/user'
   ).catch(() => null)
-  if (!user) return sendRedirect(event, failed('failed'))
+  if (!user) return sendRedirect(event, failed('failed', 'no_user'))
 
   if (user.login.toLowerCase() !== config.login) {
     await session.clear()
