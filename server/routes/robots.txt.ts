@@ -5,5 +5,5 @@ export default defineEventHandler((event) => {
   const origin = siteOrigin(event)
   const sitemap = isPublicOrigin(origin) ? `\nSitemap: ${origin}/sitemap.xml\n` : ''
   setHeader(event, 'content-type', 'text/plain; charset=utf-8')
-  return `User-agent: *\nDisallow: /__nuxt_content/\nDisallow: /api/\nDisallow: /admin\n${sitemap}`
+  return `User-agent: *\nDisallow: /__nuxt_content/\nDisallow: /_i/\nDisallow: /api/\nDisallow: /admin\n${sitemap}`
 })

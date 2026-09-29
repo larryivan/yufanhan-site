@@ -95,5 +95,6 @@ const hasComments = Boolean(giscus.repo && giscus.repoId && giscus.categoryId)
       :comments="hasComments"
     />
     <ReadingProgress target-selector="#reading-article-content" />
+    <ReadToEnd target-selector="#reading-article-content" :reading-minutes="post.readingTime" />
   </div>
 </template>

@@ -8,10 +8,34 @@ const SITE_NAME = 'Yufan Han'
 
 // The public origin. On Vercel it defaults to the project's production domain
 // (its custom domain once there is one, else the vercel.app one), so a
-// deployment needs no SITE_URL of its own.
-const SITE_URL = (
-  env.SITE_URL || (env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${env.VERCEL_PROJECT_PRODUCTION_URL}` : '')
-).replace(/\/+$/, '')
+// deployment needs no SITE_URL of its own. A bare hostname is taken as https;
+// anything but an origin (a path, a mistyped scheme that would parse as a host
+// named "https") stops the build rather than ship wrong links everywhere.
+const SITE_URL = (() => {
+  const raw = env.SITE_URL?.trim() || env.VERCEL_PROJECT_PRODUCTION_URL?.trim() || ''
+  if (!raw) return ''
+  let url: URL | undefined
+  try {
+    url = new URL(/^https?:\/\//i.test(raw) ? raw : `https://${raw}`)
+  } catch {
+    // Reported below.
+  }
+  const host = url?.hostname.replace(/\.$/, '')
+  if (!url || !host || url.pathname !== '/' || url.search || url.hash || url.username ||
+    !(host.includes('.') || host === 'localhost' || host.startsWith('['))) {
+    throw new Error(`SITE_URL must be the site's origin, such as https://example.com (got "${raw}")`)
+  }
+  return `${url.protocol}//${host}${url.port ? `:${url.port}` : ''}`
+})()
+const SITE_HOST = SITE_URL ? new URL(SITE_URL).hostname : ''
+// The GitHub repository a Vercel build comes from, e.g. larryivan/yufanhan-site.
+const REPO = env.VERCEL_GIT_REPO_OWNER && env.VERCEL_GIT_REPO_SLUG ? `${env.VERCEL_GIT_REPO_OWNER}/${env.VERCEL_GIT_REPO_SLUG}` : ''
+// Visitors are counted on the public hostname only, plus its www or bare twin
+// once the site has a domain of its own (Vercel may name either one as the
+// production domain). Local development and preview deployments never are.
+const COUNTED_HOSTS = SITE_HOST
+  ? [SITE_HOST, ...(SITE_HOST.includes('.') && !SITE_HOST.endsWith('.vercel.app') ? [SITE_HOST.startsWith('www.') ? SITE_HOST.slice(4) : `www.${SITE_HOST}`] : [])]
+  : []
 const SITE_DESCRIPTION = 'Notes on code, genomes, and everyday life.'
 
 /**
@@ -115,7 +139,7 @@ export default defineNuxtConfig({
       githubClientSecret: '',
       // At least 32 characters, e.g. `openssl rand -base64 32`.
       sessionPassword: '',
-      repo: env.VERCEL_GIT_REPO_OWNER && env.VERCEL_GIT_REPO_SLUG ? `${env.VERCEL_GIT_REPO_OWNER}/${env.VERCEL_GIT_REPO_SLUG}` : '',
+      repo: REPO,
       branch: env.VERCEL_GIT_COMMIT_REF || 'main',
       // The GitHub account allowed to sign in; the repository's owner when empty.
       login: '',
@@ -125,6 +149,10 @@ export default defineNuxtConfig({
       // Dev only: a stand-in for GitHub in tests.
       githubApi: '',
       githubWeb: ''
+    },
+    analytics: {
+      // Dev only: a stand-in for Umami in tests (server/routes/_i/api/send.post.ts).
+      upstream: ''
     },
     // Every public value here is read from the environment AT BUILD TIME: articles
     // are prerendered, and a prerendered page carries the config it was built with.
@@ -141,6 +169,16 @@ export default defineNuxtConfig({
         repoId: env.GISCUS_REPO_ID || 'R_kgDOUxKGog',
         category: env.GISCUS_CATEGORY || 'Announcements',
         categoryId: env.GISCUS_CATEGORY_ID || 'DIC_kwDOUxKGos4DGm3B'
+      },
+      // Visitor statistics in Umami Cloud, counted first-party (see
+      // shared/utils/analytics.ts). The website id is public (it would sit in
+      // the page either way). Only this repository's own deployments count into
+      // it: a copy's readers are not this site's to count, so a copy counts
+      // nothing until it sets UMAMI_WEBSITE_ID (renaming the repository needs
+      // this line too). UMAMI_DOMAINS (comma-separated) replaces COUNTED_HOSTS.
+      analytics: {
+        websiteId: env.UMAMI_WEBSITE_ID?.trim() ?? (REPO.toLowerCase() === 'larryivan/yufanhan-site' ? '7e66281c-d8cf-483d-bbf2-ec5f7c8fb98c' : ''),
+        domains: env.UMAMI_DOMAINS ?? COUNTED_HOSTS.join(',')
       }
     }
   },
@@ -176,7 +214,9 @@ export default defineNuxtConfig({
     // and caches.
     '/admin': { ssr: false, headers: { 'x-robots-tag': 'noindex, nofollow', 'cache-control': 'no-store' } },
     '/admin/**': { ssr: false, headers: { 'x-robots-tag': 'noindex, nofollow', 'cache-control': 'no-store' } },
-    '/api/admin/**': { headers: { 'x-robots-tag': 'noindex, nofollow', 'cache-control': 'no-store' } }
+    '/api/admin/**': { headers: { 'x-robots-tag': 'noindex, nofollow', 'cache-control': 'no-store' } },
+    // Where the site's analytics events go (server/routes/_i).
+    '/_i/**': { headers: { 'x-robots-tag': 'noindex', 'cache-control': 'no-store' } }
   },
   nitro: {
     // Precompressed .br/.gz copies of every public asset; the node server picks the
